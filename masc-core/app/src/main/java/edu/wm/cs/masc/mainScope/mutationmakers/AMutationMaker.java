@@ -41,7 +41,7 @@ public abstract class AMutationMaker {
         if (!CustomFileWriter.WriteFile(dir_path, fileName, content)) {
             System.out.println("Something went wrong, check stack trace");
         } else {
-            Logger.getLogger("MainScopeLogger").severe("[OutputPath]#"+path+"/"+type.name()+"/"+fileName);
+            Logger.getLogger("MainScopeLogger").info("[OutputPath]#"+path+"/"+type.name()+"/"+fileName);
         }
     }
 

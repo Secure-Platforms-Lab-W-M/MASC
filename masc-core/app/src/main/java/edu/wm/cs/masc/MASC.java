@@ -7,6 +7,7 @@ import edu.wm.cs.masc.utils.config.PropertiesReader;
 import edu.wm.cs.masc.mutation.operators.RootOperatorType;
 import edu.wm.cs.masc.mutation.properties.*;
 import edu.wm.cs.masc.exhaustive.MuseRunner;
+import edu.wm.cs.masc.logger.LocalLogger;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.eclipse.jface.text.BadLocationException;
 
@@ -35,6 +36,7 @@ public class MASC {
         else{
             String path = args[0];
             //System.exit(0);
+            LocalLogger.getLocalLogger();
             runMain(path);
         }
     }
