@@ -7,6 +7,7 @@ import edu.wm.cs.masc.utils.file.CustomFileWriter;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 /**
  * Is the Abstract Mutation maker that
@@ -39,6 +40,8 @@ public abstract class AMutationMaker {
         String dir_path = path + File.separator + type.name() + File.separator;
         if (!CustomFileWriter.WriteFile(dir_path, fileName, content)) {
             System.out.println("Something went wrong, check stack trace");
+        } else {
+            Logger.getLogger("MainScopeLogger").severe("[OutputPath]#"+path+"/"+type.name()+"/"+fileName);
         }
     }
 

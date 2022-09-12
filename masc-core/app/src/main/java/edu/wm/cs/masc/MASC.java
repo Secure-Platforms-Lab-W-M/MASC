@@ -2,6 +2,7 @@ package edu.wm.cs.masc;
 
 import edu.wm.cs.masc.similarity.MPlus;
 import edu.wm.cs.masc.mainScope.mutationmakers.*;
+import edu.wm.cs.masc.similarity.processors.SourceCodeProcessor;
 import edu.wm.cs.masc.utils.config.PropertiesReader;
 import edu.wm.cs.masc.mutation.operators.RootOperatorType;
 import edu.wm.cs.masc.mutation.properties.*;
@@ -11,6 +12,8 @@ import org.eclipse.jface.text.BadLocationException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.*;
+import java.util.logging.Logger;
 
 public class MASC {
 
@@ -18,18 +21,26 @@ public class MASC {
 
         if (args.length == 0){
             System.out.println("No properties file supplied");
+            System.exit(10);
         }
         else if (args.length > 1){
             System.out.println("Too many arguments were provided");
+            System.exit(20);
         }
         else if (!args[0].endsWith(".properties")){
             System.out.println("Properties file must end with the .properties extension");
+//            StdOut.println("Hello, World");
+            System.exit(30);
         }
         else{
             String path = args[0];
+            //System.exit(0);
             runMain(path);
         }
     }
+    // code sinnept main function
+    // operator
+    // main scope
 
     public static void runMain(String path) throws ConfigurationException, IOException, BadLocationException {
 
@@ -80,6 +91,7 @@ public class MASC {
 
     public static void runMainScope(PropertiesReader reader, String path) throws ConfigurationException {
         String type = reader.getValueForAKey("type");
+        Logger.getLogger("MainScopeLogger").severe("[ValueForAKey]#"+type);
         AMutationMaker m = null;
         AOperatorProperties p = null;
 
