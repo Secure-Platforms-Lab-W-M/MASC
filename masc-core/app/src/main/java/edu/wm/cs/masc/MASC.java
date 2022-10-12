@@ -70,6 +70,7 @@ public class MASC {
 
     public static void runSelectiveScope(PropertiesReader reader) throws IOException {
         File lib4ast = new File("libs4ast/");
+        System.out.println(lib4ast.getAbsolutePath());
         File opDir = new File("resources/");
         System.out.println(opDir.getAbsolutePath());
         String[] args = {lib4ast.getAbsolutePath(),
