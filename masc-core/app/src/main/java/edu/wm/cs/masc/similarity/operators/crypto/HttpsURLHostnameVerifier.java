@@ -46,17 +46,17 @@ public class HttpsURLHostnameVerifier extends ACryptoMutationAICOperator {
         List<CryptoMutationPack> packs = new ArrayList<CryptoMutationPack>();
         packs.add(
                 new CryptoMutationPack(
-                        "../MDroidPlus/src/edu/wm/cs/mplus/template/hostnameverifier/BadHostnameVerifier2.txt",
+                        "template/hostnameverifier/BadHostnameVerifier2.txt",
                         "BadHostnameVerifier2.java"));
 
         packs.add(
                 new CryptoMutationPack(
-                        "../MDroidPlus/src/edu/wm/cs/mplus/template/hostnameverifier/BadHostnameVerifier1.txt",
+                        "template/hostnameverifier/BadHostnameVerifier1.txt",
                         "BadHostnameVerifier1.java"));
 
         packs.add(
                 new CryptoMutationPack(
-                        "../MDroidPlus/src/edu/wm/cs/mplus/template/hostnameverifier/BadHostnameVerifier3.txt",
+                        "template/hostnameverifier/BadHostnameVerifier3.txt",
                         "BadHostnameVerifier3.java"));
         return packs;
     }
