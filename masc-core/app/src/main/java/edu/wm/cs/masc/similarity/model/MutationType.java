@@ -49,7 +49,7 @@ public enum MutationType {
 	Message_Digest(605, "MessageDigest"),
 	Hostname_Verifier(606, "HostnameVerifierInstance"),
 	HttpsURLHostname_Verifier(607, "HttpsURLHostnameVerifier"),
-	TrustManager(608, "TrustManagerInstace");
+	TrustManager(608, "TrustManagerInstance");
 	
 	private final int id;
 	private final String name;
