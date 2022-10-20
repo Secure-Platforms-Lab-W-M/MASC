@@ -92,6 +92,7 @@ public class OperatorBundle {
 
 		try {
 			url = file.toURI().toURL();
+			System.out.println(url);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}

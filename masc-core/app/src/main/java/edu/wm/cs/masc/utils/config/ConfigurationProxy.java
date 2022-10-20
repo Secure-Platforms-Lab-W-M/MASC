@@ -44,11 +44,10 @@ public class ConfigurationProxy {
         return value;
     }
 
-    /**
-     * Takes input from user and updates the in-memory cache for the given key.
-     * @param key the key against which the user input is to be cached in memory.
-     * @return value input by the user.
-     */
+    public boolean contains(String key) {
+        return configuration.getString(key) != null;
+    }
+
     private String inputValueAndUpdateMap(String key) {
         String value;
         System.out.println("Key '" + key + "' not found in properties file. Enter value:");
@@ -57,11 +56,6 @@ public class ConfigurationProxy {
         return value;
     }
 
-    /**
-     * returns an array of values for a corresponding key from properties file or from in-memory cache.
-     * @param key the key whose corresponding values are to be retrieved.
-     * @return an array of values mapped against key
-     */
     public String[] getStringArray(String key) {
         String[] resultArr = configuration.getStringArray(key);
         if(resultArr.length != 0)

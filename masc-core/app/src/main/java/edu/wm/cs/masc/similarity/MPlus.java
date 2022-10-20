@@ -80,6 +80,7 @@ public class MPlus {
                         .process(rootPath, textBasedDetectors);
 
         Set<MutationType> keys = locations.keySet();
+        System.out.println(keys);
         List<MutationLocation> list = null;
         for (MutationType mutationType : keys) {
             list = locations.get(mutationType);

@@ -1,6 +1,8 @@
 package edu.wm.cs.masc;
 
 import edu.wm.cs.masc.plugins.MutationMakerForPluginOperators;
+
+import edu.wm.cs.masc.automatedAnalysis.ResultAnalyzer;
 import edu.wm.cs.masc.similarity.MPlus;
 import edu.wm.cs.masc.mainScope.mutationmakers.*;
 import edu.wm.cs.masc.similarity.processors.SourceCodeProcessor;
@@ -20,7 +22,6 @@ import java.util.logging.Logger;
 public class MASC {
 
     public static void main(String[] args) throws Exception{
-
         if (args.length == 0){
             System.out.println("No properties file supplied");
             System.exit(10);
@@ -31,21 +32,34 @@ public class MASC {
         }
         else if (!args[0].endsWith(".properties")){
             System.out.println("Properties file must end with the .properties extension");
-//            StdOut.println("Hello, World");
             System.exit(30);
         }
         else{
             String path = args[0];
-            //System.exit(0);
-            LocalLogger.getLocalLogger();
-            runMain(path);
+            try {
+                LocalLogger.getLocalLogger();
+                runMain(path);
+            } catch (ConfigurationException e) {
+                System.out.printf("Filed to load the properties file %s", path);
+            }
         }
     }
     // code sinnept main function
     // operator
     // main scope
 
-    public static void runMain(String path) throws ConfigurationException, IOException, BadLocationException {
+    public static void runResultAnalysis(PropertiesReader propertiesReader) throws ConfigurationException {
+        try {
+            ResultAnalyzer resultAnalyzer = new ResultAnalyzer(propertiesReader);
+            resultAnalyzer.runAnalysis();
+        }
+        catch (ConfigurationException e){
+            System.out.println(e.getMessage());
+            System.out.println("Skipping automated analysis...");
+        }
+    }
+
+    public static void runMain(String path) throws IOException, BadLocationException, ConfigurationException {
 
         PropertiesReader reader = new PropertiesReader(path);
         String scope = reader.getValueForAKey("scope");
@@ -61,7 +75,16 @@ public class MASC {
         // MASC MainScope
         else if(scope.equalsIgnoreCase("MAIN")){
             System.out.println("Main scope");
-            runMainScope(reader, path);
+
+            if (reader.contains("mutantGeneration") && reader.getValueForAKey("mutantGeneration").equalsIgnoreCase("true"))
+                runMainScope(reader, path);
+            else
+                System.out.println("Skipping mutant generation");
+
+            if (reader.contains("automatedAnalysis") && reader.getValueForAKey("automatedAnalysis").equalsIgnoreCase("true"))
+                runResultAnalysis(reader);
+            else
+                System.out.println("Skipping automated analysis...");
         }
         else{
             System.out.println("Unknown Scope: " + scope);
@@ -71,7 +94,7 @@ public class MASC {
     public static void runSelectiveScope(PropertiesReader reader) throws IOException {
         File lib4ast = new File("libs4ast/");
         System.out.println(lib4ast.getAbsolutePath());
-        File opDir = new File("resources/");
+        File opDir = new File("app/src/main/resources");
         System.out.println(opDir.getAbsolutePath());
         String[] args = {lib4ast.getAbsolutePath(),
                 reader.getValueForAKey("appSrc"),
@@ -83,7 +106,7 @@ public class MASC {
 
     }
 
-    public static void runExhaustiveScope(PropertiesReader reader) throws ConfigurationException,
+    public static void runExhaustiveScope(PropertiesReader reader) throws
             IOException, BadLocationException {
 //        StringOperatorProperties p = new StringOperatorProperties(
 //                "Cipher.properties");
