@@ -17,9 +17,11 @@ import org.eclipse.jface.text.BadLocationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Logger;
-
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 public class MASC {
+
+    private static Logger logger = LogManager.getLogger(MASC.class);
 
     public static void main(String[] args) throws Exception{
         if (args.length == 0){
@@ -36,12 +38,16 @@ public class MASC {
         }
         else{
             String path = args[0];
-            try {
-                LocalLogger.getLocalLogger();
-                runMain(path);
-            } catch (ConfigurationException e) {
-                System.out.printf("Filed to load the properties file %s", path);
-            }
+            System.out.println(logger.isInfoEnabled());
+            logger.trace("info! {}");
+            logger.error("error! {}");
+            logger.debug("debug! {}");
+//            try {
+//                LocalLogger.getLocalLogger();
+//                runMain(path);
+//            } catch (ConfigurationException e) {
+//                System.out.printf("Filed to load the properties file %s", path);
+//            }
         }
     }
     // code sinnept main function
@@ -103,7 +109,6 @@ public class MASC {
                 opDir.getAbsolutePath(),
                 "false"}; // Hardcode this because it never changes in MASC
         MPlus.runMPlus(args);
-
     }
 
     public static void runExhaustiveScope(PropertiesReader reader) throws
@@ -119,7 +124,7 @@ public class MASC {
 
     public static void runMainScope(PropertiesReader reader, String path) throws ConfigurationException {
         String type = reader.getValueForAKey("type");
-        Logger.getLogger("MainScopeLogger").severe("[ValueForAKey]#"+type);
+        // Logger.getLogger("MainScopeLogger").severe("[ValueForAKey]#"+type);
         AMutationMaker m = null;
         AOperatorProperties p;
         MutationMakerForPluginOperators pluginOperatorsMutationMaker = new MutationMakerForPluginOperators(path);
