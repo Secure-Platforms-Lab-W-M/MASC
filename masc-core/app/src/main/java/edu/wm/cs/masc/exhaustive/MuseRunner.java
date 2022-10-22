@@ -1,5 +1,6 @@
 package edu.wm.cs.masc.exhaustive;
 
+import edu.wm.cs.masc.MASC;
 import edu.wm.cs.masc.exhaustive.dataleak.support.OperatorType;
 import edu.wm.cs.masc.utils.config.PropertiesReader;
 import edu.wm.cs.masc.exhaustive.dataleak.operators.ReachabilityOperator;
@@ -22,10 +23,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.HashMap;
-
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 public class MuseRunner {
 
     static ASTRewrite rewriter;
+
+    private static Logger logger = LogManager.getLogger(MuseRunner.class);
+
 
     /**
      * Uses the properties reader to setup the Muse Arguments class
@@ -53,11 +58,6 @@ public class MuseRunner {
     //    public static void runMuse(HashMap<OperatorType, IOperator> ops)
     //    throws IOException, BadLocationException {
     public static void runMuse() throws IOException, BadLocationException {
-        // Iterate through the different mutation types
-//        for (OperatorType op : ops.keySet()){
-
-        // Get the mutation
-//            String mutation = ops.get(op).mutation();
 
         Arguments.resetRootPath();
 
@@ -66,13 +66,13 @@ public class MuseRunner {
 
         // Apply the mutation to each file
         for (File file : files) {
-
             boolean appNameInPath = file.getCanonicalPath()
                     .contains(Arguments.getAppName()
                             .replace(".", "/"));
 
             if (file.getName().endsWith(".java")) {
 //                        && appNameInPath){
+                logger.trace("[applying mutation to] "+file.getName());
                 Arguments.setFileName(file.getName());
                 String source = FileUtility.readSourceFile(
                                 file.getAbsolutePath())

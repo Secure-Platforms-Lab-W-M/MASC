@@ -5,7 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -15,6 +16,8 @@ import org.apache.commons.io.FileUtils;
  * @author Amit Seal Ami
  */
 public class FileUtility {
+    private static Logger logger = LogManager.getLogger(FileUtility.class);
+
     /**
      * reads a text file and returns the contents through StringBuffer
      *
@@ -50,7 +53,7 @@ public class FileUtility {
             if (new File(newRoot).exists()) {
                 FileUtils.deleteDirectory(new File(newRoot));
             }
-            System.out.println(Arguments.getRootPath());
+            logger.trace(Arguments.getRootPath());
             FileUtils.copyDirectory(new File(Arguments.getRootPath()),
                     new File(newRoot));
             //why was this done? no idea.
@@ -81,14 +84,14 @@ public class FileUtility {
 
                 // check line equality
                 if (!line_actual.equals(line_expected)) {
-                    System.out.println("line_expected: " + line_expected);
-                    System.out.println("line_actual: " + line_actual);
+                    logger.trace("line_expected: " + line_expected);
+                    logger.trace("line_actual: " + line_actual);
                     return false;
                 }
             }
             // make sure files are of the same size
             if (br_expected.readLine() != null || br_expected.readLine() != null) {
-                System.out.println("files are of unequal size");
+                logger.trace("files are of unequal size");
                 return false;
             }
 
@@ -97,8 +100,10 @@ public class FileUtility {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error(e.getMessage());
         }
         // files are the same
         return true;

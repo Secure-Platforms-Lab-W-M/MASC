@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import edu.wm.cs.masc.exhaustive.dataleak.DataLeak;
 
@@ -33,6 +35,8 @@ public class Arguments {
 	private static String filename;
 
 	private static String originalRootPath;
+	private static Logger logger = LogManager.getLogger(Arguments.class);
+
 
 	/**
 	 * private constructor makes sure that no constructor can ever be used.
@@ -59,7 +63,6 @@ public class Arguments {
 		appName = args[2];
 		mutantsFolder = args[3];
 		operator = args[4];
-		System.out.println(rootPath);
 	}
 
 	public static void extractArguments(File file) {
@@ -68,8 +71,10 @@ public class Arguments {
 			extractArguments(contentString.split(" "));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	
@@ -79,7 +84,7 @@ public class Arguments {
 			prop = new Properties();
 			prop.load(input);		
 		} catch (IOException e) {
-			System.out.println(e);
+			logger.error(e);
 			return -1;
 		}
 		
@@ -126,7 +131,7 @@ public class Arguments {
 		operator = properties.getProperty("operatorType");
 		leakMap = new HashMap<String, String>();
 
-		System.out.println(mutantsFolder);
+		logger.trace(mutantsFolder);
 
 		if (properties.getProperty("source") != null) {
 			leakMap.put("source", properties.getProperty("source"));

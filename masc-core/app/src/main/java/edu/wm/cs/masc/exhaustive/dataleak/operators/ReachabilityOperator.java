@@ -11,6 +11,8 @@ import edu.wm.cs.masc.exhaustive.dataleak.support.Utility;
 import edu.wm.cs.masc.exhaustive.dataleak.support.node_containers.ReachabilityNodeChangeContainers;
 
 import java.util.ArrayList;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Operates on the list of nodes coming from ReachabilitySchema
@@ -21,6 +23,8 @@ public class ReachabilityOperator {
     ArrayList<ReachabilityNodeChangeContainers> nodeChanges;
     ASTRewrite rewriter;
     String mutation;
+    private static Logger logger = LogManager.getLogger(ReachabilityOperator.class);
+
 
     public ReachabilityOperator(ASTRewrite rewriter,
                                 ArrayList<ReachabilityNodeChangeContainers> nodeChanges) {
@@ -39,7 +43,7 @@ public class ReachabilityOperator {
 
             ReachabilityNodeChangeContainers nodeChange = nodeChanges.get(i);
 
-            System.out.println(String.format(nodeChange.changedSource,
+            logger.trace(String.format(nodeChange.changedSource,
                     Utility.COUNTER_GLOBAL));
 
 //			String m = mutation.replaceAll("%d", String.valueOf(Utility

@@ -40,7 +40,7 @@ public class MASC {
             try {
                 runMain(path);
             } catch (ConfigurationException e) {
-                System.out.printf("Filed to load the properties file %s", path);
+                logger.trace("Filed to load the properties file %s", path);
             }
         }
     }
@@ -103,7 +103,7 @@ public class MASC {
                 opDir.getAbsolutePath(),
                 "false"}; // Hardcode this because it never changes in MASC
         MPlus.runMPlus(args);
-        
+
     }
 
     public static void runExhaustiveScope(PropertiesReader reader) throws
