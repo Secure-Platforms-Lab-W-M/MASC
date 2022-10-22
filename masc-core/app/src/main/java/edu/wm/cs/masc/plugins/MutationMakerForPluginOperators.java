@@ -11,7 +11,8 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.io.File;
 import java.util.ArrayList;
-
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 /**
  * Is the Abstract Mutation maker that
  * creates instances of mutations for operators written by users as plugins.
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 
 public class MutationMakerForPluginOperators {
     public ArrayList<IOperator> operators;
+    private static Logger logger = LogManager.getLogger(MutationMakerForPluginOperators.class);
+
     String path;
     // AOperatorProperties operatorProperties;
 
@@ -33,7 +36,7 @@ public class MutationMakerForPluginOperators {
     public String getContent(IOperator operator, AOperatorProperties operatorProperties) {
         TypeSpec.Builder builder = BuilderMainClass
                 .getClassBody(operatorProperties.getClassName());
-        System.out.println("Processing: " + getName(operator));
+        logger.trace("Processing: " + getName(operator));
         MethodSpec.Builder mainMethod = BuilderMainMethod
                 .getMethodSpecWithException();
         mainMethod.addCode(operator.mutation());
@@ -66,7 +69,7 @@ public class MutationMakerForPluginOperators {
                              String content) {
         String dir_path = path + File.separator + name + File.separator;
         if (!CustomFileWriter.WriteFile(dir_path, fileName, content)) {
-            System.out.println("Something went wrong, check stack trace");
+            logger.trace("Something went wrong, check stack trace");
         }
     }
 

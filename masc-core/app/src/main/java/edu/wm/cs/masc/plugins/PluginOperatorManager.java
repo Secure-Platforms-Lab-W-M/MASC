@@ -16,11 +16,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class PluginOperatorManager {
     private static final PluginOperatorManager SINGLE_INSTANCE = new PluginOperatorManager();
     private final ArrayList<Class> customOperators = new ArrayList<>();
     private final ArrayList<IOperator> operators = new ArrayList<>();
+    private final Logger logger = LogManager.getLogger(PluginOperatorManager.class);
+
 
     public boolean isInProd() {
         String className = this.getClass().getName().replace('.', '/');
@@ -39,7 +43,7 @@ public class PluginOperatorManager {
 
         if(files == null)
         {
-            System.out.println("No custom plugins. Continuing...");
+            logger.trace("No custom plugins. Continuing...");
             return;
         }
 
@@ -56,7 +60,7 @@ public class PluginOperatorManager {
                     customOperators.add(CustomOPClass);
                 }
             } catch (ClassNotFoundException e) {
-                System.out.println("Class not found: " + file.getName());
+                logger.trace("Class not found: " + file.getName());
             }
         }
     }

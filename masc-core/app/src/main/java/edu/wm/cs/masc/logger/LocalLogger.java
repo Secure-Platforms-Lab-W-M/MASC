@@ -14,6 +14,7 @@ public class LocalLogger {
                 FileHandler handler = new FileHandler("MainScope.log",false);
                 logger = Logger.getLogger("MainScopeLogger");
                 logger.addHandler(handler);
+                logger.setUseParentHandlers(false);
                 SimpleFormatter formatter = new SimpleFormatter();
                 handler.setFormatter(formatter);
                 return logger;

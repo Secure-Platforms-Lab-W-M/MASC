@@ -2,6 +2,7 @@ package edu.wm.cs.masc.mainScope.mutationmakers;
 
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
+import edu.wm.cs.masc.logger.LocalLogger;
 import edu.wm.cs.masc.mutation.builders.generic.BuilderMainClass;
 import edu.wm.cs.masc.mutation.builders.generic.BuilderMainMethod;
 import edu.wm.cs.masc.mutation.operators.IOperator;
@@ -12,7 +13,8 @@ import edu.wm.cs.masc.utils.file.CustomFileWriter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Is the Abstract Mutation maker that
@@ -22,13 +24,15 @@ import java.util.logging.Logger;
  */
 
 public abstract class AMutationMaker {
+    private static Logger logger = LogManager.getLogger(AMutationMaker.class);
+
     public HashMap<OperatorType, IOperator> operators =
             new HashMap<>();
 
     public String getContent(OperatorType operatorType, AOperatorProperties p){
         TypeSpec.Builder builder = BuilderMainClass
                 .getClassBody(p.getClassName());
-        System.out.println("Processing: " + operatorType.name());
+        logger.trace("Processing: " + operatorType.name());
         MethodSpec.Builder mainMethod = BuilderMainMethod
                 .getMethodSpecWithException();
         mainMethod.addCode(operators.get(operatorType).mutation());
@@ -53,9 +57,10 @@ public abstract class AMutationMaker {
                             String content) {
         String dir_path = path + File.separator + type.name() + File.separator;
         if (!CustomFileWriter.WriteFile(dir_path, fileName, content)) {
-            System.out.println("Something went wrong, check stack trace");
+            logger.trace("Something went wrong, check stack trace");
         } else {
-            Logger.getLogger("MainScopeLogger").info("[OutputPath]#"+path+"/"+type.name()+"/"+fileName);
+            // Special logger for front end parsing
+            LocalLogger.getLocalLogger().info("[OutputPath]#"+path+"/"+type.name()+"/"+fileName);
         }
     }
 
