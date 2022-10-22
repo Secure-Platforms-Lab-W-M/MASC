@@ -23,7 +23,7 @@ public class MethodDeclarationVisitor extends ASTVisitor{
 		String className = null;
 		
 		String methodName = declaration.getName().getFullyQualifiedName();
-		System.out.println("debug-methoddecl: " + methodName);
+		// System.out.println("debug-methoddecl: " + methodName);
 		if(declaration.getParent() instanceof TypeDeclaration){
 			TypeDeclaration type = (TypeDeclaration)declaration.getParent();
 			className = type.getName().toString();

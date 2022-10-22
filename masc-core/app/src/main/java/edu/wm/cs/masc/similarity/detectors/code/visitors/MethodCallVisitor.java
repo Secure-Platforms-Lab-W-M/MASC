@@ -27,7 +27,7 @@ public class MethodCallVisitor extends ASTVisitor{
 		String className = null;
 		
 		String methodName = call.getName().getFullyQualifiedName();
-		System.out.println("debug-methodcall: "+methodName);
+		// System.out.println("debug-methodcall: "+methodName);
 		
 		try{
 			bind = ((MethodInvocation)call).getExpression().resolveTypeBinding();

@@ -20,10 +20,14 @@ import edu.wm.cs.masc.similarity.detectors.xml.MissingPermissionDetector;
 import edu.wm.cs.masc.similarity.detectors.xml.SDKVersionDetector;
 import edu.wm.cs.masc.similarity.detectors.xml.WrongMainActivityDetector;
 import edu.wm.cs.masc.similarity.detectors.xml.WrongStringResourceDetector;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class OperatorBundle {
 
 	private static final String PROPERTY_FILE_NAME = "operator-types";
+	private static final Logger logger = LogManager.getLogger(OperatorBundle.class);
+
 	private ResourceBundle bundle;
 
 //	public enum TextBasedOperator {
@@ -48,8 +52,7 @@ public class OperatorBundle {
 
 	public List<MutationLocationDetector> getTextBasedDetectors() {
 		List<MutationLocationDetector> textBasedDetectors = new ArrayList<>();
-		
-		
+
 		if(bundle.containsKey(MutationType.ACTIVITY_NOT_DEFINED.getId()+"")) {
 			textBasedDetectors.add(new ActivityNotDefinedDetector());
 		} if(bundle.containsKey(MutationType.INVALID_ACTIVITY_PATH.getId()+"")) {
@@ -92,7 +95,7 @@ public class OperatorBundle {
 
 		try {
 			url = file.toURI().toURL();
-			System.out.println(url);
+			logger.trace(url);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}

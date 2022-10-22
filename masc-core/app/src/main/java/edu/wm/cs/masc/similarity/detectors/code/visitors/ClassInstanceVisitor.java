@@ -25,7 +25,7 @@ public class ClassInstanceVisitor extends ASTVisitor{
 		
 		String methodName = "<init>";
 
-	 	System.out.println("debug-classinstance: "+call.getType().toString());
+	 	// System.out.println("debug-classinstance: "+call.getType().toString());
 		try{
 			if(call.getType() != null && call.getType().toString().equals("View.OnClickListener")){
 				className = "View";

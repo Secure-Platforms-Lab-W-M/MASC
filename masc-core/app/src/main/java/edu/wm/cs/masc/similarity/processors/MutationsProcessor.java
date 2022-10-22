@@ -10,7 +10,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import edu.wm.cs.masc.similarity.model.location.MutationLocation;
 import org.apache.commons.io.FileUtils;
@@ -20,6 +21,7 @@ import edu.wm.cs.masc.similarity.operators.MutationOperatorFactory;
 
 public class MutationsProcessor {
 
+	private static Logger logger = LogManager.getLogger(MutationsProcessor.class);
 
 	private String appFolder;
 	private String appName;
@@ -52,14 +54,14 @@ public class MutationsProcessor {
 		for (MutationLocation mutationLocation : locations) {
 			try {
 				setupMutantFolder(mutantIndex);
-				System.out.println("Mutant: "+mutantIndex + " - Type: "+ mutationLocation.getType());
+				logger.trace("Mutant: "+mutantIndex + " - Type: "+ mutationLocation.getType());
 				operator = factory.getOperator(mutationLocation.getType().getId());
 
 				mutantFolder = getMutantsRootFolder()+File.separator+getAppName()+"-mutant"+mutantIndex + File.separator;
 				//The mutant should be written in mutantFolder
 
 				newMutationPath = mutationLocation.getFilePath().replace(appFolder,mutantFolder);
-				//System.out.println(newMutationPath);
+				//logger.trace(newMutationPath);
 				mutationLocation.setFilePath(newMutationPath);
 				operator.performMutation(mutationLocation);
 
@@ -68,7 +70,7 @@ public class MutationsProcessor {
 				writer.flush();
 
 			} catch (Exception e) {
-				Logger.getLogger(MutationsProcessor.class.getName()).warning("- Error generating mutant  "+mutantIndex);
+				logger.warn("- Error generating mutant  "+mutantIndex);
 				e.printStackTrace();
 			}
 			mutantIndex++;
@@ -89,7 +91,7 @@ public class MutationsProcessor {
 		for (final MutationLocation mutationLocation : locations) {
 			mutantIndex++;
 			final int currentMutationIndex = mutantIndex;	
-			System.out.println("Mutant: "+currentMutationIndex+" - "+mutationLocation.getType().getName());
+			logger.trace("Mutant: "+currentMutationIndex+" - "+mutationLocation.getType().getName());
 			setupMutantFolder(currentMutationIndex);
 			results.add(executor.submit(new Callable<String>() {
 
@@ -109,7 +111,7 @@ public class MutationsProcessor {
 						operator.performMutation(mutationLocation);
 
 					} catch (Exception e) {
-						Logger.getLogger(MutationsProcessor.class.getName()).warning("- Error generating mutant  "+currentMutationIndex);
+						logger.warn("- Error generating mutant  "+currentMutationIndex);
 						e.printStackTrace();
 					}
 					

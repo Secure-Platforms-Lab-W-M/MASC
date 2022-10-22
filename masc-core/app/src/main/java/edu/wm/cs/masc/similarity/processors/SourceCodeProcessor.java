@@ -13,13 +13,14 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import edu.wm.cs.masc.similarity.detectors.ast.locator.Locator;
 import edu.wm.cs.masc.similarity.detectors.ast.locator.LocatorFactory;
 import edu.wm.cs.masc.similarity.detectors.code.visitors.ASTHelper;
 import edu.wm.cs.masc.similarity.detectors.code.visitors.MethodDeclarationVO;
 import edu.wm.cs.masc.similarity.model.MutationType;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import edu.wm.cs.masc.similarity.model.location.MutationLocation;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -31,6 +32,7 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import edu.wm.cs.masc.similarity.detectors.code.visitors.MethodCallVO;
 import edu.wm.cs.masc.similarity.operators.OperatorBundle;
+
 
 public class SourceCodeProcessor {
 
@@ -45,8 +47,10 @@ public class SourceCodeProcessor {
 	private List<String> parcelableClasses;
 
 	private OperatorBundle operatorBundle;
+	private static Logger logger = LogManager.getLogger(SourceCodeProcessor.class);
 
 	private static SourceCodeProcessor instance = null;
+
 
 
 	public static SourceCodeProcessor getInstance() {
@@ -82,18 +86,17 @@ public class SourceCodeProcessor {
 		String apiCalls = null;
 
 		for (String type : types) {
-			System.out.println(MutationType.valueOf(Integer.parseInt(type)).getName()+ ": "+operatorBundle.isOperatorSelected(type));
-			
 			//Add only target calls for selected operators
 			if(!operatorBundle.isOperatorSelected(type)) {
 				continue;
 			}
-			
+			logger.trace("[Currently selected ]"+MutationType.valueOf(Integer.parseInt(type)).getName()+ ": "+operatorBundle.isOperatorSelected(type));
+
 			apiCalls = bundle.getString(type);
 			String[] calls = apiCalls.split(",");
 
 			for(String apiCall : calls){
-				System.out.println("API_ID: "+type+"; API_CALL: "+apiCall);
+				logger.trace("API_ID: "+type+"; API_CALL: "+apiCall);
 				targetApis.add(apiCall.trim());
 
 				if(!targetApisAndMutypes.containsKey(apiCall.trim())){
@@ -110,22 +113,17 @@ public class SourceCodeProcessor {
 		Set<String> types = bundle.keySet();
 		String methodDeclarations = null;
 		for (String type : types) {
-			
-			System.out.println(MutationType.valueOf(Integer.parseInt(type)).getName()+ ": "+operatorBundle.isOperatorSelected(type));
-
 			//Add only declarations for selected operators
 			if(!operatorBundle.isOperatorSelected(type)) {
 				continue;
 			}
-			
+			logger.trace(MutationType.valueOf(Integer.parseInt(type)).getName()+ ": "+operatorBundle.isOperatorSelected(type));
+
 			methodDeclarations = bundle.getString(type);
 			
 			String[] declarations = methodDeclarations.split(",");
 			for (String declaration : declarations) {
-				
-			
 				targetDeclarations.add(declaration.trim());
-	
 				if(!targeDeclarationsAndMutypes.containsKey(declaration.trim())){
 					targeDeclarationsAndMutypes.put(declaration.trim(), new ArrayList<Integer>());
 				}
@@ -140,7 +138,7 @@ public class SourceCodeProcessor {
 		for (File file : files) {
 			if(file.getName().endsWith(".java") && file.getCanonicalPath().contains(packageName.replace(".", File.separator)) && !file.getName().contains("EmmaInstrumentation.java") && !file.getName().contains("FinishListener.java") && !file.getName().contains("InstrumentedActivity.java") && !file.getName().contains("SMSInstrumentedReceiver.java")){
 				HashMap<MutationType, List<MutationLocation>> fileLocations = processFile(file.getAbsolutePath(), folderPath, binariesFolder);
-				System.out.println(file.getAbsolutePath());
+				logger.trace(file.getAbsolutePath());
 				appendLocations(fileLocations, locations);
 			}
 		}
@@ -172,27 +170,27 @@ public class SourceCodeProcessor {
 		addSerializableOrParcelableLocations(parcelableClasses, MutationType.NOT_PARCELABLE, locations);
 
 		LocatorFactory factory = LocatorFactory.getInstance();
-		System.out.println("Activites: "+activities.size());
-		System.out.println("----------------------");
-		System.out.println("AST LOCATIONS FOUND");
-		System.out.println("----------------------");
+		logger.trace("Activites: "+activities.size());
+		logger.trace("----------------------");
+		logger.trace("AST LOCATIONS FOUND");
+		logger.trace("----------------------");
 		for(Entry<MutationType, List<MutationLocation>> entry : locations.entrySet()){
-			System.out.println("MutationType: "+entry.getKey());
-			System.out.println("Locations: "+entry.getValue().size());
+			logger.trace("MutationType: "+entry.getKey());
+			logger.trace("Locations: "+entry.getValue().size());
 		}
 
 		for(Entry<MutationType, List<MutationLocation>> entry : locations.entrySet()){
-			System.out.println(entry.getKey());
+			logger.trace(entry.getKey());
 			Locator locator = factory.getLocator(entry.getKey());
 			List<MutationLocation> exactMutationLocations = locator.findExactLocations(entry.getValue());
 			entry.setValue(exactMutationLocations);
 		}
-		System.out.println("----------------------");
-		System.out.println("EXACT LOCATIONS");
-		System.out.println("----------------------");
+		logger.trace("----------------------");
+		logger.trace("EXACT LOCATIONS");
+		logger.trace("----------------------");
 		for(Entry<MutationType, List<MutationLocation>> entry : locations.entrySet()){
-			System.out.println("MutationType: "+entry.getKey());
-			System.out.println("Locations: "+entry.getValue().size());
+			logger.trace("MutationType: "+entry.getKey());
+			logger.trace("Locations: "+entry.getValue().size());
 		}
 
 
@@ -228,7 +226,7 @@ public class SourceCodeProcessor {
 		List<MethodDeclarationVO> targetMethodDeclarations = new ArrayList<MethodDeclarationVO>();
 		//List<MethodCallVO> classInstantiations = new ArrayList<MethodCallVO>();
 
-		System.out.println("FilePath: " + filePath);
+		logger.trace("FilePath: " + filePath);
 
 		List<String> lines = new ArrayList<String>();
 		String unitName = filePath.substring(filePath.lastIndexOf(File.separator)+1).replace(".java", "");
@@ -249,7 +247,7 @@ public class SourceCodeProcessor {
 			ITypeRoot root= cu.getTypeRoot();
 
 			if(cu.types().size() < 1){
-				System.out.println(source.toString());
+				logger.trace(source.toString());
 			}
 			TypeDeclaration cuType = (TypeDeclaration)cu.types().get(0);
 			StringBuilder activityName = new StringBuilder();
@@ -266,7 +264,7 @@ public class SourceCodeProcessor {
 			if(cuType.superInterfaceTypes() != null && cuType.superInterfaceTypes().size() > 0){
 				List<Type> interfaces = cuType.superInterfaceTypes();
 				for (Type type : interfaces) {
-					System.out.println("Interface: "+type);
+					// System.out.println("Interface: "+type);
 					if(type.toString().endsWith("Serializable")){
 						activityName.append(type.toString());
 						serializableClasses.add(filePath);
@@ -283,11 +281,11 @@ public class SourceCodeProcessor {
 			IProblem[] problems = cu.getProblems();
 
 
-			System.out.println("-------------------------------");
-			System.out.println("Parsing "+filePath);
-			for (IProblem problem : problems) {
-				System.err.println(problem.toString());
-			}
+			logger.trace("-------------------------------");
+			logger.trace("Parsing "+filePath);
+//			for (IProblem problem : problems) {
+//				System.err.println(problem.toString());
+//			}
 
 			//Collecting API calls to targetApis	
 			targetApiCalls.addAll(ASTHelper.getClassInstanceCreationsFromCU(cu, targetApis));
@@ -332,19 +330,15 @@ public class SourceCodeProcessor {
 			}
 
 		} catch (FileNotFoundException e) {
-			Logger.getLogger(SourceCodeProcessor.class.getName()).severe(
-					" File not found " + filePath);
+			logger.error(" File not found " + filePath);
 
 
 		} catch (IOException e) {
-			Logger.getLogger(SourceCodeProcessor.class.getName()).severe(
-					" Error reading/writing file " + filePath);
+			logger.error(" Error reading/writing file " + filePath);
 		} catch (ClassCastException e){
-			Logger.getLogger(SourceCodeProcessor.class.getName()).severe(
-					" Unable to cast TypeDeclaration " + filePath);
+			logger.error(" Unable to cast TypeDeclaration " + filePath);
 		} catch(Exception e){
-			Logger.getLogger(SourceCodeProcessor.class.getName()).severe(
-					" Runtime Exception while casting TypeDeclaration " + filePath);
+			logger.error(" Runtime Exception while casting TypeDeclaration " + filePath);
 		}
 
 		return mutationLocations;
@@ -382,7 +376,7 @@ public class SourceCodeProcessor {
 		location.setStartColumn(location.getStartColumn() -1 );
 		location.setEndLine(location.getEndLine() -1);
 
-		System.out.println(call.getFullName()+" line "+location.getStartLine() +" in "+location.getFilePath());
+		logger.trace(call.getFullName()+" line "+location.getStartLine() +" in "+location.getFilePath());
 		return location;
 	}
 
@@ -405,7 +399,7 @@ public class SourceCodeProcessor {
 		location.setStartColumn(location.getStartColumn() -1 );
 		location.setEndLine(location.getEndLine() -1);
 
-		System.out.println(declaration.getFullName()+" line "+location.getStartLine() +" in "+location.getFilePath());
+		logger.trace(declaration.getFullName()+" line "+location.getStartLine() +" in "+location.getFilePath());
 		return location;
 	}
 
