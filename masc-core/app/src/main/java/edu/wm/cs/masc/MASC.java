@@ -103,6 +103,7 @@ public class MASC {
                 opDir.getAbsolutePath(),
                 "false"}; // Hardcode this because it never changes in MASC
         MPlus.runMPlus(args);
+        
     }
 
     public static void runExhaustiveScope(PropertiesReader reader) throws

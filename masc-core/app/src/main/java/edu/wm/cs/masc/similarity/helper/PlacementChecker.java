@@ -2,15 +2,20 @@ package edu.wm.cs.masc.similarity.helper;
 
 import edu.wm.cs.masc.similarity.detectors.code.visitors.ASTHelper;
 import edu.wm.cs.masc.similarity.model.location.MutationLocation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 import java.io.*;
 import java.util.List;
 
+
 public class PlacementChecker {
     String projectPath;
     String binariesFolder;
+    private static Logger logger = LogManager.getLogger(PlacementChecker.class);
+
 
     public PlacementChecker(String projectPath, String binariesFolder) {
         this.projectPath = projectPath;
@@ -19,10 +24,10 @@ public class PlacementChecker {
 
     public void process(List<MutationLocation> locations)
             throws IOException {
-        System.out.println("Minimal JDT-AST Location Reachability Check");
+        logger.trace("Minimal JDT-AST Location Reachability Check");
         for (MutationLocation mutationLocation : locations) {
             String filePath = mutationLocation.getFilePath();
-            System.out.println(
+            logger.trace(
                     "Checking for Code Reachability Issues: " + filePath);
             this.report_jdt(filePath, projectPath, binariesFolder);
         }
@@ -48,7 +53,7 @@ public class PlacementChecker {
             if (!(problem.getID() == IProblem.CodeCannotBeReached))
                 continue;
 
-            System.out.println(filePath + ": reachability location problem");
+            logger.trace(filePath + ": reachability location problem");
         }
 
     }
