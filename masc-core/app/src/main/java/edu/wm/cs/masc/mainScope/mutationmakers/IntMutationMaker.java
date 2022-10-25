@@ -30,7 +30,7 @@ public class IntMutationMaker extends AMutationMaker{
 //        operators.put(OperatorType.IntNestedClass, new NestedClass(p));
 //        operators.put(OperatorType.IntFromString, new FromString(p));
 //        operators.put(OperatorType.Overflow, new Overflow(p));
-        operators = new MutationSupplier(p).getOperators();
+        operators = new MutationSupplier(p).getOperators(p.getLeftOutOperators());
     }
 
 }

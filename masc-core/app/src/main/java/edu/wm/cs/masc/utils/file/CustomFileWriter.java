@@ -4,19 +4,25 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+
 public class CustomFileWriter {
+    private static Logger logger = LogManager.getLogger(CustomFileWriter.class);
+
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean WriteFile(String file_dir, String filename,
                                     String content) {
         File directory = new File(file_dir);
 
         if(directory.mkdirs()){
-            System.out.println("Making necessary directories: "+file_dir);
+            logger.trace("Making necessary directories: "+file_dir);
         }
         File file = new File(directory, filename);
         try {
             if(file.createNewFile()){
-                System.out.println("File does not exist, creating: "+ file.getAbsolutePath());
+                logger.trace("File does not exist, creating: "+ file.getAbsolutePath());
             }
             FileWriter writer = new FileWriter(file);
             writer.write(content);

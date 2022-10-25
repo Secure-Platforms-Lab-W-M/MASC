@@ -119,6 +119,7 @@ public class MASC {
 
     public static void runMainScope(PropertiesReader reader, String path) throws ConfigurationException {
         String type = reader.getValueForAKey("type");
+        String leftOutOperators = reader.getValueForAKey("leftOutOperators");
         // Special logs for front end traversing
         LocalLogger.getLocalLogger().severe("[ValueForAKey]#" + type);
         AMutationMaker m = null;

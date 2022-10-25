@@ -26,7 +26,7 @@ public class StringOperatorMutationMaker extends AMutationMaker {
 //                new StringCaseTransform(p));
 //        operators.put(OperatorType.StringValueInVariable,
 //                new ValueInVariable(p));
-        operators = new MutationSupplier(p).getOperators();
+        operators = new MutationSupplier(p).getOperators(p.getLeftOutOperators());
     }
 
     public StringOperatorMutationMaker(StringOperatorProperties p) {

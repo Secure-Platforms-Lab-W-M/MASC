@@ -1,7 +1,9 @@
 package edu.wm.cs.masc.mutation.suppliers;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
+import edu.wm.cs.masc.MASC;
 import edu.wm.cs.masc.mutation.operators.IOperator;
 import edu.wm.cs.masc.mutation.operators.OperatorType;
 import edu.wm.cs.masc.mutation.operators.flexible.*;
@@ -14,9 +16,13 @@ import edu.wm.cs.masc.mutation.properties.*;
 import edu.wm.cs.masc.mutation.reflection.ClassReflection;
 import edu.wm.cs.masc.mutation.reflection.EnumClassType;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 
 public class MutationSupplier {
     HashMap<OperatorType, IOperator> operators = new HashMap<>();
+    private static Logger logger = LogManager.getLogger(MutationSupplier.class);
 
     public MutationSupplier(StringOperatorProperties p) {
         operators.put(OperatorType.StringDifferentCase, new DifferentCase(p));
@@ -103,8 +109,19 @@ public class MutationSupplier {
         operators.put(OperatorType.Overflow, new Overflow(p));
     }
 
-    public HashMap<OperatorType, IOperator> getOperators(){
-        return operators;
+    public HashMap<OperatorType, IOperator> getOperators(String leftOutOperators){
+        if(leftOutOperators.isEmpty()){
+            logger.trace("No left out operators");
+            return operators;
+        }
+        HashMap<OperatorType, IOperator> tempOperators =  new HashMap<>();
+        for (HashMap.Entry<OperatorType, IOperator> entry : operators.entrySet()) {
+            if(!leftOutOperators.contains(entry.getKey().name())){
+                logger.trace("Selected opertor "+entry.getKey().name());
+                tempOperators.put(entry.getKey(),entry.getValue());
+            }
+        }
+        return tempOperators;
     }
 
 

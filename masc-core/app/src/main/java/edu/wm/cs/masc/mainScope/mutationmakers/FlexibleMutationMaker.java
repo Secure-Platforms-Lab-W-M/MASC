@@ -104,7 +104,7 @@ public class FlexibleMutationMaker
 
     @Override
     public void populateOperators() {
-        operators = new MutationSupplier(p).getOperators();
+        operators = new MutationSupplier(p).getOperators(p.getLeftOutOperators());
     }
 
     @Override

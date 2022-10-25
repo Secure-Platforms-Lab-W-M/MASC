@@ -30,7 +30,7 @@ public class InterprocMutationMaker extends AMultiClassMutationMaker {
     @Override
     public void populateOperators() {
 //        operators.put(OperatorType.Interproc, new InterProcOperator(p));
-        operators = new MutationSupplier(p).getOperators();
+        operators = new MutationSupplier(p).getOperators(p.getLeftOutOperators());
     }
 
 }
