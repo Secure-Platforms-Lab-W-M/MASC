@@ -1,7 +1,7 @@
 package edu.wm.cs.masc;
 
+import edu.wm.cs.masc.plugins.MultiClassMutationMakerForPluginOperators;
 import edu.wm.cs.masc.plugins.MutationMakerForPluginOperators;
-
 import edu.wm.cs.masc.automatedAnalysis.ResultAnalyzer;
 import edu.wm.cs.masc.similarity.MPlus;
 import edu.wm.cs.masc.mainScope.mutationmakers.*;
@@ -13,6 +13,7 @@ import edu.wm.cs.masc.exhaustive.MuseRunner;
 import edu.wm.cs.masc.logger.LocalLogger;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.eclipse.jface.text.BadLocationException;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -28,13 +29,10 @@ public class MASC {
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
             logger.trace("No properties file supplied");
-            System.exit(10);
         } else if (args.length > 1) {
             logger.trace("Too many arguments were provided");
-            System.exit(20);
         } else if (!args[0].endsWith(".properties")) {
             logger.trace("Properties file must end with the .properties extension");
-            System.exit(30);
         } else {
             String path = args[0];
             try {
@@ -45,7 +43,7 @@ public class MASC {
         }
     }
 
-    public static void runResultAnalysis(PropertiesReader propertiesReader) throws ConfigurationException {
+    public static void runAutomatedAnalysis(PropertiesReader propertiesReader) throws ConfigurationException {
         try {
             ResultAnalyzer resultAnalyzer = new ResultAnalyzer(propertiesReader);
             resultAnalyzer.runAnalysis();
@@ -81,7 +79,7 @@ public class MASC {
             }
             if (reader.contains("automatedAnalysis") && reader.getValueForAKey("automatedAnalysis").equalsIgnoreCase("true")){
                 logger.trace("running result analysis for main scope");
-                runResultAnalysis(reader);
+                runAutomatedAnalysis(reader);
             }
             else {
                 logger.trace("Skipping automated analysis...");
@@ -96,6 +94,7 @@ public class MASC {
         File lib4ast = new File("libs4ast/");
         File opDir = new File("app/src/main/resources");
         logger.trace("running mutation for similarity scope");
+
         String[] args = {lib4ast.getAbsolutePath(),
                 reader.getValueForAKey("appSrc"),
                 reader.getValueForAKey("appName"),
@@ -123,7 +122,7 @@ public class MASC {
         LocalLogger.getLocalLogger().severe("[ValueForAKey]#" + type);
         AMutationMaker m = null;
         AOperatorProperties p;
-        MutationMakerForPluginOperators pluginOperatorsMutationMaker = new MutationMakerForPluginOperators(path);
+        MutationMakerForPluginOperators pluginOperatorsMutationMaker = new MutationMakerForPluginOperators(path, "app/build/libs/");
 
         if (type.equalsIgnoreCase(RootOperatorType.IntOperator.name())) {
             logger.trace("Selected Operator type "+ RootOperatorType.IntOperator.name());
@@ -141,6 +140,7 @@ public class MASC {
             logger.trace("Selected Operator type "+ RootOperatorType.Interproc.name());
             p = new InterprocProperties(path);
             m = new InterprocMutationMaker((InterprocProperties) p);
+            pluginOperatorsMutationMaker = new MultiClassMutationMakerForPluginOperators(path, "app/build/libs/");
         } else if (type.equalsIgnoreCase(RootOperatorType.Flexible.name())) {
             logger.trace("Selected Operator type "+ RootOperatorType.Flexible.name());
             p = new FlexibleOperatorProperties(path);

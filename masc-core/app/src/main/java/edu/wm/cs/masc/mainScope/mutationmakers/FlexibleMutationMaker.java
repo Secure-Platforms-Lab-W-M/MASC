@@ -13,18 +13,6 @@ public class FlexibleMutationMaker
 
     }
 
-//    @Override
-//    public void populateOperators() {}
-        /*
-                AIOEmptyAbstractClassExtendsAbstractClass,
-                AIOGenericAbstractClassExtendsAbstractClass,
-                AIOSpecificAbstractClassExtendsAbstractClass
-
-                AIOEmptyAbstractClassImplementsInterface,
-                AIOEmptyInterfaceExtendsInterface,
-
-            AIOGenericAbstractClassImplementsInterface,
-            AIOGenericInterfaceExtendsInterface,*/
 
 //    @Override
 //    public void populateOperators() {

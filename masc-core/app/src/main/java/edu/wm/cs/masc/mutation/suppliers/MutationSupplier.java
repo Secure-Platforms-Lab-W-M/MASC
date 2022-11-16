@@ -7,6 +7,8 @@ import edu.wm.cs.masc.MASC;
 import edu.wm.cs.masc.mutation.operators.IOperator;
 import edu.wm.cs.masc.mutation.operators.OperatorType;
 import edu.wm.cs.masc.mutation.operators.flexible.*;
+import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.ByteLoop;
+import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.ByteReuse;
 import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.CurrentTime;
 import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.InterProcOperator;
 import edu.wm.cs.masc.mutation.operators.restrictive.intoperator.*;
@@ -89,7 +91,7 @@ public class MutationSupplier {
 
     public MutationSupplier(ByteOperatorProperties p) {
         operators.put(OperatorType.ByteCurrentTime, new CurrentTime(p));
-        operators.put(OperatorType.ByteLoop, new CurrentTime(p));
+        operators.put(OperatorType.ByteLoop, new ByteLoop(p));
     }
 
     public MutationSupplier(InterprocProperties p) {

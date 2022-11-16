@@ -50,7 +50,7 @@ public class MutationsProcessor {
 		int mutantIndex  = 1;
 		String mutantFolder = null;
 		String newMutationPath = null;
-		BufferedWriter writer = new BufferedWriter(new FileWriter(getMutantsRootFolder()+File.separator+getAppName()+"-mutants.log"));
+//		BufferedWriter writer = new BufferedWriter(new FileWriter(getMutantsRootFolder()+File.separator+getAppName()+"-mutants.log"));
 		for (MutationLocation mutationLocation : locations) {
 			try {
 				setupMutantFolder(mutantIndex);
@@ -65,9 +65,9 @@ public class MutationsProcessor {
 				mutationLocation.setFilePath(newMutationPath);
 				operator.performMutation(mutationLocation);
 
-				writer.write("Mutant "+mutantIndex+": "+mutationLocation.getFilePath()+"; "+mutationLocation.getType().getName()+" in line "+(mutationLocation.getStartLine()+1));
-				writer.newLine();
-				writer.flush();
+				logger.trace("Mutant "+mutantIndex+": "+mutationLocation.getFilePath()+"; "+mutationLocation.getType().getName()+" in line "+(mutationLocation.getStartLine()+1));
+//				writer.newLine();
+//				writer.flush();
 
 			} catch (Exception e) {
 				logger.warn("- Error generating mutant  "+mutantIndex);
@@ -75,17 +75,17 @@ public class MutationsProcessor {
 			}
 			mutantIndex++;
 		}
-		writer.close();
+		//writer.close();
 	}
 
 
 	public void processMultithreaded(List<MutationLocation> locations) throws IOException{
 
-		BufferedWriter writer = new BufferedWriter(new FileWriter(getMutantsRootFolder()+File.separator+getAppName()+"-mutants.log"));
+		// BufferedWriter writer = new BufferedWriter(new FileWriter(getMutantsRootFolder()+File.separator+getAppName()+"-mutants.log"));
 		final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 		final List<Future<String>> results = new LinkedList<Future<String>>();
 
-		writer.write("ThreadPool: "+Runtime.getRuntime().availableProcessors());
+		logger.trace("ThreadPool: "+Runtime.getRuntime().availableProcessors());
 		int  mutantIndex  = 0;
 
 		for (final MutationLocation mutationLocation : locations) {
@@ -120,12 +120,12 @@ public class MutationsProcessor {
 			}));
 
 			//Update log
-			writer.write("Mutant "+mutantIndex+": "+mutationLocation.getFilePath()+"; "+mutationLocation.getType().getName()+" in line "+(mutationLocation.getStartLine()+1));
-			writer.newLine();
-			writer.flush();
+			logger.trace("Mutant "+mutantIndex+": "+mutationLocation.getFilePath()+"; "+mutationLocation.getType().getName()+" in line "+(mutationLocation.getStartLine()+1));
+//			writer.newLine();
+//			writer.flush();
 		}
 
-		writer.close();
+		//writer.close();
 
 		
 		//If more output for single operator is needed

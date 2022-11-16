@@ -2,17 +2,23 @@ package edu.wm.cs.masc.plugins;
 
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
+import edu.wm.cs.masc.mainScope.mutationmakers.AMutationMaker;
 import edu.wm.cs.masc.mutation.builders.generic.BuilderMainClass;
 import edu.wm.cs.masc.mutation.builders.generic.BuilderMainMethod;
 import edu.wm.cs.masc.mutation.operators.IOperator;
+import edu.wm.cs.masc.mutation.operators.OperatorType;
 import edu.wm.cs.masc.mutation.properties.AOperatorProperties;
 import edu.wm.cs.masc.utils.file.CustomFileWriter;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.io.File;
 import java.util.ArrayList;
+
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+
+import java.util.HashMap;
+
 /**
  * Is the Abstract Mutation maker that
  * creates instances of mutations for operators written by users as plugins.
@@ -26,10 +32,12 @@ public class MutationMakerForPluginOperators {
     private static Logger logger = LogManager.getLogger(MutationMakerForPluginOperators.class);
 
     String path;
+    String pluginFolderDir;
     // AOperatorProperties operatorProperties;
 
-    public MutationMakerForPluginOperators(String path) throws ConfigurationException {
+    public MutationMakerForPluginOperators(String path, String pluginFolderDir) throws ConfigurationException {
         this.path = path;
+        this.pluginFolderDir = pluginFolderDir;
         // operatorProperties = new CustomGenericOperatorProperties(path);
     }
 
@@ -45,10 +53,11 @@ public class MutationMakerForPluginOperators {
     }
 
     //if multiple types of operators fall under same category, and we want them all to be created.
-    private void populateOperators(AOperatorProperties operatorProperties){
-        PluginOperatorManager pluginOperatorManager = PluginOperatorManager.getInstance();
-        operators = pluginOperatorManager.initializePlugins(path, operatorProperties);
-    };
+
+     public void populateOperators(AOperatorProperties operatorProperties){
+         PluginOperatorManager pluginOperatorManager = new PluginOperatorManager(pluginFolderDir);
+         operators = pluginOperatorManager.initializePlugins(path, operatorProperties);
+     }
 
     public void make(AOperatorProperties operatorProperties) {
         populateOperators(operatorProperties);
@@ -61,16 +70,16 @@ public class MutationMakerForPluginOperators {
 
     }
 
-    private String getName(IOperator operator) {
+    public String getName(IOperator operator) {
         return operator.getClass().getName();
     }
 
-    private void writeOutput(String path, String name, String fileName,
-                             String content) {
+
+    public void writeOutput(String path, String name, String fileName,
+                            String content) {
         String dir_path = path + File.separator + name + File.separator;
         if (!CustomFileWriter.WriteFile(dir_path, fileName, content)) {
             logger.trace("Something went wrong, check stack trace");
         }
     }
-
 }
