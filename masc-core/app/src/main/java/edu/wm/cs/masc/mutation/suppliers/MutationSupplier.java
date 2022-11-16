@@ -109,14 +109,14 @@ public class MutationSupplier {
         operators.put(OperatorType.Overflow, new Overflow(p));
     }
 
-    public HashMap<OperatorType, IOperator> getOperators(String leftOutOperators){
-        if(leftOutOperators.isEmpty()){
-            logger.trace("No left out operators");
+    public HashMap<OperatorType, IOperator> getOperators(String excludedOperators){
+        if(excludedOperators.isEmpty()){
+            logger.trace("No excluded out operators");
             return operators;
         }
         HashMap<OperatorType, IOperator> tempOperators =  new HashMap<>();
         for (HashMap.Entry<OperatorType, IOperator> entry : operators.entrySet()) {
-            if(!leftOutOperators.contains(entry.getKey().name())){
+            if(!excludedOperators.contains(entry.getKey().name())){
                 logger.trace("Selected opertor "+entry.getKey().name());
                 tempOperators.put(entry.getKey(),entry.getValue());
             }

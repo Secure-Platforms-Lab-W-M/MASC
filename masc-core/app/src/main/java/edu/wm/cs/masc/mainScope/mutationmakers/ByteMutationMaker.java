@@ -5,7 +5,6 @@ import com.squareup.javapoet.TypeSpec;
 import edu.wm.cs.masc.mutation.builders.generic.BuilderMainClass;
 import edu.wm.cs.masc.mutation.builders.generic.BuilderMainMethod;
 import edu.wm.cs.masc.mutation.operators.OperatorType;
-import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.CurrentTime;
 import edu.wm.cs.masc.mutation.properties.AOperatorProperties;
 import edu.wm.cs.masc.mutation.properties.ByteOperatorProperties;
 import edu.wm.cs.masc.mutation.suppliers.MutationSupplier;
@@ -34,6 +33,6 @@ public class ByteMutationMaker extends AMutationMaker {
     public void populateOperators() {
 //        operators.put(OperatorType.ByteCurrentTime, new CurrentTime(p));
 //        operators.put(OperatorType.ByteLoop, new CurrentTime(p));
-        operators = new MutationSupplier(p).getOperators(p.getLeftOutOperators());
+        operators = new MutationSupplier(p).getOperators(p.getExcludedOperators());
     }
 }

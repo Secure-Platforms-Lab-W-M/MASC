@@ -1,16 +1,8 @@
 package edu.wm.cs.masc.mainScope.mutationmakers;
 
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
-import edu.wm.cs.masc.mutation.operators.flexible.*;
-import edu.wm.cs.masc.mutation.builders.generic.BuilderMainClass;
-import edu.wm.cs.masc.mutation.builders.generic.BuilderMainMethod;
-import edu.wm.cs.masc.mutation.operators.OperatorType;
 //import masc.edu.wm.cs.mascDeprecated.operator.flexible.*;
 import edu.wm.cs.masc.mutation.properties.FlexibleOperatorProperties;
-import edu.wm.cs.masc.mutation.reflection.ClassReflection;
-import edu.wm.cs.masc.mutation.reflection.EnumClassType;
-import edu.wm.cs.masc.mutation.suppliers.MutationSupplier;
+        import edu.wm.cs.masc.mutation.suppliers.MutationSupplier;
 
 public class FlexibleMutationMaker
         extends AMultiClassMutationMakerOptionalDependencies {
@@ -104,7 +96,7 @@ public class FlexibleMutationMaker
 
     @Override
     public void populateOperators() {
-        operators = new MutationSupplier(p).getOperators(p.getLeftOutOperators());
+        operators = new MutationSupplier(p).getOperators(p.getExcludedOperators());
     }
 
     @Override

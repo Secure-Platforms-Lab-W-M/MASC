@@ -1,11 +1,5 @@
 package edu.wm.cs.masc.mainScope.mutationmakers;
 
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
-import edu.wm.cs.masc.mutation.operators.restrictive.intoperator.*;
-import edu.wm.cs.masc.mutation.builders.generic.BuilderMainClass;
-import edu.wm.cs.masc.mutation.builders.generic.BuilderMainMethod;
-import edu.wm.cs.masc.mutation.operators.OperatorType;
 //import masc.edu.wm.cs.mascDeprecated.operator.restrictive.intoperator.*;
 import edu.wm.cs.masc.mutation.properties.IntOperatorProperties;
 import edu.wm.cs.masc.mutation.suppliers.MutationSupplier;
@@ -30,7 +24,7 @@ public class IntMutationMaker extends AMutationMaker{
 //        operators.put(OperatorType.IntNestedClass, new NestedClass(p));
 //        operators.put(OperatorType.IntFromString, new FromString(p));
 //        operators.put(OperatorType.Overflow, new Overflow(p));
-        operators = new MutationSupplier(p).getOperators(p.getLeftOutOperators());
+        operators = new MutationSupplier(p).getOperators(p.getExcludedOperators());
     }
 
 }

@@ -1,9 +1,18 @@
 package edu.wm.cs.masc.similarity.operators.crypto;
 
+import edu.wm.cs.masc.mutation.operators.OperatorType;
+import edu.wm.cs.masc.similarity.operators.CryptoMuationProperties.CipherInstanceContext;
+
 public class CipherInstance extends ACryptoMutationOperator {
+    public CipherInstanceContext ci = new CipherInstanceContext("SSLContextStringOperator.properties");
     @Override
     protected String getMutatedLine() {
-        
+
+        for (OperatorType operatorType : ci.getOperators().keySet()) {
+            System.out.println(ci.getOperators().get(operatorType).mutation());
+        }
+
+        // valuue in variable
         String mutatedLine = "Cipher ciPHerExample1 = Cipher.getInstance(\"de$s\".replace(\"$\", \"\"));\n";
         mutatedLine += "Cipher ciPHerExample2 = Cipher.getInstance(\"des\".toUpperCase(Locale.ENGLISH));\n";
         mutatedLine += "Cipher ciPHerExample3 = Cipher.getInstance(\"des\");\n";

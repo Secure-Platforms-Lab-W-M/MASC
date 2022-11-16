@@ -1,8 +1,16 @@
 package edu.wm.cs.masc.similarity.operators.crypto;
 
-public class MessageDigest extends ACryptoMutationOperator{
+import edu.wm.cs.masc.mutation.operators.OperatorType;
+import edu.wm.cs.masc.similarity.operators.CryptoMuationProperties.MessageDigestContext;
+
+public class
+MessageDigest extends ACryptoMutationOperator{
+    public MessageDigestContext mdc = new MessageDigestContext("SSLContextStringOperator.properties");
     @Override
     protected String getMutatedLine() {
+        for (OperatorType operatorType : mdc.getOperators().keySet()) {
+            System.out.println(mdc.getOperators().get(operatorType).mutation());
+        }
         return "MessageDigest cryptoDigest;\n" +
                 "        try {\n" +
                 "            cryptoDigest = MessageDigest.getInstance(\"SHA-256\".replace(\"SHA-256\", \"md5\"));\n" +

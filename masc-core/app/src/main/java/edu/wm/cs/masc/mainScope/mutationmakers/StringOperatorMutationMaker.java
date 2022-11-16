@@ -1,11 +1,5 @@
 package edu.wm.cs.masc.mainScope.mutationmakers;
 
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
-import edu.wm.cs.masc.mutation.operators.restrictive.stringoperator.*;
-import edu.wm.cs.masc.mutation.builders.generic.BuilderMainClass;
-import edu.wm.cs.masc.mutation.builders.generic.BuilderMainMethod;
-import edu.wm.cs.masc.mutation.operators.OperatorType;
 //import masc.edu.wm.cs.mascDeprecated.operator.restrictive.stringoperator.*;
 import edu.wm.cs.masc.mutation.properties.StringOperatorProperties;
 import edu.wm.cs.masc.mutation.suppliers.MutationSupplier;
@@ -26,7 +20,7 @@ public class StringOperatorMutationMaker extends AMutationMaker {
 //                new StringCaseTransform(p));
 //        operators.put(OperatorType.StringValueInVariable,
 //                new ValueInVariable(p));
-        operators = new MutationSupplier(p).getOperators(p.getLeftOutOperators());
+        operators = new MutationSupplier(p).getOperators(p.getExcludedOperators());
     }
 
     public StringOperatorMutationMaker(StringOperatorProperties p) {
