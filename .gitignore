@@ -30,7 +30,13 @@ modules/static/assets/yarn.lock
 modules/static/assets/.temp
 modules/static/properties/previous_jar/app-all.jar
 modules/static/properties/app/outputs
+modules/static/plugins
+modules/static/properties/libs4ast
 
 MainScope.log
 
 app/outputs
+
+plugins
+plugins-inactive
+libs4ast
