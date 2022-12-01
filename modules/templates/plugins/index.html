@@ -1,0 +1,83 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="container pb-2 pt-4">
+    <div class="row">
+        <div class="col-xl-9 col-lg-9">
+            <h2 class="title">🧩 Custom Plugins</h2>
+            <div>
+            <span>
+                Create and Upload Your Mutation Operators and Add Them As Plugins
+            </span>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 pt-4">
+            <div class="d-flex justify-content-end align-items-end">
+                <a href="/plugins/upload" class="btn btn-primary" style="width: 200px;"><b>Upload Custom Plugin</b></a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-xl-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr class="table-dark">
+                            {% for header in headers %}
+                            <th scope="col">{{ header }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for file in records %}
+                        <tr>
+                            <td>{{ file.name }}</td>
+                            <td>{{ file.filename }}</td>
+                            <td>{{ file.status }}</td>
+                            {% if file.compilation == 'false' %}
+                            <td>
+                                {% load bootstrap_icons %}
+
+                                {% bs_icon 'exclamation-circle' color='red' %}
+                            </td>
+                            {% elif file.compilation == 'true' %}
+                            <td>
+                                {{ file.classfile }}
+                            </td>
+                            {% endif %}
+                            <td>
+                                {% if file.compilation == 'false' %}
+                                <a class="btn btn-primary" href="{% url 'compile' id=file.id %}">
+                                    {% load bootstrap_icons %}
+
+                                    {% bs_icon 'google-play' color='white' %}
+                                </a>
+                                {% endif %}
+                                <a class="btn btn-danger" href="{% url 'delete' id=file.id %}">
+                                    {% load bootstrap_icons %}
+
+                                    {% bs_icon 'trash' color='white' %}
+                                </a>
+                                {% if file.status == 'active' %}
+                                <a class="btn btn-danger" href="{% url 'status' id=file.id %}" style="width: 110px;">
+                                    <b>Inactivate</b>
+                                </a>
+                                {% endif %}
+                                {% if file.status != 'active' %}
+                                <a class="btn btn-success" href="{% url 'status' id=file.id %}" style="width: 110px;">
+                                    <b>Activate</b>
+                                </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

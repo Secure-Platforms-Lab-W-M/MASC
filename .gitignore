@@ -36,6 +36,4 @@ MainScope.log
 
 app/outputs
 
-plugins
-plugins-inactive
 libs4ast
