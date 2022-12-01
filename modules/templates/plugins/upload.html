@@ -25,12 +25,12 @@
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Plugin Name</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="name"
+                                <input type="text" class="form-control" id="exampleInputEmail1" name="name" required
                                        aria-describedby="emailHelp" placeholder="Enter Plugin Name">
                             </div>
                             <div class="form-group mt-3">
                                 <label for="fileUpload">Browse</label>
-                                <input type="file" name="file" class="form-control" id="fileUpload" placeholder="Upload File">
+                                <input type="file" name="file" class="form-control" id="fileUpload" required placeholder="Upload File">
                             </div>
                             <div class="d-flex justify-content-center align-items-center">
                                 <button type="submit" class="btn btn-primary mt-3">Upload</button>
