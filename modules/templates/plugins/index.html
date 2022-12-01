@@ -13,7 +13,7 @@
         </div>
         <div class="col-xl-3 col-lg-3 pt-4">
             <div class="d-flex justify-content-end align-items-end">
-                <a href="/plugins/upload" class="btn btn-primary">Upload Custom Plugin</a>
+                <a href="/plugins/upload" class="btn btn-primary" style="width: 200px;"><b>Upload Custom Plugin</b></a>
             </div>
         </div>
     </div>
@@ -60,13 +60,13 @@
                                     {% bs_icon 'trash' color='white' %}
                                 </a>
                                 {% if file.status == 'active' %}
-                                <a class="btn btn-danger" href="{% url 'status' id=file.id %}">
-                                    Inactivate
+                                <a class="btn btn-danger" href="{% url 'status' id=file.id %}" style="width: 110px;">
+                                    <b>Inactivate</b>
                                 </a>
                                 {% endif %}
                                 {% if file.status != 'active' %}
-                                <a class="btn btn-success" href="{% url 'status' id=file.id %}">
-                                    Activate
+                                <a class="btn btn-success" href="{% url 'status' id=file.id %}" style="width: 110px;">
+                                    <b>Activate</b>
                                 </a>
                                 {% endif %}
                             </td>
