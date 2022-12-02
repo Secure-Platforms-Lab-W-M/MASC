@@ -16,14 +16,18 @@ import asyncio
 from shutil import make_archive
 from wsgiref.util import FileWrapper
 from django.conf import settings
+from modules.pythonAssets.model import MASCEngineAsset
+from modules.pythonAssets.model import MASCEngineHistoryAsset
+
 import time
 
 # Create your views here.
 
 import threading
 
+
 class thread(threading.Thread):
-    def __init__(self, app_name, build_properties_path,log_id):
+    def __init__(self, app_name, build_properties_path, log_id):
         threading.Thread.__init__(self)
         self.app_name = app_name
         self.build_properties_path = build_properties_path
@@ -37,15 +41,16 @@ class thread(threading.Thread):
     def run(self):
         jar_path = settings.CORE_DIR + '/modules/static/properties/app-all.jar'
         p, status_code, pid = asyncio.run(
-            run('java -jar '+jar_path+' ' + self.build_properties_path))
-        record =ProcessLog.objects.get(id=self.log_id)
-        print('Hello =>'+record.status)
+            run('java -jar ' + jar_path + ' ' + self.build_properties_path))
+        record = ProcessLog.objects.get(id=self.log_id)
+        print('Hello =>' + record.status)
         if status_code == 0:
             record.status = 'completed'
         else:
             record.status = 'failed'
         record.save()
         sys.exit()
+
 
 async def run(cmd):
     print(cmd)
@@ -58,11 +63,11 @@ async def run(cmd):
     utf = 'utf-8'
     status = 'ignore'
     if stdout:
-        print(f'[stdout]\n{stdout.decode(utf,status)}')
-        return stdout.decode(utf,status), proc.returncode, proc.pid
+        print(f'[stdout]\n{stdout.decode(utf, status)}')
+        return stdout.decode(utf, status), proc.returncode, proc.pid
     if stderr:
-        print(f'[stderr]\n{stderr.decode(utf,status)}')
-        return stderr.decode(utf,status), proc.returncode, proc.pid
+        print(f'[stderr]\n{stderr.decode(utf, status)}')
+        return stderr.decode(utf, status), proc.returncode, proc.pid
 
 
 def read_selected_file(f):
@@ -96,7 +101,7 @@ def handle_uploaded_file(f, app_name):
 
 
 async def build_properties(app_name, scope, input_path, contents):
-    initial = 'appName=' + app_name + '\n' + 'scope=' + scope + '\n' + 'appSrc=' + input_path + '\n' + 'outputDir=./app/outputs/'+app_name+'\n'
+    initial = 'appName=' + app_name + '\n' + 'scope=' + scope + '\n' + 'appSrc=' + input_path + '\n' + 'outputDir=./app/outputs/' + app_name + '\n'
     contents = initial + contents
     with open('./modules/static/properties/' + app_name + '.properties', 'w') as destination:
         destination.write(contents)
@@ -105,9 +110,10 @@ async def build_properties(app_name, scope, input_path, contents):
 
 def run_sub_process_masc_engine(build_properties_path, source_code_id, scope):
     source = SourceCode.objects.get(id=source_code_id)
-    data = ProcessLog(properties=build_properties_path, scope=scope, status='running', source_code=source, start_time=datetime.now())
+    data = ProcessLog(properties=build_properties_path, scope=scope, status='running', source_code=source,
+                      start_time=datetime.now())
     data.save()
-    threadMASC = thread(source.appName,build_properties_path,data.id)
+    threadMASC = thread(source.appName, build_properties_path, data.id)
     threadMASC.daemon = True
     threadMASC.start()
     process_data = ProcessLog.objects.get(id=data.id)
@@ -122,7 +128,7 @@ def runMASCEngine(request):
         terminate_class = 'btn btn-danger disabled'
     else:
         terminate_class = 'btn btn-danger'
-    custome_operator_headers = ["Id", "Scope", "Properties", "App Name","Status","Actions"]
+    custome_operator_headers = ["Id", "Scope", "Properties", "App Name", "Status", "Actions"]
     if request.method == 'POST':
         scopes = request.POST['scope']
         properties_file = request.POST['file_name']
@@ -130,19 +136,20 @@ def runMASCEngine(request):
         contents = request.POST['content']
         source_code_id, input_path = handle_uploaded_file(request.FILES['sourcecode'], app_name)
         build_properties_path = asyncio.run(build_properties(app_name, scopes, input_path, contents))
-        run_sub_process_masc_engine(build_properties_path,source_code_id,scopes)
+        run_sub_process_masc_engine(build_properties_path, source_code_id, scopes)
     data = ProcessLog.objects.all().values()
     records = []
     for x in data:
         source = SourceCode.objects.get(id=x['source_code_id'])
         x['source_code'] = source
         arr = x['properties'].split('/')
-        x['properties_name'] = arr[len(arr)-1]
+        x['properties_name'] = arr[len(arr) - 1]
         records.append(x)
     return render(request, "masc-engine/history.html", {
         "custome_operator_headers": custome_operator_headers,
         "records": records,
-        "terminate_class": terminate_class
+        "terminate_class": terminate_class,
+        "assets": MASCEngineHistoryAsset
     })
 
 
@@ -155,49 +162,38 @@ def index(request):
             "scope": scope,
             "filename": properties,
             "content": contents,
+            "assets": MASCEngineAsset
         })
     scopes = ['SELECTIVE', 'EXHAUSTIVE']
     records = PropertiesList.objects.all().values()
     return render(request, "masc-engine/engine.html", {
         "scopes": scopes,
-        "properties_file": records
+        "properties_file": records,
+        "assets": MASCEngineAsset
+
     })
 
 
 def delete_uploaded_file(f):
-    path = './app/outputs/'+f
+    path = './app/outputs/' + f
     if os.path.isdir(path):
-        os.system("rm -rf "+path)
-    if os.path.isfile('./app/outputs/'+f+'./zip'):
-        os.remove('./app/outputs/'+f+'./zip')
+        os.system("rm -rf " + path)
+    if os.path.isfile('./app/outputs/' + f + './zip'):
+        os.remove('./app/outputs/' + f + './zip')
 
 
-def delete_source_code(request,id,name):
+def delete_source_code(request, id, name):
     SourceCode.objects.get(id=id).delete()
     delete_uploaded_file(name)
-    # data = ProcessLog.objects.all().values()
-    # records = []
-    # for x in data:
-    #     source = SourceCode.objects.get(id=x['source_code_id'])
-    #     x['source_code'] = source
-    #     arr = x['properties'].split('/')
-    #     x['properties_name'] = arr[len(arr) - 1]
-    #     records.append(x)
-    # custome_operator_headers = ["Id", "Scope", "Properties", "App Name","Status","Actions"]
-    # return render(request, "masc-engine/history.html", {
-    #     "custome_operator_headers": custome_operator_headers,
-    #     "records": records
-    # })
     return runMASCEngine(request)
 
 
-
 def download(request, app_name):
-    files_path = "./app/outputs/"+app_name
+    files_path = "./app/outputs/" + app_name
     path_to_zip = make_archive(files_path, "zip", files_path)
-    response = HttpResponse(FileWrapper(open(path_to_zip,'rb')), content_type='application/zip')
+    response = HttpResponse(FileWrapper(open(path_to_zip, 'rb')), content_type='application/zip')
     response['Content-Disposition'] = 'attachment; filename="{filename}.zip"'.format(
-        filename = app_name.replace(" ", "_")
+        filename=app_name.replace(" ", "_")
     )
     return response
 
@@ -213,4 +209,3 @@ def terminate(request, threadId, id):
     return runMASCEngine(request)
 
 # Create your views here.
-

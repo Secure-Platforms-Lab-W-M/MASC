@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="d-flex justify-content-center align-items-center welcome">
-   <h2><b>M</b>utation <b>A</b>nalysis for evaluating <b>S</b>tatic <b>C</b>rypto-API misuse detectors</h2>
+    <h2><b>M</b>utation <b>A</b>nalysis for evaluating <b>S</b>tatic <b>C</b>rypto-API misuse detectors</h2>
 </div>
 
 <div class="welcome">
@@ -34,13 +34,17 @@
                     <div class="mb-2">
                         <!-- {% load bootstrap_icons %}
                         {% bs_icon 'cpu' extra_classes="bi-valign-default"%} -->
-                        <span class="card-title mb-0" style="color: black; font-size:22px; margin-left: 5px;"><b>⚡️ MASC Engine</b></span>
+                        <span class="card-title mb-0" style="color: black; font-size:22px; margin-left: 5px;"><b>{{ mascengine.title }}</b></span>
                     </div>
                     <div class="row align-items-center mb-2 d-flex">
-                        <p class="card-text">Mutate your code and analysis the result</p>
+                        <p class="card-text">
+                            {{ masclab.description }}
+                        </p>
                     </div>
                     <div>
-                        <a href="engine/" class="btn btn-primary home-button" style="width: 190px;">Explore MASC Engine</a></div>
+                        <a href="engine/" class="btn btn-primary home-button" style="width: 190px;">
+                            {{ mascengine.home_action }}
+                        </a></div>
                 </div>
             </div>
         </div>
