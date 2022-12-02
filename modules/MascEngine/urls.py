@@ -7,5 +7,6 @@ urlpatterns = [
     path('', views.index, name='MascEngine'),
     path('history', views.runMASCEngine, name='MASCEngine'),
     path('deleteCode/<int:id>/<str:name>', views.delete_source_code, name='deleteCode'),
-    path('download/<str:app_name>', views.download, name='download')
+    path('download/<str:app_name>', views.download, name='download'),
+    path('terminate/<int:threadId>/<int:id>', views.terminate, name='terminate'),
 ]

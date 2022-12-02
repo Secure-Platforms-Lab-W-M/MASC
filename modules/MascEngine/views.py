@@ -3,6 +3,9 @@ import os
 from asgiref.sync import sync_to_async
 from django.http import HttpResponse
 from django.shortcuts import render
+from os import kill
+from os import getpid
+import signal
 
 from modules.CipherManager.models import PropertiesList
 from modules.MascEngine.models import SourceCode
@@ -25,24 +28,24 @@ class thread(threading.Thread):
         self.app_name = app_name
         self.build_properties_path = build_properties_path
         self.log_id = log_id
+        self._stop_event = threading.Event()
         # helper function to execute the threads
 
+    def stop(self):
+        self._stop_event.set()
+
     def run(self):
-        print(str(self.app_name) + " " + str(self.build_properties_path))
         jar_path = settings.CORE_DIR + '/modules/static/properties/app-all.jar'
-        p, status_code = asyncio.run(
+        p, status_code, pid = asyncio.run(
             run('java -jar '+jar_path+' ' + self.build_properties_path))
         record =ProcessLog.objects.get(id=self.log_id)
         print('Hello =>'+record.status)
-        print(settings.BASE_DIR)
-        print(settings.CORE_DIR)
         if status_code == 0:
             record.status = 'completed'
         else:
             record.status = 'failed'
         record.save()
         sys.exit()
-        print(self.is_alive)
 
 async def run(cmd):
     print(cmd)
@@ -51,16 +54,15 @@ async def run(cmd):
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE)
     stdout, stderr = await proc.communicate()
-    print(await proc.communicate())
     print(f'[{cmd!r} exited with {proc.returncode}]')
     utf = 'utf-8'
     status = 'ignore'
     if stdout:
         print(f'[stdout]\n{stdout.decode(utf,status)}')
-        return stdout.decode(utf,status), proc.returncode
+        return stdout.decode(utf,status), proc.returncode, proc.pid
     if stderr:
         print(f'[stderr]\n{stderr.decode(utf,status)}')
-        return stderr.decode(utf,status), proc.returncode
+        return stderr.decode(utf,status), proc.returncode, proc.pid
 
 
 def read_selected_file(f):
@@ -76,6 +78,11 @@ def read_selected_file(f):
 
 
 def handle_uploaded_file(f, app_name):
+    if not os.path.exists('./modules/static/sourcecodes/'):
+        os.makedirs('./modules/static/sourcecodes/')
+    if not os.path.exists('./modules/static/unzippedCodes/'):
+        os.makedirs('./modules/static/unzippedCodes/')
+
     with open('./modules/static/sourcecodes/' + f.name, 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
@@ -101,10 +108,20 @@ def run_sub_process_masc_engine(build_properties_path, source_code_id, scope):
     data = ProcessLog(properties=build_properties_path, scope=scope, status='running', source_code=source, start_time=datetime.now())
     data.save()
     threadMASC = thread(source.appName,build_properties_path,data.id)
+    threadMASC.daemon = True
     threadMASC.start()
+    process_data = ProcessLog.objects.get(id=data.id)
+    process_data.threadId = threading.get_native_id()
+    process_data.save()
+    # print(threading.get_native_id(), threadMASC.getName(), threading.current_thread())
+    # # thread  can be killed using native id
 
 
 def runMASCEngine(request):
+    if sys.platform == 'win32':
+        terminate_class = 'btn btn-danger disabled'
+    else:
+        terminate_class = 'btn btn-danger'
     custome_operator_headers = ["Id", "Scope", "Properties", "App Name","Status","Actions"]
     if request.method == 'POST':
         scopes = request.POST['scope']
@@ -124,7 +141,8 @@ def runMASCEngine(request):
         records.append(x)
     return render(request, "masc-engine/history.html", {
         "custome_operator_headers": custome_operator_headers,
-        "records": records
+        "records": records,
+        "terminate_class": terminate_class
     })
 
 
@@ -157,19 +175,21 @@ def delete_uploaded_file(f):
 def delete_source_code(request,id,name):
     SourceCode.objects.get(id=id).delete()
     delete_uploaded_file(name)
-    data = ProcessLog.objects.all().values()
-    records = []
-    for x in data:
-        source = SourceCode.objects.get(id=x['source_code_id'])
-        x['source_code'] = source
-        arr = x['properties'].split('/')
-        x['properties_name'] = arr[len(arr) - 1]
-        records.append(x)
-    custome_operator_headers = ["Id", "Scope", "Properties", "App Name","Status","Actions"]
-    return render(request, "masc-engine/history.html", {
-        "custome_operator_headers": custome_operator_headers,
-        "records": records
-    })
+    # data = ProcessLog.objects.all().values()
+    # records = []
+    # for x in data:
+    #     source = SourceCode.objects.get(id=x['source_code_id'])
+    #     x['source_code'] = source
+    #     arr = x['properties'].split('/')
+    #     x['properties_name'] = arr[len(arr) - 1]
+    #     records.append(x)
+    # custome_operator_headers = ["Id", "Scope", "Properties", "App Name","Status","Actions"]
+    # return render(request, "masc-engine/history.html", {
+    #     "custome_operator_headers": custome_operator_headers,
+    #     "records": records
+    # })
+    return runMASCEngine(request)
+
 
 
 def download(request, app_name):
@@ -180,5 +200,17 @@ def download(request, app_name):
         filename = app_name.replace(" ", "_")
     )
     return response
+
+
+def terminate(request, threadId, id):
+    record = ProcessLog.objects.get(id=id)
+    for thread in threading.enumerate():
+        if thread.native_id == threadId:
+            signal.pthread_kill(thread.native_id, -9)
+            record.status = 'terminated'
+            print('process terminated')
+            break
+    return runMASCEngine(request)
+
 # Create your views here.
 

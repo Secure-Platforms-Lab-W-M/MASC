@@ -10,6 +10,7 @@ class ProcessLog(models.Model):
     status = models.CharField(max_length=20)
     source_code = models.ForeignKey('SourceCode', on_delete=models.CASCADE)
     start_time = models.DateTimeField(default=datetime.now())
+    threadId = models.CharField(max_length=50, default=-100)
 
 
 class SourceCode(models.Model):

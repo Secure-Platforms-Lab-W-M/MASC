@@ -1,6 +1,12 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
+<style>
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+</style>
 <div class="container pb-2 pt-4">
     <div class="row">
         <div class="col-xl-10 col-lg-10">
@@ -43,6 +49,8 @@
                                 <span class="badge bg-danger">{{ record.status }}</span>
                                 {% elif record.status == 'completed' %}
                                 <span class="badge bg-success">{{ record.status }}</span>
+                                {% elif record.status == 'terminated' %}
+                                <span class="badge bg-info">{{ record.status }}</span>
                                 {% endif %}
                             </td>
                             <td>
@@ -56,6 +64,11 @@
                                 {% if record.status == 'completed' %}
                                 <a class="btn btn-success" href="{% url 'MascEngine:download' app_name=record.source_code.appName %}">
                                     {% bs_icon 'download' color='white' %}
+                                </a>
+                                {% endif %}
+                                {% if record.status == 'running' %}
+                                <a class="{{ terminate_class }}" href="{% url 'MascEngine:terminate' threadId=record.threadId id=record.id %}">
+                                    {% bs_icon 'sign-stop' color='white' %}
                                 </a>
                                 {% endif %}
                             </td>
