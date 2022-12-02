@@ -13,14 +13,16 @@
                 <div class="card-statistic-3 p-4">
                     <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
                     <div class="mb-2">
-                        <span class="card-title mb-0" style="color: black; font-size:22px; margin-left: 5px;"><b>🧪 MASC Lab</b></span>
+                        <span class="card-title mb-0" style="color: black; font-size:22px; margin-left: 5px;"><b>{{ masclab.title }}</b></span>
                     </div>
                     <div class="row align-items-center mb-2 d-flex">
-                        <p class="card-text">Play around with configurations to create mutants!
+                        <p class="card-text">{{ masclab.description }}
                         </p>
                     </div>
                     <div>
-                        <a href="labs/inputForm" class="btn btn-primary home-button" style="width: 190px;">Explore MASC Lab</a>
+                        <a href="labs/inputForm" class="btn btn-primary home-button" style="width: 190px;">
+                            {{ masclab.home_action }}
+                        </a>
                     </div>
                 </div>
             </div>

@@ -13,6 +13,7 @@ from modules.MascLab.forms import IntOperatorForm
 from modules.MascLab.forms import InterProcOperatorForm
 from modules.MascLab.forms import NullOperatorForm
 from modules.MascLab.forms import CheckSave
+from modules.pythonAssets.model import MASCLabAsset
 
 
 async def run(cmd):
@@ -80,7 +81,8 @@ def sanitize_content(initial_content):
     if 'automatedAnalysis' in content:
         return content
     else:
-        return 'automatedAnalysis = false' + '\n'+ content
+        return 'automatedAnalysis = false' + '\n' + content
+
 
 def read_file(f):
     with open('./modules/static/properties/' + f, 'r') as destination:
@@ -134,11 +136,13 @@ def input_Form(request):
             "content": fileinput,
             "selected_type": selected_operator,
             'form': form,
-            "save_check_box": checkform
+            "save_check_box": checkform,
+            "assets": MASCLabAsset
         })
     records = PropertiesList.objects.all().values()
     return render(request, "masc-lab/input-form.html", {
-        "properties_file": records
+        "properties_file": records,
+        "assets": MASCLabAsset
     })
 
 
@@ -176,7 +180,7 @@ def set_up(request):
         else:
             excluded_operator = "empty"
         initial = 'mutantGeneration = true' + '\n' + 'excludedOperators=' + excluded_operator + '\n'
-        contents = initial+sanitize_content(file_content)
+        contents = initial + sanitize_content(file_content)
         update_file_content(properties, contents)
         p = asyncio.run(
             run('java -jar ./modules/static/properties/app-all.jar ./modules/static/properties/' + properties))
@@ -187,5 +191,6 @@ def set_up(request):
         return render(request, "masc-lab/lab.html", {
             "input_code": input_code,
             "output_code": output_code,
-            "stdOut": stdOut
+            "stdOut": stdOut,
+            "assets": MASCLabAsset
         })
