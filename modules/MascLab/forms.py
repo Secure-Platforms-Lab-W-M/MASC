@@ -16,16 +16,13 @@ class StringOperatorForm(forms.Form):
 
 class FlexibleOperatorForm(forms.Form):
     OPTIONS = (
-        ("AIOEmptyFromAbstractType", "AIOEmptyFromAbstractType"),
-        ("AIOEmptyAbstractClassExtendsAbstractClass", "AIOEmptyAbstractClassExtendsAbstractClass"),
-        ("AIOGenericAbstractClassExtendsAbstractClass", "AIOGenericAbstractClassExtendsAbstractClass"),
-        ("AIOSpecificAbstractClassExtendsAbstractClass", "AIOSpecificAbstractClassExtendsAbstractClass"),
+        ("AIOSpecificInterfaceExtendsInterface", "AIOSpecificInterfaceExtendsInterface"),
         ("AIOEmptyInterfaceExtendsInterface", "AIOEmptyInterfaceExtendsInterface"),
-        ("AIOEmptyAbstractClassImplementsInterface", "AIOEmptyAbstractClassImplementsInterface"),
+        ("AIOSpecificAbstractClassImplementsInterface", "AIOSpecificAbstractClassImplementsInterface"),
         ("AIOGenericAbstractClassImplementsInterface", "AIOGenericAbstractClassImplementsInterface"),
         ("AIOGenericInterfaceExtendsInterface", "AIOGenericInterfaceExtendsInterface"),
-        ("AIOSpecificAbstractClassImplementsInterface", "AIOSpecificAbstractClassImplementsInterface"),
-        ("AIOSpecificInterfaceExtendsInterface", "AIOSpecificInterfaceExtendsInterface"),
+        ("AIOEmptyFromAbstractType", "AIOEmptyFromAbstractType"),
+        ("AIOEmptyAbstractClassImplementsInterface", "AIOEmptyAbstractClassImplementsInterface")
     )
     Operators_List = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
                                                choices=OPTIONS)

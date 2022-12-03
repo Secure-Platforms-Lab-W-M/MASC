@@ -77,7 +77,7 @@ def read_values_from_file(f):
                 scope = "SIMILARITY"
             elif 'EXHAUSTIVE' in value:
                 scope = "EXHAUSTIVE"
-        elif 'type' in line.lower():
+        elif 'type' in line.lower() and "=" in line:
             type = line.replace(" ", "").split("=")[1]
     return scope, type
 

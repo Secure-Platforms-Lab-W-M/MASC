@@ -1,4 +1,12 @@
+import os
+import zipfile
 from asyncio import subprocess
+from io import BytesIO
+from shutil import make_archive
+from wsgiref.util import FileWrapper
+from zipfile import ZipFile
+
+from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -194,3 +202,36 @@ def set_up(request):
             "stdOut": stdOut,
             "assets": MASCLabAsset
         })
+
+
+def get_output_paths_for_download():
+    outputPaths = []
+    with open('./MainScope.log', 'r') as destination:
+        contents = destination.readlines()
+    for line in contents:
+        if "[OutputPath]" in line:
+            x = line.split('#')
+            path = x[len(x) - 1].strip('\n')
+            h = path.split('/')
+            h.pop()
+            outputPaths.append("/".join(h))
+    return outputPaths
+
+
+def download(request):
+    folders = get_output_paths_for_download()
+    byte_data = BytesIO()
+    zip_file = zipfile.ZipFile(byte_data, "w")
+
+    for folder in folders:
+        for dirpath, dirnames, filenames in os.walk(folder):
+            for filename in filenames:
+                zip_file.write(
+                    os.path.join(dirpath, filename),
+                    os.path.relpath(os.path.join(dirpath, filename), os.path.join(folders[0], '../..')))
+    zip_file.close()
+
+    response = HttpResponse(byte_data.getvalue(), content_type='application/zip')
+    response['Content-Disposition'] = 'attachment; filename=mutation.zip'
+
+    return response
