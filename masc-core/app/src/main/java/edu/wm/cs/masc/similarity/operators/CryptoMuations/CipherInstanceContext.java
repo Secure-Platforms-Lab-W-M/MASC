@@ -11,13 +11,13 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 import java.util.HashMap;
 
 public class CipherInstanceContext implements ASimilarityContext {
-    AOperatorProperties stringOperator;
+    StringOperatorProperties stringOperator;
     AMutationMaker stringMuationMaker;
 
     public CipherInstanceContext(String path) {
         try {
             this.stringOperator = new StringOperatorProperties(path);
-            this.stringMuationMaker = new StringOperatorMutationMaker((StringOperatorProperties) this.stringOperator);
+            this.stringMuationMaker = new StringOperatorMutationMaker(this.stringOperator);
             this.stringMuationMaker.populateOperators();
         } catch (ConfigurationException e) {
             throw new RuntimeException(e);
@@ -32,9 +32,21 @@ public class CipherInstanceContext implements ASimilarityContext {
     @Override
     public String mutation() {
         StringBuilder sb = new StringBuilder();
+        int i = 1;
         for (OperatorType operatorType : this.getOperators().keySet()) {
-            System.out.println(this.getOperators().get(operatorType).mutation());
+            sb.append(this.stringOperator.getApiName()).append(" ").append(this.stringOperator.getVariableName()).append(i)
+                    .append(" = ").append(this.getOperators().get(operatorType).mutation()).append(";\n");
+            i++;
         }
-        return null;
+        sb.append(this.stringOperator.getApiName()).append(" ").append(this.stringOperator.getVariableName()).append(i)
+                .append(" = ").append( this.stringOperator.getApiName())
+                .append(".")
+                .append(this.stringOperator.getInvocation())
+                .append("(\"")
+                .append(this.stringOperator.getInsecureParam())
+                .append("\");\n");
+        i++;
+        sb.append(";\n");
+        return sb.toString();
     }
 }
