@@ -4,6 +4,7 @@ class PropertiesList(models.Model):
     name = models.CharField(max_length=200)
     filename = models.CharField(max_length=100, db_index=True, default="any.properties")
     path = models.CharField(max_length=500)
-    type = models.CharField(max_length=50)
+    type = models.CharField(max_length=50, default="Unspecified")
+    scope = models.CharField(max_length=50, default="MAIN")
 
 # Create your models here.
