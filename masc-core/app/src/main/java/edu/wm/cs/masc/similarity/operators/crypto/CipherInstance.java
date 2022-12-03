@@ -4,13 +4,9 @@ import edu.wm.cs.masc.mutation.operators.OperatorType;
 import edu.wm.cs.masc.similarity.operators.CryptoMuations.CipherInstanceContext;
 
 public class CipherInstance extends ACryptoMutationOperator {
-    public CipherInstanceContext ci = new CipherInstanceContext("SSLContextStringOperator.properties");
+    public CipherInstanceContext ci = new CipherInstanceContext("DefaultSimilarityCipherContext.properties");
     @Override
     protected String getMutatedLine() {
-
-        for (OperatorType operatorType : ci.getOperators().keySet()) {
-            System.out.println(ci.getOperators().get(operatorType).mutation());
-        }
 
         // valuue in variable
         String mutatedLine = "Cipher ciPHerExample1 = Cipher.getInstance(\"de$s\".replace(\"$\", \"\"));\n";

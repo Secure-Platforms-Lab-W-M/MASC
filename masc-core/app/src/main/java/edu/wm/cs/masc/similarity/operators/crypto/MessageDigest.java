@@ -1,20 +1,19 @@
 package edu.wm.cs.masc.similarity.operators.crypto;
 
 import edu.wm.cs.masc.mutation.operators.OperatorType;
+import edu.wm.cs.masc.similarity.operators.CryptoMuations.ASimilarityContext;
 import edu.wm.cs.masc.similarity.operators.CryptoMuations.MessageDigestContext;
 
 public class
 MessageDigest extends ACryptoMutationOperator{
-    public MessageDigestContext mdc = new MessageDigestContext("SSLContextStringOperator.properties");
+    public ASimilarityContext mdc = new MessageDigestContext("DefaultSimilarityMessageDigest.properties");
     @Override
     protected String getMutatedLine() {
-        for (OperatorType operatorType : mdc.getOperators().keySet()) {
-            System.out.println(mdc.getOperators().get(operatorType).mutation());
-        }
         return "MessageDigest cryptoDigest;\n" +
                 "        try {\n" +
-                "            cryptoDigest = MessageDigest.getInstance(\"SHA-256\".replace(\"SHA-256\", \"md5\"));\n" +
-                "            System.out.println(cryptoDigest.getAlgorithm());\n" +
+//                "            cryptoDigest = MessageDigest.getInstance(\"SHA-256\".replace(\"SHA-256\", \"md5\"));\n" +
+//                "            System.out.println(cryptoDigest.getAlgorithm());\n" +
+                mdc.mutation() +
                 "\n" +
                 "        } catch (NoSuchAlgorithmException e) {\n" +
                 "            System.out.println(\"Error\");\n" +

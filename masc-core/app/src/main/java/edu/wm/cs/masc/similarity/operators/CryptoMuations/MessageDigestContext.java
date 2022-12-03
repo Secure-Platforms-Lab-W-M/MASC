@@ -10,14 +10,14 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.util.HashMap;
 
-public class MessageDigestContext {
-    AOperatorProperties stringOperator;
+public class MessageDigestContext implements ASimilarityContext {
+    StringOperatorProperties stringOperator;
     AMutationMaker stringMuationMaker;
 
     public MessageDigestContext(String path){
         try {
             this.stringOperator = new StringOperatorProperties(path);
-            this.stringMuationMaker = new StringOperatorMutationMaker((StringOperatorProperties) this.stringOperator);
+            this.stringMuationMaker = new StringOperatorMutationMaker(this.stringOperator);
             this.stringMuationMaker.populateOperators();
         } catch (ConfigurationException e) {
             throw new RuntimeException(e);
@@ -25,5 +25,21 @@ public class MessageDigestContext {
     }
     public HashMap<OperatorType, IOperator> getOperators(){
         return this.stringMuationMaker.operators;
+    }
+
+    @Override
+    public String mutation() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.stringOperator.getVariableName())
+                .append(" = ");
+        for (OperatorType operatorType : this.getOperators().keySet()) {
+            sb.append(this.getOperators().get(operatorType).mutation());
+        }
+        sb.append(";\n");
+        sb.append("System.out.println(")
+                .append(this.stringOperator.getVariableName())
+                .append(".getAlgorithm()")
+                .append(");\n");
+        return sb.toString();
     }
 }

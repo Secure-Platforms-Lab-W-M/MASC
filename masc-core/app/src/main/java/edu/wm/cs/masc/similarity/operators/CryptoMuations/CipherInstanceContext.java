@@ -10,7 +10,7 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.util.HashMap;
 
-public class CipherInstanceContext {
+public class CipherInstanceContext implements ASimilarityContext {
     AOperatorProperties stringOperator;
     AMutationMaker stringMuationMaker;
 
@@ -29,4 +29,12 @@ public class CipherInstanceContext {
     }
 
 
+    @Override
+    public String mutation() {
+        StringBuilder sb = new StringBuilder();
+        for (OperatorType operatorType : this.getOperators().keySet()) {
+            System.out.println(this.getOperators().get(operatorType).mutation());
+        }
+        return null;
+    }
 }
