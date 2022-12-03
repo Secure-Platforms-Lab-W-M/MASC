@@ -8,7 +8,6 @@ public class IvParameterSpec extends ACryptoMutationOperator {
     @Override
     protected String getMutatedLine() {
 
-        System.out.println("*******************************IvParameterSpec COntext*************************************************");
 //        String mutatedLine="String cipherVAL=\"\";\n"+
 //            "for(int i = 65; i<75; i++){\n"+
 //                "cipherVAL+=(char)(i);\n"+

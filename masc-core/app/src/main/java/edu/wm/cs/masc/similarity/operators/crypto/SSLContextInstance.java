@@ -10,7 +10,6 @@ public class SSLContextInstance extends ACryptoMutationOperator {
     @Override
     protected String getMutatedLine() {
 
-        System.out.println("*******************************SSL COntext*************************************************");
         return "try {\n" +
 //                "   SSLContext cryptoContext = SSLContext.getInstance(\"SSL\");\n" +
 //                "   System.out.println(cryptoContext.getProtocol());\n" +

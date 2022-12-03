@@ -86,7 +86,6 @@ public abstract class ACryptoMutationOperator implements MutationOperator {
 
         //String mutatedLine = sub1 + "Cipher.getInstance(\"AES\".replace(\"A\", \"D\"));"  + sub2;
         String mutatedLine = getMutatedLine();
-        System.out.println(mutatedLine);
 
         newLines.add(mutatedLine);
 
