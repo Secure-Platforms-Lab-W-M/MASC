@@ -74,12 +74,15 @@ def read_selected_file(f):
     with open('./modules/static/properties/' + f, 'r') as destination:
         item = destination.read().split("\n")
     content = ''
+    scope = ''
     for line in item:
         if 'scope' in line.lower() or 'appsrc' in line.lower() or 'outputdir' in line.lower() or 'appname' in line.lower():
+            if 'scope' in line.lower():
+                scope = line.split("=")[1]
             continue
         else:
             content = content + line + '\n'
-    return content
+    return content, scope
 
 
 def handle_uploaded_file(f, app_name):
@@ -155,19 +158,17 @@ def runMASCEngine(request):
 
 def index(request):
     if request.method == 'POST':
-        scope = request.POST['scopes']
+        # scope = request.POST['scopes']
         properties = request.POST['properties']
-        contents = read_selected_file(properties)
+        contents, scope = read_selected_file(properties)
         return render(request, "masc-engine/engine-details.html", {
             "scope": scope,
             "filename": properties,
             "content": contents,
             "assets": MASCEngineAsset
         })
-    scopes = ['SELECTIVE', 'EXHAUSTIVE']
-    records = PropertiesList.objects.all().values()
+    records = PropertiesList.objects.filter().exclude(scope='MAIN')
     return render(request, "masc-engine/engine.html", {
-        "scopes": scopes,
         "properties_file": records,
         "assets": MASCEngineAsset
 
