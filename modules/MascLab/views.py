@@ -139,7 +139,7 @@ def input_Form(request):
             "save_check_box": checkform,
             "assets": MASCLabAsset
         })
-    records = PropertiesList.objects.all().values()
+    records = PropertiesList.objects.filter(scope='MAIN')
     return render(request, "masc-lab/input-form.html", {
         "properties_file": records,
         "assets": MASCLabAsset
