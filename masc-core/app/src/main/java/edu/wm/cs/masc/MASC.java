@@ -154,6 +154,7 @@ public class MASC {
         }
 
         if (m != null)
+            System.out.println("hello from make");
             m.make(p);
 
         pluginOperatorsMutationMaker.make(p);

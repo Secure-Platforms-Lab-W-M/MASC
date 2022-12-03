@@ -47,6 +47,7 @@ public abstract class AMutationMaker {
         populateOperators();
         for (OperatorType operatorType : operators.keySet()) {
             String content = getContent(operatorType, p);
+            logger.trace("make");
             writeOutput(p.getOutputDir(), operatorType,
                     p.getClassName() + ".java",
                     content.replaceAll("%d", ""));

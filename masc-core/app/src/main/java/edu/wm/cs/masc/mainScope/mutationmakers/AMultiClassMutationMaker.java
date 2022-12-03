@@ -7,6 +7,10 @@ import edu.wm.cs.masc.utils.file.FilePack;
 
 import java.io.File;
 import java.util.ArrayList;
+import edu.wm.cs.masc.logger.LocalLogger;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Is abstract mutation maker that involves creating instances of mutation
@@ -15,7 +19,7 @@ import java.util.ArrayList;
 public abstract class AMultiClassMutationMaker extends AMutationMaker {
 
     ArrayList<FilePack> filePacks;
-
+    private static Logger logger = LogManager.getLogger(AMutationMaker.class);
 
     public void setFilepacks(ArrayList<FilePack> filePacks) {
         this.filePacks = filePacks;
@@ -49,7 +53,10 @@ public abstract class AMultiClassMutationMaker extends AMutationMaker {
                             String content) {
         String dir_path = path + File.separator + type.name() + File.separator;
         if (!CustomFileWriter.WriteFile(dir_path, fileName, content)) {
-            System.out.println("Something went wrong, check stack trace");
+            logger.trace("Something went wrong, check stack trace");
+        } else {
+            // Special logger for front end parsing
+            LocalLogger.getLocalLogger().info("[OutputPath]#"+path+"/"+type.name()+"/"+fileName);
         }
     }
 
