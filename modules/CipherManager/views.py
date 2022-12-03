@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from modules.pythonAssets.model import CipherManagerAsset
 from modules.pythonAssets.model import EditConfigurationsAsset
+from modules.pythonAssets.model import ConfigurationThanksAsset
 
 
 def index(request):
@@ -73,7 +74,9 @@ def uploadPropertyForm(request):
         path = handle_uploaded_file(request.FILES['file'])  # path from masc core shall be added
         data = PropertiesList(name=name, type=ptype, filename=filename, path=path);
         data.save()
-        return render(request, 'CipherManager/thanks.html')
+        return render(request, 'CipherManager/thanks.html',{
+            "assets": ConfigurationThanksAsset
+        })
     list_of_operators = ["StringOperator", "ByteOperator", "InterprocOperator", "Flexible", "IntOperator"]
     return render(request, "CipherManager/uploadProperty.html", {
         "list_of_operators": list_of_operators,

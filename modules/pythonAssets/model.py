@@ -19,7 +19,7 @@ class MASCEngineHistoryAsset:
 
 class CipherManagerAsset:
     title = "🧰 Configurations Manager"
-    description = "List of all configurations available to MASC"
+    description = "Manage all of your configurations available"
     upload_description = "Upload new Configuration file"
     home_action = "Explore Configurations"
 
@@ -27,3 +27,32 @@ class CipherManagerAsset:
 class EditConfigurationsAsset:
     title = "🧰 Edit Configurations"
     description = "Update Configuration File & Save Changes"
+
+
+class ConfigurationThanksAsset:
+    title = "File Successfully Uploaded"
+    description = "Your uploaded Configuration file has been saved"
+    home_action = "Get List of Configuration Files"
+
+
+class PluginManagerAssets:
+    title = "🧩 Plugin Manager"
+    description = "Use your plugins to inspect changes of MASC"
+    home_action = "Explore Plugins"
+
+
+class CustomPluginsAssets:
+    title = "🧩 Plugin Manager"
+    description = "Create and Upload Your Mutation Operators and Add Them As Plugins"
+    home_action = "Upload Custom Plugin"
+
+
+class UploadPluginsAssets:
+    title = "🧩 Plugin Manager"
+    description = "Upload your desired java plugin"
+
+
+class PluginsThanksAsset:
+    title = "File Successfully Uploaded"
+    description = "Your uploaded plugin has been saved"
+    home_action = "Get List of Plugins"

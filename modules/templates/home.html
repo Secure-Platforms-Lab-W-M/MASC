@@ -58,13 +58,13 @@
                 <div class="card-statistic-3 p-4">
                     <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
                     <div class="mb-2">
-                        <span class="card-title mb-0" style="color: black; font-size:22px; margin-left: 5px;"><b>🧩 Plugin Manager</b></span>
+                        <span class="card-title mb-0" style="color: black; font-size:22px; margin-left: 5px;"><b>{{ plugins.title }}</b></span>
                     </div>
                     <div class="row align-items-center mb-2 d-flex">
-                        <p class="card-text">Use your plugins to inspect changes of MASC</p>
+                        <p class="card-text">{{ plugins.description }}</p>
                     </div>
                     <div>
-                        <a href="plugins/" class="btn btn-primary home-button" style="width: 190px;">Explore Plugins</a>
+                        <a href="plugins/" class="btn btn-primary home-button" style="width: 190px;">{{ plugins.home_action }}</a>
                     </div>
                 </div>
             </div>
@@ -90,13 +90,13 @@
                 <div class="card-statistic-3 p-4">
                     <div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>
                     <div class="mb-2">
-                        <span class="card-title mb-0" style="color: black; font-size:22px; margin-left: 5px;"><b>🧰 Configurations Manager</b></span>
+                        <span class="card-title mb-0" style="color: black; font-size:22px; margin-left: 5px;"><b>{{ configuration.title}}</b></span>
                     </div>
                     <div class="row align-items-center mb-2 d-flex">
-                        <p class="card-text">Manage all of your configurations</p>
+                        <p class="card-text">{{ configuration.description }}</p>
                     </div>
                     <div>
-                        <a href="properties" class="btn btn-primary" style="width: 190px;">Explore Configurations</a>
+                        <a href="properties" class="btn btn-primary" style="width: 190px;">{{ configuration.home_action }}</a>
                     </div>
                 </div>
             </div>

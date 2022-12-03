@@ -5,6 +5,9 @@ from django.shortcuts import render, redirect
 
 from modules.plugins.models import PluginsList
 import asyncio
+from modules.pythonAssets.model import UploadPluginsAssets
+from modules.pythonAssets.model import CustomPluginsAssets
+from modules.pythonAssets.model import PluginsThanksAsset
 
 
 # Create your views here.
@@ -33,7 +36,8 @@ def index(request):
     records = PluginsList.objects.all().values()
     return render(request, "plugins/index.html", {
         "headers": files_header,
-        "records": records
+        "records": records,
+        "assets": CustomPluginsAssets
     })
 
 
@@ -44,7 +48,7 @@ def handle_uploaded_file(f):
     return destination.name
 
 
-def delete_uploaded_file(f,c):
+def delete_uploaded_file(f, c):
     path = './plugins/' + f
     class_path = './plugins/' + c
     if os.path.isfile(path):
@@ -67,19 +71,23 @@ def uploadPlugins(request):
         path = handle_uploaded_file(request.FILES['file'])  # path from masc core shall be added
         data = PluginsList(name=name, filename=filename, path=path);
         data.save()
-        return render(request, 'plugins/thanks.html')
+        return render(request, 'plugins/thanks.html', {
+            "asstes": PluginsThanksAsset
+        })
     # list_of_operators = ["StringOperator","ByteOperator", "InterprocOperator", "Flexible", "IntOperator"]
-    return render(request, "plugins/upload.html")
+    return render(request, "plugins/upload.html", {
+        "assets": UploadPluginsAssets
+    })
 
 
 def compile_class(request, id):
     record = PluginsList.objects.get(id=id)
     status_code = asyncio.run(
-         run('javac -cp ./modules/static/properties/app-all.jar ./plugins/'+record.filename))
+        run('javac -cp ./modules/static/properties/app-all.jar ./plugins/' + record.filename))
     print(status_code)
     if status_code == None:
         record.compilation = 'true'
-        record.classfile = record.filename.split('.')[0]+'.class'
+        record.classfile = record.filename.split('.')[0] + '.class'
     record.save()
     return redirect(index)
 
@@ -87,14 +95,12 @@ def compile_class(request, id):
 def update_status(request, id):
     record = PluginsList.objects.get(id=id)
     if record.status == 'active':
-        if os.path.isfile('./plugins/'+record.classfile):
-            shutil.move('./plugins/'+record.classfile,'./plugins-inactive/'+record.classfile)
+        if os.path.isfile('./plugins/' + record.classfile):
+            shutil.move('./plugins/' + record.classfile, './plugins-inactive/' + record.classfile)
         record.status = 'inactive'
     else:
         if os.path.isfile('./plugins-inactive/' + record.classfile):
-            shutil.move('./plugins-inactive/' + record.classfile,'./plugins/' + record.classfile)
+            shutil.move('./plugins-inactive/' + record.classfile, './plugins/' + record.classfile)
         record.status = 'active'
     record.save()
     return redirect(index)
-
-
