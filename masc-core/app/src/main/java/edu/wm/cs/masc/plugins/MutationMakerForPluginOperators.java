@@ -2,6 +2,7 @@ package edu.wm.cs.masc.plugins;
 
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
+import edu.wm.cs.masc.logger.LocalLogger;
 import edu.wm.cs.masc.mainScope.mutationmakers.AMutationMaker;
 import edu.wm.cs.masc.mutation.builders.generic.BuilderMainClass;
 import edu.wm.cs.masc.mutation.builders.generic.BuilderMainMethod;
@@ -80,6 +81,9 @@ public class MutationMakerForPluginOperators {
         String dir_path = path + File.separator + name + File.separator;
         if (!CustomFileWriter.WriteFile(dir_path, fileName, content)) {
             logger.trace("Something went wrong, check stack trace");
+        }else {
+            // Special logger for front end parsing
+            LocalLogger.getLocalLogger().info("[OutputPath]#"+dir_path+"/"+fileName);
         }
     }
 }

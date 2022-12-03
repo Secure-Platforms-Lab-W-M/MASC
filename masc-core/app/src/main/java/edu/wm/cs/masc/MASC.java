@@ -63,7 +63,7 @@ public class MASC {
             runExhaustiveScope(reader);
         }
         // MASC Selective Layer
-        else if (scope.equalsIgnoreCase("SELECTIVE")) {
+        else if (scope.equalsIgnoreCase("SIMILARITY")) {
             logger.trace("Similarity scope selected");
             runSelectiveScope(reader);
         }
