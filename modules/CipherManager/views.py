@@ -10,7 +10,7 @@ from modules.pythonAssets.model import ConfigurationThanksAsset
 
 
 def index(request):
-    uploaded_files_header = ["Id", "Name", "File Name", "Path", "Type", "Actions"]
+    uploaded_files_header = ["Id", "Name", "File Name", "Scope", "Type", "Actions"]
     records = PropertiesList.objects.all().values()
     return render(request, "CipherManager/index.html", {
         "uploaded_files_header": uploaded_files_header,
@@ -24,7 +24,10 @@ def editProperties(request, id):
     if request.method == "POST":
         filename = record.filename
         file_content = request.POST["content"]
-        update_file_content(filename, file_content)
+        scope, type = update_file_content(filename, file_content)
+        record.scope = scope
+        record.type = type
+        record.save()
         return redirect(index)
         # edit requested
     property_name = record.name
@@ -50,13 +53,33 @@ def update_file_content(filename, content):
     arr = bytes(content, 'utf-8')
     with open('./modules/static/properties/' + filename, 'wb') as destination:
         destination.write(arr)
-
+    scope, type = read_values_from_file(filename)
+    return scope, type
 
 def handle_uploaded_file(f):
     with open('./modules/static/properties/' + f.name, 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
     return destination.name
+
+
+def read_values_from_file(f):
+    with open('./modules/static/properties/' + f, 'r') as destination:
+        item = destination.read().split("\n")
+    scope = ""
+    type = "unspecified"
+    for line in item:
+        if 'scope' in line.lower():
+            value = line.split("=")[1]
+            if 'MAIN' in value:
+                scope = "MAIN"
+            elif 'SIMILARITY' in value:
+                scope = "SIMILARITY"
+            elif 'EXHAUSTIVE' in value:
+                scope = "EXHAUSTIVE"
+        elif 'type' in line.lower():
+            type = line.replace(" ", "").split("=")[1]
+    return scope, type
 
 
 def delete_uploaded_file(f):
@@ -68,18 +91,18 @@ def delete_uploaded_file(f):
 def uploadPropertyForm(request):
     if request.method == 'POST':
         name = request.POST['name']
-        ptype = request.POST['type']
-        print(ptype)
+        # ptype = request.POST['type']
         filename = request.FILES['file'].name
         path = handle_uploaded_file(request.FILES['file'])  # path from masc core shall be added
-        data = PropertiesList(name=name, type=ptype, filename=filename, path=path);
+        scope, ptype = read_values_from_file(filename)
+        data = PropertiesList(name=name, type=ptype, filename=filename, path=path, scope=scope)
         data.save()
-        return render(request, 'CipherManager/thanks.html',{
+        return render(request, 'CipherManager/thanks.html', {
             "assets": ConfigurationThanksAsset
         })
-    list_of_operators = ["StringOperator", "ByteOperator", "InterprocOperator", "Flexible", "IntOperator"]
+    # list_of_operators = ["StringOperator", "ByteOperator", "InterprocOperator", "Flexible", "IntOperator"]
     return render(request, "CipherManager/uploadProperty.html", {
-        "list_of_operators": list_of_operators,
+        # "list_of_operators": list_of_operators,
         "assets": CipherManagerAsset
     })
 
