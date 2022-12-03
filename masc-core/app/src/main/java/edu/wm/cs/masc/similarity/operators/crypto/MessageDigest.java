@@ -1,7 +1,7 @@
 package edu.wm.cs.masc.similarity.operators.crypto;
 
 import edu.wm.cs.masc.mutation.operators.OperatorType;
-import edu.wm.cs.masc.similarity.operators.CryptoMuationProperties.MessageDigestContext;
+import edu.wm.cs.masc.similarity.operators.CryptoMuations.MessageDigestContext;
 
 public class
 MessageDigest extends ACryptoMutationOperator{

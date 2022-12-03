@@ -1,21 +1,20 @@
 package edu.wm.cs.masc.similarity.operators.crypto;
 
-import edu.wm.cs.masc.mutation.operators.OperatorType;
-import edu.wm.cs.masc.similarity.operators.CryptoMuationProperties.SSLContext;
+import edu.wm.cs.masc.similarity.operators.CryptoMuations.ASimilarityContext;
+import edu.wm.cs.masc.similarity.operators.CryptoMuations.SSLContext;
 
 public class SSLContextInstance extends ACryptoMutationOperator {
 
-    public SSLContext ssl = new SSLContext("SSLContextStringOperator.properties");
+    public ASimilarityContext ssl = new SSLContext("DefaultSSLContextStringOperator.properties");
 
     @Override
     protected String getMutatedLine() {
 
-        for (OperatorType operatorType : ssl.getOperators().keySet()) {
-            System.out.println(ssl.getOperators().get(operatorType).mutation());
-        }
+        System.out.println("*******************************SSL COntext*************************************************");
         return "try {\n" +
-                "   SSLContext cryptoContext = SSLContext.getInstance(\"SSL\");\n" +
-                "   System.out.println(cryptoContext.getProtocol());\n" +
+//                "   SSLContext cryptoContext = SSLContext.getInstance(\"SSL\");\n" +
+//                "   System.out.println(cryptoContext.getProtocol());\n" +
+                 ssl.mutation() +
                 "} catch (NoSuchAlgorithmException e) {\n" +
                 "   System.out.println(\"Error\");\n" +
                 "}";

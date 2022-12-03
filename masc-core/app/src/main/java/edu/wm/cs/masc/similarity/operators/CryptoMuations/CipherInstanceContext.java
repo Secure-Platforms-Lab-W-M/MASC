@@ -1,4 +1,4 @@
-package edu.wm.cs.masc.similarity.operators.CryptoMuationProperties;
+package edu.wm.cs.masc.similarity.operators.CryptoMuations;
 
 import edu.wm.cs.masc.mainScope.mutationmakers.AMutationMaker;
 import edu.wm.cs.masc.mainScope.mutationmakers.StringOperatorMutationMaker;
@@ -10,11 +10,11 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.util.HashMap;
 
-public class SSLContext{
+public class CipherInstanceContext {
     AOperatorProperties stringOperator;
     AMutationMaker stringMuationMaker;
 
-    public SSLContext(String path){
+    public CipherInstanceContext(String path) {
         try {
             this.stringOperator = new StringOperatorProperties(path);
             this.stringMuationMaker = new StringOperatorMutationMaker((StringOperatorProperties) this.stringOperator);
@@ -23,7 +23,10 @@ public class SSLContext{
             throw new RuntimeException(e);
         }
     }
-    public HashMap<OperatorType, IOperator> getOperators(){
+
+    public HashMap<OperatorType, IOperator> getOperators() {
         return this.stringMuationMaker.operators;
     }
+
+
 }

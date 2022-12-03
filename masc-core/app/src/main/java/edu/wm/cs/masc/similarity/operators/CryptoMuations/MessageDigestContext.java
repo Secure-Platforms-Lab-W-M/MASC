@@ -1,4 +1,4 @@
-package edu.wm.cs.masc.similarity.operators.CryptoMuationProperties;
+package edu.wm.cs.masc.similarity.operators.CryptoMuations;
 
 import edu.wm.cs.masc.mainScope.mutationmakers.AMutationMaker;
 import edu.wm.cs.masc.mainScope.mutationmakers.StringOperatorMutationMaker;

@@ -1,7 +1,7 @@
 package edu.wm.cs.masc.similarity.operators.crypto;
 
 import edu.wm.cs.masc.mutation.operators.OperatorType;
-import edu.wm.cs.masc.similarity.operators.CryptoMuationProperties.CipherInstanceContext;
+import edu.wm.cs.masc.similarity.operators.CryptoMuations.CipherInstanceContext;
 
 public class CipherInstance extends ACryptoMutationOperator {
     public CipherInstanceContext ci = new CipherInstanceContext("SSLContextStringOperator.properties");
