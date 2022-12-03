@@ -15,3 +15,15 @@ class MASCEngineAsset:
 class MASCEngineHistoryAsset:
     title = "⏲️ MASC Engine Status"
     description = "Status of current running and previously ran processes"
+
+
+class CipherManagerAsset:
+    title = "🧰 Configurations Manager"
+    description = "List of all configurations available to MASC"
+    upload_description = "Upload new Configuration file"
+    home_action = "Explore Configurations"
+
+
+class EditConfigurationsAsset:
+    title = "🧰 Edit Configurations"
+    description = "Update Configuration File & Save Changes"
