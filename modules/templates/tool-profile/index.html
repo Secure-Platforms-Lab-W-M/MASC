@@ -1,21 +1,59 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
+{% if alert %}
+    <script>
+        alert("Configuration must contain automatedAnalysis=true");
+    </script>
+{% endif %}
 <div class="container pb-2 pt-4">
     <div class="row">
         <div class="col-xl-10 col-lg-10">
-            <h2 class="title">Tool Profiling</h2>
+            <h2 class="title">{{ assets.title }}</h2>
             <div>
             <span>
-                Test your tools with the mutations of MASC
+                {{ assets.description }}
             </span>
             </div>
         </div>
-        <!--       <div class="col-xl-2 col-lg-2 pt-4">-->
-        <!--        <div class="d-flex justify-content-end align-items-end">-->
-        <!--            <button class="btn btn-primary">Custom Operator</button>-->
-        <!--        </div>-->
-        <!--       </div>-->
+               <div class="col-xl-2 col-lg-2 pt-4">
+                <div class="d-flex justify-content-end align-items-end">
+                    <button class="btn btn-primary" style="width: 110px;"><b>History</b></button>
+                </div>
+               </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-xl-12 col-lg-12">
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="form-group mt-4">
+                            <label for="exampleFormControlSelectProperties"><h5>Select Configuration File</h5>
+                            </label>
+                            <select class="form-control" id="exampleFormControlSelectProperties"
+                                    name="properties">
+                                {% for file in records %}
+                                <option>
+                                    {{ file.filename }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <button type="submit" class="btn btn-warning" style="width: 200px;"><b>Submit Configurations</b></button>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <a href="/properties/upload" class="btn btn-primary" style="width: 200px;"><b>Create Configurations</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

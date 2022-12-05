@@ -56,3 +56,8 @@ class PluginsThanksAsset:
     title = "File Successfully Uploaded"
     description = "Your uploaded plugin has been saved"
     home_action = "Get List of Plugins"
+
+class ToolProfilingAsset:
+    title = "🛠 Tool Profiling"
+    description = "Test your tools with the mutations of MASC"
+    home_action = "Explore Tool Profiling"

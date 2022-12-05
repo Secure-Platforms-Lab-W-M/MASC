@@ -71,7 +71,7 @@ def read_selected_file(f):
         item = destination.read().split("\n")
     content = ''
     for line in item:
-        if 'mutantGeneration' in line or 'excludedOperators' in line:
+        if 'mutantGeneration' in line or 'excludedOperators' in line or 'automatedAnalysis' in line:
             continue
         else:
             content = content + line + '\n'
@@ -82,14 +82,14 @@ def sanitize_content(initial_content):
     item = initial_content.split("\n")
     content = ''
     for line in item:
-        if 'mutantGeneration' in line or 'excludedOperators' in line:
+        if 'mutantGeneration' in line or 'excludedOperators' in line or 'automatedAnalysis' in content:
             continue
         else:
             content = content + line + '\n'
-    if 'automatedAnalysis' in content:
-        return content
-    else:
-        return 'automatedAnalysis = false' + '\n' + content
+    # if 'automatedAnalysis' in content:
+    #     return content
+    # else:
+    #     return 'automatedAnalysis = false' + '\n' + content
 
 
 def read_file(f):
@@ -187,7 +187,7 @@ def set_up(request):
                 excluded_operator = ''.join(operators)
         else:
             excluded_operator = "empty"
-        initial = 'mutantGeneration = true' + '\n' + 'excludedOperators=' + excluded_operator + '\n'
+        initial = 'mutantGeneration = true' + '\n' + 'automatedAnalysis = false' + '\n' + 'excludedOperators=' + excluded_operator + '\n'
         contents = initial + sanitize_content(file_content)
         update_file_content(properties, contents)
         p = asyncio.run(

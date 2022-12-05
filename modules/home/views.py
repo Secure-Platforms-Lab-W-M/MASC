@@ -3,6 +3,7 @@ from modules.pythonAssets.model import MASCLabAsset
 from modules.pythonAssets.model import MASCEngineAsset
 from modules.pythonAssets.model import CipherManagerAsset
 from modules.pythonAssets.model import PluginManagerAssets
+from modules.pythonAssets.model import ToolProfilingAsset
 
 # Create your views here.
 def index(request):
@@ -10,7 +11,8 @@ def index(request):
         "masclab": MASCLabAsset,
         "mascengine": MASCEngineAsset,
         "configuration": CipherManagerAsset,
-        "plugins": PluginManagerAssets
+        "plugins": PluginManagerAssets,
+        "toolProfile": ToolProfilingAsset
     })
 
 

@@ -38,7 +38,7 @@
                     </div>
                     <div class="row align-items-center mb-2 d-flex">
                         <p class="card-text">
-                            {{ masclab.description }}
+                            {{ mascengine.description }}
                         </p>
                     </div>
                     <div>
@@ -69,22 +69,6 @@
                 </div>
             </div>
         </div>
-        <!--            <div class="col-xl-6 col-lg-6" style="padding-right: 10%;">-->
-        <!--                <div class="card l-bg-yellow-dark">-->
-        <!--                    <div class="card-statistic-3 p-4">-->
-        <!--                        <div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>-->
-        <!--                        <div class="mb-4">-->
-        <!--                            <h5 class="card-title mb-0"><b>Tool Profiling</b></h5>-->
-        <!--                        </div>-->
-        <!--                        <div class="row align-items-center mb-2 d-flex">-->
-        <!--                            <p class="card-text">Test your tools with the mutations of MASC</p>-->
-        <!--                        </div>-->
-        <!--                        <div>-->
-        <!--                            <a href="toolprofile/" class="btn btn-primary">Run Tests</a>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--            </div>-->
         <div class="col-xl-6 col-lg-6" style="padding-right: 10%;">
             <div class="card l-bg-yellow-dark">
                 <div class="card-statistic-3 p-4">
@@ -101,6 +85,27 @@
                 </div>
             </div>
         </div>
+
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-lg-3"></div>
+        <div class="col-xl-6 col-lg-6" style="padding-right: 10%;">
+            <div class="card l-bg-custom-dark">
+                <div class="card-statistic-3 p-4">
+                    <div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>
+                    <div class="mb-4">
+                        <h5 class="card-title mb-0"><b>{{ toolProfile.title }}</b></h5>
+                    </div>
+                    <div class="row align-items-center mb-2 d-flex">
+                        <p class="card-text">{{ toolProfile.description }}</p>
+                    </div>
+                    <div>
+                        <a href="toolprofile/" class="btn btn-primary" style="width: 190px;">{{ toolProfile.home_action }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3"></div>
     </div>
 </div>
 
