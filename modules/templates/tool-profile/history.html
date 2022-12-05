@@ -1,0 +1,93 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<style>
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+</style>
+<div class="container pb-2 pt-4">
+    <div class="row">
+        <div class="col-xl-10 col-lg-10">
+            <h2 class="title">{{ assets.title }}</h2>
+            <div>
+            <span>
+                {{ assets.description }}
+            </span>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-2 pt-4">
+            <div class="d-flex justify-content-end align-items-end">
+                <a class="btn btn-warning" style="width: 100px;"
+                href="{% url 'ToolProfile:history' %}"
+                ><b>Refresh</b></a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-xl-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr class="table-dark">
+                            {% for header in custome_operator_headers %}
+                            <th scope="col">{{ header }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <th scope="row">{{ record.id }}</th>
+                            <td scope="row">{{ record.start_time }}</td>
+                            <td scope="row">{{ record.filename }}</td>
+                            <td scope="row"><a style="courser: pointer;" href="{% url 'ToolProfile:profile' tool_name=record.Toolname %}"><b>{{ record.Toolname }}</b></a></td>
+                            <td scope="row">
+                                {% if record.status == 'running' %}
+                                <span class="badge bg-warning">{{ record.status }}</span>
+                                {% elif record.status == 'failed' %}
+                                <span class="badge bg-danger">{{ record.status }}</span>
+                                {% elif record.status == 'completed' %}
+                                <span class="badge bg-success">{{ record.status }}</span>
+                                {% elif record.status == 'terminated' %}
+                                <span class="badge bg-info">{{ record.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <!--                                <a class="btn btn-primary" href="#">Details</a>-->
+                                <a class="btn btn-danger outline"
+                                   href="{% url 'ToolProfile:delete' id=record.id %}">
+                                    {% load bootstrap_icons %}
+
+                                    {% bs_icon 'trash' color='white' %}
+
+                                </a>
+                                {% if record.status == 'completed' %}
+                                <a class="btn btn-success"
+                                   href="{% url 'ToolProfile:detail' id=record.id %}">
+<!--                                    {% bs_icon 'download' color='white' %}-->
+                                📁
+                                </a>
+                                {% endif %}
+<!--                                {% if record.status == 'running' %}-->
+<!--                                <a class="{{ terminate_class }}"-->
+<!--                                   href="{% url 'MascEngine:terminate' threadId=record.threadId id=record.id %}">-->
+<!--                                    {% bs_icon 'sign-stop' color='white' %}-->
+<!--                                </a>-->
+<!--                                {% endif %}-->
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -70,12 +70,12 @@ a.disabled {
                                     {% bs_icon 'download' color='white' %}
                                 </a>
                                 {% endif %}
-                                {% if record.status == 'running' %}
-                                <a class="{{ terminate_class }}"
-                                   href="{% url 'MascEngine:terminate' threadId=record.threadId id=record.id %}">
-                                    {% bs_icon 'sign-stop' color='white' %}
-                                </a>
-                                {% endif %}
+<!--                                {% if record.status == 'running' %}-->
+<!--                                <a class="{{ terminate_class }}"-->
+<!--                                   href="{% url 'MascEngine:terminate' threadId=record.threadId id=record.id %}">-->
+<!--                                    {% bs_icon 'sign-stop' color='white' %}-->
+<!--                                </a>-->
+<!--                                {% endif %}-->
                             </td>
                         </tr>
                         {% endfor %}

@@ -1,0 +1,58 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<style>
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+</style>
+<div class="container pb-2 pt-4">
+    <div class="row">
+        <div class="col-xl-10 col-lg-10">
+            <h2 class="title">{{ tool_name }}</h2>
+        </div>
+        <div class="col-xl-2 col-lg-2 pt-4">
+            <div class="d-flex justify-content-end align-items-end">
+                <a class="btn btn-warning" style="width: 100px;"
+                href="{% url 'ToolProfile:history' %}"
+                ><b>Refresh</b></a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-xl-12 col-lg-12">
+             <div style="margin-bottom: 5px;">
+            <span>
+                {{ start_time }}
+            </span>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr class="table-dark">
+                            {% for header in custome_operator_headers %}
+                            <th scope="col">{{ header }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <th scope="row">{{ record.operator }}</th>
+                            <td scope="row">{{ record.status }}</td>
+                            <td scope="row">{{ record.result }}</td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

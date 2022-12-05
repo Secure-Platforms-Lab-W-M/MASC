@@ -1,11 +1,6 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
-{% if alert %}
-    <script>
-        alert("Configuration must contain automatedAnalysis=true");
-    </script>
-{% endif %}
 <div class="container pb-2 pt-4">
     <div class="row">
         <div class="col-xl-10 col-lg-10">
@@ -18,7 +13,7 @@
         </div>
                <div class="col-xl-2 col-lg-2 pt-4">
                 <div class="d-flex justify-content-end align-items-end">
-                    <button class="btn btn-primary" style="width: 110px;"><b>History</b></button>
+                    <a class="btn btn-primary" href="/toolprofile/history" style="width: 110px;"><b>History</b></a>
                 </div>
                </div>
     </div>

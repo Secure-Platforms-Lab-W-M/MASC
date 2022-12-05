@@ -86,6 +86,7 @@ def sanitize_content(initial_content):
             continue
         else:
             content = content + line + '\n'
+    return content
     # if 'automatedAnalysis' in content:
     #     return content
     # else:
