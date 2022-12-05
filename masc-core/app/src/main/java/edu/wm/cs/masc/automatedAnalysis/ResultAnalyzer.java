@@ -8,6 +8,7 @@ import edu.wm.cs.masc.utils.commandPrompt.CommandPrompt;
 import edu.wm.cs.masc.utils.config.PropertiesReader;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import edu.wm.cs.masc.logger.LocalLogger;
 
 
 import java.io.*;
@@ -31,7 +32,10 @@ public class ResultAnalyzer {
     public void runAnalysis() {
         File file = new File(mutatedAppsLocation);
         File[] files = file.listFiles();
-        System.out.println("\n");
+        for(File f: files) {
+            System.out.println(f.getName());
+        }
+            System.out.println("\n");
         CommandPrompt cp = new CommandPrompt();
 
         if(files != null) {
@@ -39,9 +43,10 @@ public class ResultAnalyzer {
             for(File f: files) {
                 String compileCommand = "cd " + mutatedAppsLocation + "/" + f.getName() + " && " + propertiesReader.codeCompileCommand;
                 CPOutput output = cp.run_command(compileCommand);
-
+                String path = "/"+propertiesReader.outputDIr+"/";
                 if(!output.error) {
-                    CPOutput output2 = cp.run_command( "cd " + propertiesReader.toolLocation + " && " + propertiesReader.getToolRunCommand(f.getName()));
+                    CPOutput output2 = cp.run_command( "cd " + propertiesReader.toolLocation + " && " + propertiesReader.getToolRunCommand(path,f.getName()));
+
                     if(!output2.error) {
                         try {
                             int length;
@@ -53,11 +58,14 @@ public class ResultAnalyzer {
                             if(length == 0)
                             {
                                 System.out.println("\t- Mutant for " + f.getName() + " is UNKILLED");
+                                LocalLogger.getLocalLogger().info("[MutationAnalyzer]#"+f.getName()+"#unkilled");
                                 if(propertiesReader.stopOnUnkilled())
                                     break;
                             }
-                            else
+                            else{
                                 System.out.println("\t- Mutant for " + f.getName() + " is killed");
+                                LocalLogger.getLocalLogger().info("[MutationAnalysis]#"+f.getName()+"#killed");
+                            }
                         } catch (FileNotFoundException e) {
                             System.out.printf("No file by the name of %s in folder %s after tool %s was run%n", propertiesReader.outputFileName, propertiesReader.outputReportDirectory, propertiesReader.toolName);
                             if(propertiesReader.stopOnError())

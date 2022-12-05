@@ -5,7 +5,7 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 
 public class ResultAnalysisPropertiesReader {
     PropertiesReader propertiesReader;
-    String toolName, toolLocation, toolRunCommand;
+    String toolName, toolLocation, toolRunCommand, outputDIr;
     String codeCompileCommand, outputReportDirectory, outputFileName,
             stopCondition;
     String wrapper;
@@ -28,12 +28,13 @@ public class ResultAnalysisPropertiesReader {
         outputReportDirectory = propertiesReader.getValueForAKey("outputReportDirectory");
         outputFileName = propertiesReader.getValueForAKey("outputFileName");
         stopCondition = propertiesReader.getValueForAKey("stopCondition");
+        outputDIr = propertiesReader.getValueForAKey("outputDir");
 
         wrapper = propertiesReader.getValueForAKeyNoInput("wrapper");
     }
 
-    public String getToolRunCommand(String dir) {
-        return toolRunCommand.replace("{}", System.getProperty("user.dir") + "/app/outputs/" + dir);
+    public String getToolRunCommand(String outputDIr,String dir) {
+        return toolRunCommand.replace("{}", System.getProperty("user.dir") + outputDIr + dir);
     }
 
     public String getOutputReportFileWithDir(){
