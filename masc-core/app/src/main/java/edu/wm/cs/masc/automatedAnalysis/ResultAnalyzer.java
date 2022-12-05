@@ -58,13 +58,13 @@ public class ResultAnalyzer {
                             if(length == 0)
                             {
                                 System.out.println("\t- Mutant for " + f.getName() + " is UNKILLED");
-                                LocalLogger.getLocalLogger().info("[MutationAnalyzer]#"+f.getName()+"#unkilled");
+                                System.out.println("[MutationAnalyzer]#"+f.getName()+"#unkilled");
                                 if(propertiesReader.stopOnUnkilled())
                                     break;
                             }
                             else{
                                 System.out.println("\t- Mutant for " + f.getName() + " is killed");
-                                LocalLogger.getLocalLogger().info("[MutationAnalysis]#"+f.getName()+"#killed");
+                                System.out.println("[MutationAnalyzer]#"+f.getName()+"#killed");
                             }
                         } catch (FileNotFoundException e) {
                             System.out.printf("No file by the name of %s in folder %s after tool %s was run%n", propertiesReader.outputFileName, propertiesReader.outputReportDirectory, propertiesReader.toolName);
