@@ -162,7 +162,7 @@ def runToolProfiling(request):
             })
         sanitized_content = sanitize_content(content)
         print(sanitized_content)
-        main_content = "outputDir=app/tools/" + tool_name + '/' + str(uuid.uuid4()).replace("-","") + "\n" + "scope=MAIN" + "\n" + sanitized_content
+        main_content = "outputDir=app/tools/" + tool_name.replace(" ","") + '/' + str(uuid.uuid4()).replace("-","")+ '/' + "\n" + "scope=MAIN" + "\n" + sanitized_content
         build_properties = asyncio.run(update_properties(main_content, properties))
         run_sub_process_tool_profiling(build_properties, tool_name)
         return history(request)
