@@ -22,10 +22,10 @@ async def run(cmd):
     utf = 'utf-8'
     status = 'ignore'
     if stdout:
-        # print(f'[stdout]\n{stdout.decode(utf,status)}')
+        print(f'[stdout]\n{stdout.decode(utf,status)}')
         return proc.returncode
     if stderr:
-        # print(f'[stderr]\n{stderr.decode(utf, status)}')
+        print(f'[stderr]\n{stderr.decode(utf, status)}')
         return proc.returncode
 
 
@@ -72,7 +72,7 @@ def uploadPlugins(request):
         data = PluginsList(name=name, filename=filename, path=path);
         data.save()
         return render(request, 'plugins/thanks.html', {
-            "asstes": PluginsThanksAsset
+            "assets": PluginsThanksAsset
         })
     # list_of_operators = ["StringOperator","ByteOperator", "InterprocOperator", "Flexible", "IntOperator"]
     return render(request, "plugins/upload.html", {
