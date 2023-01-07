@@ -3,6 +3,8 @@ package edu.wm.cs.masc.automatedAnalysis;
 import edu.wm.cs.masc.utils.config.PropertiesReader;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
+import java.io.File;
+
 public class ResultAnalysisPropertiesReader {
     PropertiesReader propertiesReader;
     String toolName, toolLocation, toolRunCommand, outputDIr;
@@ -24,7 +26,10 @@ public class ResultAnalysisPropertiesReader {
         toolName = propertiesReader.getValueForAKey("toolName");
         toolLocation = propertiesReader.getValueForAKey("toolLocation");
         toolRunCommand = propertiesReader.getValueForAKey("toolRunCommand");
-        codeCompileCommand = propertiesReader.getValueForAKey("codeCompileCommand");
+        if(propertiesReader.contains("codeCompileCommand"))
+            codeCompileCommand = propertiesReader.getValueForAKey("codeCompileCommand");
+        else
+            codeCompileCommand = "echo hi";
         outputReportDirectory = propertiesReader.getValueForAKey("outputReportDirectory");
         outputFileName = propertiesReader.getValueForAKey("outputFileName");
         stopCondition = propertiesReader.getValueForAKey("stopCondition");
@@ -33,8 +38,15 @@ public class ResultAnalysisPropertiesReader {
         wrapper = propertiesReader.getValueForAKeyNoInput("wrapper");
     }
 
-    public String getToolRunCommand(String outputDIr,String dir) {
-        return toolRunCommand.replace("{}", System.getProperty("user.dir") + outputDIr + dir);
+    public String getToolRunCommand(String dir) {
+//        return toolRunCommand.replace("{}", System.getProperty("user.dir") + outputDIr + dir);
+        return toolRunCommand.replace("{}", getAbsolutePathOfMutatedAppsDirectory() + "/" + dir);
+
+    }
+
+    public String getAbsolutePathOfMutatedAppsDirectory(){
+        File file = new File(getMutatedAppsLocation());
+        return file.getAbsolutePath();
     }
 
     public String getOutputReportFileWithDir(){

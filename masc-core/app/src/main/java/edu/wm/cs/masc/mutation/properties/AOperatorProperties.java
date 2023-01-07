@@ -8,7 +8,7 @@ public abstract class AOperatorProperties {
 
     protected final String type;
     protected final String outputDir;
-    protected final String apiName;
+    protected String apiName = null;
     protected final String className;
     protected final String excludedOperators;
     protected PropertiesReader reader;
@@ -26,6 +26,9 @@ public abstract class AOperatorProperties {
     }
 
     public String getApiName() {
+        if(apiName == null)
+            apiName = reader.getValueForAKey("apiName");
+
         return apiName;
     }
 
@@ -46,7 +49,7 @@ public abstract class AOperatorProperties {
 
         //outputDir = System.getProperty("user.dir").substring(0,System.getProperty("user.dir").length() - 29) + reader.getValueForAKey("outputDir");
         outputDir = reader.getValueForAKey("outputDir");
-        apiName = reader.getValueForAKey("apiName");
+//        apiName = reader.getValueForAKey("apiName");
         className = reader.getValueForAKey("className");
         excludedOperators = reader.getValueForAKeyNoInput("excludedOperators", "");
 //        reader.getValueForAKey("test");

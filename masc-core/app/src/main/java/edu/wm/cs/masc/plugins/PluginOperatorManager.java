@@ -20,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 public class PluginOperatorManager {
-//    private static final PluginOperatorManager SINGLE_INSTANCE = new PluginOperatorManager();
     private final ArrayList<Class> customOperators = new ArrayList<>();
     private final ArrayList<IOperator> operators = new ArrayList<>();
     private final Logger logger = LogManager.getLogger(PluginOperatorManager.class);
@@ -38,12 +37,14 @@ public class PluginOperatorManager {
      * Constructor calls this function to load all custom .class files provided by the user in plugins/
      */
     public PluginOperatorManager(String folderDir) {
+        boolean pluginProcessed = false;
+
         String packageName = "plugins";
-//        String folderDir = "app/build/libs/";
         if(isInProd()) folderDir = "";
-        File[] files = new File(folderDir + packageName).listFiles();
+        File ftemp = new File(folderDir + packageName);
+        File[] files = ftemp.listFiles();
         File folder = new File(folderDir);
-        System.out.println(folder.getAbsolutePath());
+        System.out.println("Running plugins from: " + ftemp.getAbsolutePath());
 
 
 
@@ -65,9 +66,17 @@ public class PluginOperatorManager {
                 {
                     customOperators.add(CustomOPClass);
                 }
+                pluginProcessed = true;
             } catch (ClassNotFoundException e) {
                 logger.trace("Class not found: " + file.getName());
             }
+
+        }
+
+        if(!pluginProcessed)
+        {
+            System.out.println("No custom plugins. Continuing...");
+            logger.trace("No custom plugins. Continuing...");
         }
     }
 

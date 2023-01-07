@@ -32,20 +32,21 @@ public class ResultAnalyzer {
     public void runAnalysis() {
         File file = new File(mutatedAppsLocation);
         File[] files = file.listFiles();
-        for(File f: files) {
-            System.out.println(f.getName());
-        }
-            System.out.println("\n");
+//        for(File f: files) {
+//            System.out.println(f.getName());
+//        }
+        System.out.println("\n");
         CommandPrompt cp = new CommandPrompt();
+        AutomatedAnalysisReport report = new AutomatedAnalysisReport();
 
         if(files != null) {
             System.out.println("Analyzing results from mutated apps in - " + file.getAbsolutePath());
             for(File f: files) {
-                String compileCommand = "cd " + mutatedAppsLocation + "/" + f.getName() + " && " + propertiesReader.codeCompileCommand;
+                String compileCommand = "cd \"" + mutatedAppsLocation + "/" + f.getName() + "\" && " + propertiesReader.codeCompileCommand;
                 CPOutput output = cp.run_command(compileCommand);
-                String path = "/"+propertiesReader.outputDIr+"/";
+//                String path = "/"+propertiesReader.outputDIr+"/";
                 if(!output.error) {
-                    CPOutput output2 = cp.run_command( "cd " + propertiesReader.toolLocation + " && " + propertiesReader.getToolRunCommand(path,f.getName()));
+                    CPOutput output2 = cp.run_command( "cd \"" + propertiesReader.toolLocation + "\" && " + propertiesReader.getToolRunCommand(f.getName()));
 
                     if(!output2.error) {
                         try {
@@ -59,20 +60,24 @@ public class ResultAnalyzer {
                             {
                                 System.out.println("\t- Mutant for " + f.getName() + " is UNKILLED");
                                 System.out.println("[MutationAnalyzer]#"+f.getName()+"#unkilled");
+                                report.mutantUnkilled();
                                 if(propertiesReader.stopOnUnkilled())
                                     break;
                             }
                             else{
                                 System.out.println("\t- Mutant for " + f.getName() + " is killed");
                                 System.out.println("[MutationAnalyzer]#"+f.getName()+"#killed");
+                                report.mutantKilled();
                             }
                         } catch (FileNotFoundException e) {
-                            System.out.printf("No file by the name of %s in folder %s after tool %s was run%n", propertiesReader.outputFileName, propertiesReader.outputReportDirectory, propertiesReader.toolName);
+                            System.out.printf("No file by the name of %s in folder %s \nafter tool %s was run%n", propertiesReader.outputFileName, propertiesReader.outputReportDirectory, propertiesReader.toolName);
+                            report.registerError();
                             if(propertiesReader.stopOnError())
                                 break;
                         } catch (Exception e) {
                             e.printStackTrace();
                             System.out.printf("Result analysis failed for command %s%n", output2.command);
+                            report.registerError();
                             if(propertiesReader.stopOnError())
                                 break;
                         }
@@ -80,6 +85,7 @@ public class ResultAnalyzer {
                     else {
                         System.out.println(output2.getCombinedOutput());
                         System.out.printf("Tool didn't run for command %s%n", output2.command);
+                        report.registerError();
                         if(propertiesReader.stopOnError())
                             break;
                     }
@@ -87,6 +93,7 @@ public class ResultAnalyzer {
                 else {
                     System.out.println(output.getCombinedOutput());
                     System.out.printf("Compilation failed for command: %s%n", output.command);
+                    report.registerError();
                     if(propertiesReader.stopOnError())
                         break;
                 }
@@ -95,5 +102,6 @@ public class ResultAnalyzer {
         else {
             System.out.println("Specified output directory does not exist!");
         }
+        report.printReport();
     }
 }
