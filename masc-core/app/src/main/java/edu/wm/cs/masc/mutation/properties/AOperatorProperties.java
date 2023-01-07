@@ -48,7 +48,7 @@ public abstract class AOperatorProperties {
         outputDir = reader.getValueForAKey("outputDir");
         apiName = reader.getValueForAKey("apiName");
         className = reader.getValueForAKey("className");
-        excludedOperators = reader.getValueForAKey("excludedOperators");
+        excludedOperators = reader.getValueForAKeyNoInput("excludedOperators", "");
 //        reader.getValueForAKey("test");
         // otherClassName = reader.getValueForAKey("otherClassName");
     }
