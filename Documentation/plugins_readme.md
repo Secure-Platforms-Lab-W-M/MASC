@@ -185,8 +185,7 @@ Custom operator type are the operators that extend `CustomGenericOperator` abstr
 
 If a matching key is found in the properties file, then its corresponding value will be retrieved. Else if no matching keys are found, the user will be asked to input its value once only. The input will be saved and the values will be used for every subsequent query until the program ends. 
 
-
-Values can be fetched from properties file using the operatorProperties as shown in the example below - 
+ 
 
 # 2. Compiling the code
 You code for plugins refer to classes already within MASC's source code. Hence it won't compile without reference to those classes. This can be easily solved by adding the MASC.jar to classpath as such. Open a command prompt in folder where your code is, and run this command: 
