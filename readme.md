@@ -1,5 +1,8 @@
 # MASC User Manual <!-- omit from toc -->
 
+This tool is an implementation of the MASC framework, as described in [this paper](https://arxiv.org/abs/2107.07065). MASC enables
+a systematic and data-driven evaluation of crypto-detectors using mutation testing. MASC is grounded in a comprehensive view of the problem space by developing a data-driven taxonomy of existing crypto-API misuse, containing 105 misuse cases. The goal is to generate, with very little manual effort, thousands of insecure mutants by injecting instantiations of these misuse cases in Java or Android apps. These mutants can be used to test and debug cryptographic API misuse detectors.
+
 ## Table of contents <!-- omit from toc -->
 - [Concepts](#concepts)
   - [The goal](#the-goal)
