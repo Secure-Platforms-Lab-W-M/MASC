@@ -26,6 +26,9 @@ public class InterprocProperties extends AOperatorProperties {
         return variableName;
     }
 
+    public String getNoise() {
+        return noise;
+    }
     public String getInvocation() {
         return invocation;
     }
@@ -37,7 +40,8 @@ public class InterprocProperties extends AOperatorProperties {
     public String getOtherClassName() {return otherClassName;}
 
     private final String propertyName;
-    
+
+    private final String noise;
     private final String secureParam;
     private final String insecureParam;
     private final String variableName;
@@ -55,5 +59,6 @@ public class InterprocProperties extends AOperatorProperties {
         invocation = reader.getValueForAKey("invocation");
         try_catch  = Boolean.valueOf(reader.getValueForAKey("try_catch"));
         otherClassName = reader.getValueForAKey("otherClassName");
+        noise = reader.getValueForAKey("noise");
     }
 }

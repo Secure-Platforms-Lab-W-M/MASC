@@ -5,8 +5,8 @@ import edu.wm.cs.masc.mutation.properties.InterprocProperties;
 
 public class InterProcOperator extends AInterProcOperator {
 
-    public InterProcOperator(InterprocProperties p) {
-        super(p);
+    public InterProcOperator(InterprocProperties properties) {
+        super(properties);
     }
 
     public String insecure_call() {
@@ -14,17 +14,23 @@ public class InterProcOperator extends AInterProcOperator {
                 .format("%1$s %2$s = " +
                                 "%1$s.%3$s(new %4$s().A().B().get%5$s());" +
                                 "\n",
-                        p.getApiName(),
-                        p.getVariableName(),
-                        p.getInvocation(),
-                        p.getOtherClassName(),
-                        p.getPropertyName());
+                        //properties.getApiName(),
+                        api_name,
+                        //properties.getVariableName(),
+                        variableName,
+                        //properties.getInvocation(),
+                        invocation,
+                        //properties.getOtherClassName(),
+                        otherClassName,
+                        //properties.getPropertyName());
+                        propertyName);
     }
 
     public String insecure_call_trycatch() {
         return "try {\n" +
                 this.insecure_call() +
-                "System.out.println(" + p.getVariableName() +
+                //"System.out.println(" + properties.getVariableName() +
+                "System.out.println(" + variableName +
                 ".getAlgorithm());\n" +
                 "} catch (Exception e) {\n" +
                 "System.out.println(\"Error\");\n" +
@@ -33,7 +39,7 @@ public class InterProcOperator extends AInterProcOperator {
 
     @Override
     public String mutation() {
-        if (p.getTry_catch()) {
+        if (try_catch) {
             return insecure_call_trycatch();
         } else
             return insecure_call();
