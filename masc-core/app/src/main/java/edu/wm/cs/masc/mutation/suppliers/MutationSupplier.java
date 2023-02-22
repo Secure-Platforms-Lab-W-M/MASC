@@ -13,6 +13,7 @@ import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.CurrentTime;
 import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.BaseCase;
 import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.InterProcAddition;
 import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.InterProcOperator;
+import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.InterprocConditional;
 import edu.wm.cs.masc.mutation.operators.restrictive.intoperator.*;
 import edu.wm.cs.masc.mutation.operators.restrictive.stringoperator.*;
 import edu.wm.cs.masc.mutation.operators.restrictive.stringoperator.ValueInVariable;
@@ -101,6 +102,7 @@ public class MutationSupplier {
         operators.put(OperatorType.Interproc, new InterProcOperator(p));
         operators.put(OperatorType.Interproc, new BaseCase(p));
         operators.put(OperatorType.Interproc, new InterProcAddition(p));
+        operators.put(OperatorType.Interproc, new InterprocConditional(p));
     }
 
     public MutationSupplier(IntOperatorProperties p) {

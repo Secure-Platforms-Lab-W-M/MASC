@@ -1,6 +1,8 @@
 package edu.wm.cs.masc.mainScope.mutationmakers;
 
+import edu.wm.cs.masc.mutation.builders.restrictive.BuilderInterprocAdditionClass;
 import edu.wm.cs.masc.mutation.builders.restrictive.BuilderInterprocClass;
+import edu.wm.cs.masc.mutation.builders.restrictive.BuilderInterprocConditionalClass;
 import edu.wm.cs.masc.mutation.properties.InterprocProperties;
 import edu.wm.cs.masc.mutation.suppliers.MutationSupplier;
 import edu.wm.cs.masc.utils.file.FilePack;
@@ -12,11 +14,20 @@ public class InterprocMutationMaker extends AMultiClassMutationMaker {
 
     public InterprocMutationMaker(InterprocProperties p) {
         this.p = p;
-        String otherClass = p.getOtherClassName();
-        FilePack filePack = new FilePack(otherClass, p.getOutputDir(),
+        String otherClass1 = p.getOtherClassName() + "1";
+        String otherClass2 = p.getOtherClassName() + "2";
+        String otherClass3 = p.getOtherClassName() + "3";
+        FilePack filePack = new FilePack(otherClass1, p.getOutputDir(),
                 BuilderInterprocClass.getInterprocClassString(p));
         ArrayList<FilePack> filePacks = new ArrayList<>();
         filePacks.add(filePack);
+        filePack = new FilePack(otherClass2, p.getOutputDir(),
+                BuilderInterprocAdditionClass.getInterprocClassString(p));
+        filePacks.add(filePack);
+        filePack = new FilePack(otherClass3, p.getOutputDir(),
+                BuilderInterprocConditionalClass.getInterprocClassString(p));
+        filePacks.add(filePack);
+
         this.setFilepacks(filePacks);
     }
 
