@@ -14,17 +14,17 @@ public class InterprocMutationMaker extends AMultiClassMutationMaker {
 
     public InterprocMutationMaker(InterprocProperties p) {
         this.p = p;
-        String otherClass1 = p.getOtherClassName() + "1";
-        String otherClass2 = p.getOtherClassName() + "2";
-        String otherClass3 = p.getOtherClassName() + "3";
-        FilePack filePack = new FilePack(otherClass1, p.getOutputDir(),
+        String otherClass1 = p.getOtherClassName();
+        String otherClass2 = p.getOtherClassName();
+        String otherClass3 = p.getOtherClassName();
+        FilePack filePack = new FilePack(otherClass1, p.getOutputDir()+"/InterprocOperator",
                 BuilderInterprocClass.getInterprocClassString(p));
         ArrayList<FilePack> filePacks = new ArrayList<>();
         filePacks.add(filePack);
-        filePack = new FilePack(otherClass2, p.getOutputDir(),
+        filePack = new FilePack(otherClass2, p.getOutputDir()+"/InterprocAddition",
                 BuilderInterprocAdditionClass.getInterprocClassString(p));
         filePacks.add(filePack);
-        filePack = new FilePack(otherClass3, p.getOutputDir(),
+        filePack = new FilePack(otherClass3, p.getOutputDir()+"/InterprocConditional",
                 BuilderInterprocConditionalClass.getInterprocClassString(p));
         filePacks.add(filePack);
 
@@ -34,6 +34,7 @@ public class InterprocMutationMaker extends AMultiClassMutationMaker {
 
     @Override
     public void populateOperators() {
+
 //        operators.put(OperatorType.Interproc, new InterProcOperator(p));
         operators = new MutationSupplier(p).getOperators(p.getExcludedOperators());
     }
