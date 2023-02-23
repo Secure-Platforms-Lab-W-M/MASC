@@ -39,6 +39,8 @@ public class InterprocProperties extends AOperatorProperties {
 
     public String getOtherClassName() {return otherClassName;}
 
+    public String getIterationCount() {return iterationCount;}
+
     private final String propertyName;
 
     private final String noise;
@@ -47,6 +49,8 @@ public class InterprocProperties extends AOperatorProperties {
     private final String variableName;
     private final String invocation;
     private final Boolean try_catch;
+
+    private final String iterationCount;
 
     public InterprocProperties(String path)
             throws ConfigurationException {
@@ -60,5 +64,6 @@ public class InterprocProperties extends AOperatorProperties {
         try_catch  = Boolean.valueOf(reader.getValueForAKey("try_catch"));
         otherClassName = reader.getValueForAKey("otherClassName");
         noise = reader.getValueForAKey("noise");
+        iterationCount = reader.getValueForAKey("iterations");
     }
 }

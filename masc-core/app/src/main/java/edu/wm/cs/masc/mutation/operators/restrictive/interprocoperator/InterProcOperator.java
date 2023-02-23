@@ -10,9 +10,14 @@ public class InterProcOperator extends AInterProcOperator {
     }
 
     public String insecure_call() {
+
+        String iteration = "";
+        for (int i = 0; i < iterationCount; i++){
+            iteration = iteration + ".A().B()";
+        }
         return String
                 .format("%1$s %2$s = " +
-                                "%1$s.%3$s(new %4$s().A().B().get%5$s());" +
+                                "%1$s.%3$s(new %4$s()%6$s.get%5$s());" +
                                 "\n",
                         //properties.getApiName(),
                         api_name,
@@ -23,7 +28,8 @@ public class InterProcOperator extends AInterProcOperator {
                         //properties.getOtherClassName(),
                         otherClassName,
                         //properties.getPropertyName());
-                        propertyName);
+                        propertyName,
+                        iteration);
     }
 
     public String insecure_call_trycatch() {
