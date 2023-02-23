@@ -1,19 +1,13 @@
 package edu.wm.cs.masc.mutation.suppliers;
 
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
-import edu.wm.cs.masc.MASC;
 import edu.wm.cs.masc.mutation.operators.IOperator;
 import edu.wm.cs.masc.mutation.operators.OperatorType;
 import edu.wm.cs.masc.mutation.operators.flexible.*;
 import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.ByteLoop;
-import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.ByteReuse;
 import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.CurrentTime;
-import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.BaseCase;
-import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.InterProcAddition;
-import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.InterProcOperator;
-import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.InterprocConditional;
+import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.*;
 import edu.wm.cs.masc.mutation.operators.restrictive.intoperator.*;
 import edu.wm.cs.masc.mutation.operators.restrictive.stringoperator.*;
 import edu.wm.cs.masc.mutation.operators.restrictive.stringoperator.ValueInVariable;
@@ -100,9 +94,10 @@ public class MutationSupplier {
     public MutationSupplier(InterprocProperties p) {
 
         operators.put(OperatorType.Interproc, new InterProcOperator(p));
-        //operators.put(OperatorType.Interproc, new BaseCase(p));
-        //operators.put(OperatorType.Interproc, new InterProcAddition(p));
-        //operators.put(OperatorType.Interproc, new InterprocConditional(p));
+        operators.put(OperatorType.Interproc, new BaseCaseSeperateClass(p));
+        operators.put(OperatorType.Interproc, new InterProcAddition(p));
+        operators.put(OperatorType.Interproc, new InterprocConditional(p));
+        operators.put(OperatorType.Interproc, new BaseCase(p));
     }
 
     public MutationSupplier(IntOperatorProperties p) {
