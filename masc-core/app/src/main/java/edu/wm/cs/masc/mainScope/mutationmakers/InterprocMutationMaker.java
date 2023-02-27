@@ -14,10 +14,10 @@ public class InterprocMutationMaker extends AMultiClassMutationMaker {
 
     public InterprocMutationMaker(InterprocProperties p) {
         this.p = p;
-        String otherClass1 = p.getOtherClassName();
+        String otherClass = p.getOtherClassName();
         //String otherClass2 = p.getOtherClassName();
         //String otherClass3 = p.getOtherClassName();
-        FilePack filePack = new FilePack(otherClass1, p.getOutputDir(),
+        FilePack filePack = new FilePack(otherClass, p.getOutputDir(),
                 BuilderInterprocClass.getInterprocClassString(p));
         ArrayList<FilePack> filePacks = new ArrayList<>();
         filePacks.add(filePack);

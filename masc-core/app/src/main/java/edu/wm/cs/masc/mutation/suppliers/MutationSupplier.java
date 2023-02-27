@@ -94,10 +94,10 @@ public class MutationSupplier {
     public MutationSupplier(InterprocProperties p) {
 
         operators.put(OperatorType.Interproc, new InterProcOperator(p));
-        operators.put(OperatorType.InterprocBaseCaseSeperateClass, new BaseCaseSeperateClass(p));
-        operators.put(OperatorType.InterprocAddition, new InterProcAddition(p));
-        operators.put(OperatorType.InterprocConditional, new InterprocConditional(p));
-        operators.put(OperatorType.InterprocBaseCase, new BaseCase(p));
+        //operators.put(OperatorType.InterprocBaseCaseSeperateClass, new BaseCaseSeperateClass(p));
+        //operators.put(OperatorType.InterprocAddition, new InterProcAddition(p));
+        //operators.put(OperatorType.InterprocConditional, new InterprocConditional(p));
+        //operators.put(OperatorType.InterprocBaseCase, new BaseCase(p));
     }
 
     public MutationSupplier(IntOperatorProperties p) {
