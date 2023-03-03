@@ -13,13 +13,13 @@ public class InterProcOperator extends AInterProcOperator {
 
         String iteration = "";
         for (int i = 0; i < iterationCount; i++) {
-            if (i % 2 == 0) {
-                iteration = iteration + ".A" + i / 2 + "()";
-            } else {
-                iteration = iteration + ".B" + i / 2 + "()";
-            }
-        }
 
+                iteration = iteration + ".A" + i  + "()";
+
+
+
+        }
+        iteration = iteration + ".B()";
         return String
                 .format("%1$s %2$s = " +
                                 "%1$s.%3$s(new %4$s()%6$s.get%5$s());" +

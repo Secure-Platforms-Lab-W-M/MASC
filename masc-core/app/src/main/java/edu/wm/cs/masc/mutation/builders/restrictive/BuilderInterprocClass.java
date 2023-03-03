@@ -24,30 +24,27 @@ public class BuilderInterprocClass {
                         //"        return %2$s;\n" +
                         //"    }\n" +
                         //"}";
-        String methods = "";
+        String secureMethods = "";
         for (int i = 0; i < Integer.parseInt(p.getIterationCount()); i++){
-            if (i % 2 == 0) {
-                methods = methods +
-                        "    public %1$s A" + i/2 + "(){\n" +
+
+                secureMethods = secureMethods +
+                        "    public %1$s A" + i + "(){\n" +
                         "        %2$s = \"%3$s\";\n" +
                         "        return this;\n" +
                         "    }\n";
-            }
-            else {
-                methods = methods +
-                        "    public %1$s B" + i/2 + "(){\n" +
-                        "        %2$s = \"%4$s\";\n" +
-                        "        return this;\n" +
-                        "    }\n";
-            }
+
 
         }
+        String insecureCall = "    public %1$s B(){\n" +
+                "        %2$s = \"%4$s\";\n" +
+                "        return this;\n" +
+                "    }\n";
         String getMethod =  "    public String get%2$s(){\n" +
                             "        return %2$s;\n" +
                             "    }\n" +
                             "}";
 
-        String template = classStart + methods + getMethod;
+        String template = classStart + secureMethods + insecureCall + getMethod;
         sb.append(String.format(template, p.getOtherClassName(), p.getPropertyName(), p.getSecureParam(),
                 p.getInsecureParam()));
         return sb.toString();
