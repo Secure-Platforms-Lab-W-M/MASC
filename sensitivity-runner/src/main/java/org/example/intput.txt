@@ -1,0 +1,12 @@
+sensitivity=flow
+outputDir=app/outputs
+scope=MAIN
+mutantGeneration = true
+StringApiName = javax.crypto.Cipher
+StringInvocation = getInstance
+StringSecureParam = AES/GCM/NoPadding
+StringInsecureParam = AES
+StringNoise = ~
+StringVariableName = cryptoVariable
+StringClassName = CryptoTest
+StringPropertyName = propertyName
