@@ -1,4 +1,6 @@
 package org.example;
+
+import java.io.BufferedInputStream;
 import java.io.File;  // Import the File class
 import java.io.IOException;  // Import the IOException class to handle errors
 import java.io.FileWriter;
@@ -16,7 +18,24 @@ public class flowSensitivity extends aSensitivity{
     public final String[] excludedByteOperators = new String[] {"InjectInsecureObject"};
     public final String[] excludedInterprocOperators = new String[] {"InjectInsecureObject"};
 
+    public void callMASC() throws Exception {
+        Process process = Runtime.getRuntime().exec("java -jar app-all.jar FlowSensitiveString.properties");
+        BufferedInputStream processOutput= new BufferedInputStream(process.getInputStream());
+        int read = 0;
+        byte[] output = new byte[1024];
+        while ((read = processOutput.read(output)) != -1) {
+            System.out.println(output[read]);
+        }
+        //System.out.println(process.exitValue());
+        //MASC masc = new MASC();
+        //masc.main(new String[] "FlowSensi");
+        //System.out.println(process);
 
+        //masc.main(new String[] {"FlowSensitiveString.properties"});
+
+
+
+    }
     public void propertiesBuilder(HashMap userSelections) throws IOException {
         Set keys = userSelections.keySet();
         String baseProperties = "";

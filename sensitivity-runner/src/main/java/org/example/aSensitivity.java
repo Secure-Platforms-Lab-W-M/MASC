@@ -1,7 +1,9 @@
 package org.example;
 
+
 import java.io.IOException;
 import java.lang.reflect.Array;
+
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -11,7 +13,12 @@ public class aSensitivity {
 
     }
 
-    public void callMASC(){
+    public void callMASC() throws Exception {
+        //Process process = Runtime.getRuntime().exec("");
+        //MASC masc = new MASC();
+
+
+
 
     }
     public void propertyBuilder() throws IOException {

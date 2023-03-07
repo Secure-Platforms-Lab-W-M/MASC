@@ -1,5 +1,5 @@
 sensitivity=flow
-outputDir=app/outputs
+outputDir=outputs
 scope=MAIN
 mutantGeneration = true
 StringApiName = javax.crypto.Cipher

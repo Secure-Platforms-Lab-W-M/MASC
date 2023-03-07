@@ -11,9 +11,10 @@ import java.util.logging.Logger;
 public class Main {
 
     //private static Logger logger = LogManager.getLogger(Main.class);
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         //Create default input option for each sensitivity
         System.out.println("Hello world!");
+        //MASC masc = new MASC();
     //Ask for type of flow sensitivity
         //The outputdir
         //scope
@@ -48,6 +49,7 @@ public class Main {
                 flowSensitivity flow = new flowSensitivity();
                 userSelections.remove("sensitivity");
                 flow.runFlowSensitivity(userSelections);
+                flow.callMASC();
 
             }
 

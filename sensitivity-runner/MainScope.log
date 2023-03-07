@@ -1,0 +1,14 @@
+Mar 06, 2023 7:21:31 PM edu.wm.cs.masc.MASC runMainScope
+SEVERE: [ValueForAKey]#StringOperator
+Mar 06, 2023 7:21:31 PM edu.wm.cs.masc.mainScope.mutationmakers.AMutationMaker writeOutput
+INFO: [OutputPath]#outputs/StringUnsafeReplaceWithUnsafe/CryptoTest.java
+Mar 06, 2023 7:21:31 PM edu.wm.cs.masc.mainScope.mutationmakers.AMutationMaker writeOutput
+INFO: [OutputPath]#outputs/StringValueInVariable/CryptoTest.java
+Mar 06, 2023 7:21:31 PM edu.wm.cs.masc.mainScope.mutationmakers.AMutationMaker writeOutput
+INFO: [OutputPath]#outputs/StringSafeReplaceWithUnsafe/CryptoTest.java
+Mar 06, 2023 7:21:31 PM edu.wm.cs.masc.mainScope.mutationmakers.AMutationMaker writeOutput
+INFO: [OutputPath]#outputs/StringNoiseReplace/CryptoTest.java
+Mar 06, 2023 7:21:31 PM edu.wm.cs.masc.mainScope.mutationmakers.AMutationMaker writeOutput
+INFO: [OutputPath]#outputs/StringStringCaseTransform/CryptoTest.java
+Mar 06, 2023 7:21:31 PM edu.wm.cs.masc.mainScope.mutationmakers.AMutationMaker writeOutput
+INFO: [OutputPath]#outputs/StringDifferentCase/CryptoTest.java
