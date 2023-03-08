@@ -35,10 +35,14 @@ public class Main {
             //props = new File("/Users/scottmarsden/Documents/GitHub/MASC/sensitivity-runner/src/main/java/org/example/input.txt");
             Scanner scnr = new Scanner(props);
             while (scnr.hasNext()){
+
                 String line = scnr.nextLine();
 
                 String keyValue[] = line.split("=");
-                userSelections.put(keyValue[0].trim(),keyValue[1].trim());
+                if (keyValue.length == 2){
+                    userSelections.put(keyValue[0].trim(),keyValue[1].trim());
+                }
+
             }
             //System.out.println(userSelections);
 

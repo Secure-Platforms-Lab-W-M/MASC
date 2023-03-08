@@ -2,6 +2,7 @@ sensitivity=flow
 outputDir=app/outputs
 scope=MAIN
 mutantGeneration = true
+
 StringApiName = javax.crypto.Cipher
 StringInvocation = getInstance
 StringSecureParam = AES/GCM/NoPadding
@@ -10,3 +11,37 @@ StringNoise = ~
 StringVariableName = cryptoVariable
 StringClassName = CryptoTest
 StringPropertyName = propertyName
+
+IntApiName = javax.crypto.spec
+IntInvocation = PBEKeySpec
+IntPassword = very_secure
+IntSalt = {80\\,45\\,56}
+IntAlgorithm = RSA
+IntKeyGenVarName = keyGen
+IntVariableName = iterCount
+IntIterationCount = 50
+IntClassName = CryptoTest
+IntMisuse = PBE
+
+InterprocApiName = javax.crypto.Cipher
+InterprocInvocation = getInstance
+InterprocSecureParam = AES/GCM/NoPadding
+InterprocInsecureParam = AES
+InterprocNoise = ~
+InterprocIterations = 20
+InterprocVariableName = cryptoVariable
+InterprocClassName = CryptoTest
+InterprocPropertyName = propertyName
+InterprocOtherClassName = CipherPack
+InterprocTry_catch = False
+
+ByteApiName = javax.crypto.spec.IvParameterSpec
+ByteClassName = CryptoTest
+ByteTempVariableName = cryptoTemp
+ByteApiVariable = ivSpec
+ByteInvocation = getInstance
+ByteSecureParam = AES/GCM/NoPadding
+ByteInsecureParam = AES
+ByteNoise = ~
+ByteVariableName = cryptoVariable
+BytePropertyName = propertyName

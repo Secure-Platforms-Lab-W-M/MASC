@@ -15,9 +15,10 @@ public class flowSensitivity extends aSensitivity{
     }
 
     public final String[] excludedStringOperators = new String[] {"InjectInsecureObject"};
-    public final String[] excludedIntOperators = new String[] {"InjectInsecureObject"};
-    public final String[] excludedByteOperators = new String[] {"InjectInsecureObject"};
-    public final String[] excludedInterprocOperators = new String[] {"InjectInsecureObject"};
+    public final String[] excludedIntOperators = new String[] {"IntWhileLoopAccumulation,IntIterationMultipleCall,IntNestedClass"};
+    public final String[] excludedByteOperators = new String[] {"ByteLoop,ByteReuse"};
+    public final String[] excludedInterprocOperators = new String[] {"BaseCaseSeperateClass,InterProcAddition,InterprocConditional,InterProcOperator"};
+
 
     public void callMASC() throws Exception {
         //Process process = Runtime.getRuntime().exec("java -jar app-all.jar FlowSensitiveString.properties");
@@ -29,10 +30,12 @@ public class flowSensitivity extends aSensitivity{
         //}
         //System.out.println(process.exitValue());
         MASC masc = new MASC();
-        //masc.main(new String[] "FlowSensive");
-        //System.out.println(process);
+
 
         masc.main(new String[] {"FlowSensitiveString.properties"});
+        masc.main(new String[] {"FlowSensitiveInt.properties"});
+        masc.main(new String[] {"FlowSensitiveInterProc.properties"});
+        masc.main(new String[] {"FlowSensitiveByte.properties"});
 
 
 
@@ -50,11 +53,14 @@ public class flowSensitivity extends aSensitivity{
         }
 
         String stringProperties = stringProperties(baseProperties,excludedStringOperators,getOperatorOptions(userSelections,"String"));
-        String intProperties = baseProperties;
-        String interProcProperties = baseProperties;
-        String byteProperties = baseProperties;
+        String intProperties = intProperties(baseProperties,excludedIntOperators,getOperatorOptions(userSelections,"Int"));;
+        String interProcProperties = interProcProperties(baseProperties,excludedInterprocOperators,getOperatorOptions(userSelections,"Interproc"));;
+        String byteProperties = byteProperties(baseProperties,excludedByteOperators,getOperatorOptions(userSelections,"Byte"));;
 
         propertyMaker("FlowSensitiveString.properties",stringProperties);
+        propertyMaker("FlowSensitiveInt.properties",intProperties);
+        propertyMaker("FlowSensitiveInterProc.properties",interProcProperties);
+        propertyMaker("FlowSensitiveByte.properties",byteProperties);
 
 
         //}
