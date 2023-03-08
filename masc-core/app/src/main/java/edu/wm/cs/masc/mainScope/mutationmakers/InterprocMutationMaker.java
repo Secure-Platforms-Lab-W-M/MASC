@@ -3,6 +3,7 @@ package edu.wm.cs.masc.mainScope.mutationmakers;
 import edu.wm.cs.masc.mutation.builders.restrictive.BuilderInterprocAdditionClass;
 import edu.wm.cs.masc.mutation.builders.restrictive.BuilderInterprocClass;
 import edu.wm.cs.masc.mutation.builders.restrictive.BuilderInterprocConditionalClass;
+import edu.wm.cs.masc.mutation.builders.restrictive.BuilderNestedConditionalIterations;
 import edu.wm.cs.masc.mutation.properties.InterprocProperties;
 import edu.wm.cs.masc.mutation.suppliers.MutationSupplier;
 import edu.wm.cs.masc.utils.file.FilePack;
@@ -15,18 +16,22 @@ public class InterprocMutationMaker extends AMultiClassMutationMaker {
     public InterprocMutationMaker(InterprocProperties p) {
         this.p = p;
         String otherClass = p.getOtherClassName();
-        //String otherClass2 = p.getOtherClassName();
-        //String otherClass3 = p.getOtherClassName();
+        String otherClass2 = p.getOtherClassName();
+        String otherClass3 = p.getOtherClassName();
+        String otherClass4 = p.getOtherClassName();
         FilePack filePack = new FilePack(otherClass, p.getOutputDir(),
                 BuilderInterprocClass.getInterprocClassString(p));
         ArrayList<FilePack> filePacks = new ArrayList<>();
         filePacks.add(filePack);
-        //filePack = new FilePack(otherClass2, p.getOutputDir()+"/InterprocAddition",
-        //        BuilderInterprocAdditionClass.getInterprocClassString(p));
-        //filePacks.add(filePack);
-        //filePack = new FilePack(otherClass3, p.getOutputDir()+"/InterprocConditional",
-        //        BuilderInterprocConditionalClass.getInterprocClassString(p));
-        //filePacks.add(filePack);
+        filePack = new FilePack(otherClass2, p.getOutputDir()+"/InterprocAddition",
+                BuilderInterprocAdditionClass.getInterprocClassString(p));
+        filePacks.add(filePack);
+        filePack = new FilePack(otherClass3, p.getOutputDir()+"/InterprocConditional",
+                BuilderInterprocConditionalClass.getInterprocClassString(p));
+        filePacks.add(filePack);
+        filePack = new FilePack(otherClass4, p.getOutputDir()+"/InterprocNestedConditionalIter",
+                BuilderNestedConditionalIterations.getInterprocClassString(p));
+        filePacks.add(filePack);
 
         this.setFilepacks(filePacks);
     }
