@@ -21,23 +21,23 @@ public class InterprocMutationMaker extends AMultiClassMutationMaker {
 
     public InterprocMutationMaker(InterprocProperties p) {
         this.p = p;
-        String otherClass = p.getOtherClassName();
-        //String otherClass2 = p.getOtherClassName();
-        //String otherClass3 = p.getOtherClassName();
-        //String otherClass4 = p.getOtherClassName();
-        FilePack filePack = new FilePack(otherClass, p.getOutputDir() + "/Interproc",
+        String otherClass1 = p.getOtherClassName() + "1";
+        String otherClass2 = p.getOtherClassName() + "2" ;
+        String otherClass3 = p.getOtherClassName() + "3";
+        String otherClass4 = p.getOtherClassName() + "4";
+        FilePack filePack = new FilePack(otherClass1, p.getOutputDir(),
                 BuilderInterprocClass.getInterprocClassString(p));
         ArrayList<FilePack> filePacks = new ArrayList<>();
         filePacks.add(filePack);
-        //filePack = new FilePack(otherClass, p.getOutputDir() + "/InterprocAddition",
-        //        BuilderInterprocAdditionClass.getInterprocClassString(p));
-        //filePacks.add(filePack);
-        /*filePack = new FilePack(otherClass, p.getOutputDir(),
+        filePack = new FilePack(otherClass2, p.getOutputDir(),
+                BuilderInterprocAdditionClass.getInterprocClassString(p));
+        filePacks.add(filePack);
+        filePack = new FilePack(otherClass3, p.getOutputDir(),
                 BuilderInterprocConditionalClass.getInterprocClassString(p));
         filePacks.add(filePack);
-        filePack = new FilePack(otherClass, p.getOutputDir(),
+        filePack = new FilePack(otherClass4, p.getOutputDir(),
                 BuilderNestedConditionalIterations.getInterprocClassString(p));
-        filePacks.add(filePack);*/
+        filePacks.add(filePack);
 
         this.setFilepacks(filePacks);
     }
