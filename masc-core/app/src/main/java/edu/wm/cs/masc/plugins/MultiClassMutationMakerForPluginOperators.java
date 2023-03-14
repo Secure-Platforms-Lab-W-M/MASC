@@ -19,6 +19,7 @@ public class MultiClassMutationMakerForPluginOperators extends MutationMakerForP
 //        filePacks.clear();
 
         String otherClass = p.getOtherClassName();
+
         FilePack filePack = new FilePack(otherClass, p.getOutputDir(),
                 BuilderInterprocClass.getInterprocClassString(p));
         ArrayList<FilePack> filePacks = new ArrayList<>();
