@@ -2,17 +2,17 @@ package edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator;
 
 import edu.wm.cs.masc.mutation.properties.InterprocProperties;
 
-public class InterProcAddition extends AInterProcOperator{
-    public InterProcAddition(InterprocProperties properties) {
-        super(properties);
-        properties.setBuilder("InterProcAddition");
+public class InterprocNestedConditional extends AInterProcOperator {
 
+    public InterprocNestedConditional(InterprocProperties p) {
+        super(p);
+        p.setBuilder("InterprocNestedClass");
     }
 
     public String insecure_call() {
         return String
                 .format("%1$s %2$s = " +
-                                "%1$s.%3$s(new %4$s().A().add().get%5$s());" +
+                                "%1$s.%3$s(new %4$s().A().get%5$s());" +
                                 "\n",
                         //properties.getApiName(),
                         api_name,
@@ -45,4 +45,5 @@ public class InterProcAddition extends AInterProcOperator{
             return insecure_call();
     }
 }
+
 

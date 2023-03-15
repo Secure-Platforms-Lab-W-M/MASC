@@ -5,6 +5,8 @@ import edu.wm.cs.masc.mutation.properties.InterprocProperties;
 public class InterprocConditional extends AInterProcOperator{
     public InterprocConditional(InterprocProperties properties) {
         super(properties);
+        properties.setBuilder("InterprocConditional");
+
     }
 
     public String insecure_call() {

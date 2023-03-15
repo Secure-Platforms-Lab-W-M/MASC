@@ -7,6 +7,8 @@ public class InterProcOperator extends AInterProcOperator {
 
     public InterProcOperator(InterprocProperties properties) {
         super(properties);
+        properties.setBuilder("InterProcOperator");
+
     }
 
     public String insecure_call() {

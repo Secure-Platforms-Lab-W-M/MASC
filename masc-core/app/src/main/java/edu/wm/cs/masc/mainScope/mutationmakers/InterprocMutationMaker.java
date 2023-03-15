@@ -5,6 +5,7 @@ import edu.wm.cs.masc.mutation.builders.restrictive.BuilderInterprocClass;
 import edu.wm.cs.masc.mutation.builders.restrictive.BuilderInterprocConditionalClass;
 import edu.wm.cs.masc.mutation.builders.restrictive.BuilderNestedConditionalIterations;
 import edu.wm.cs.masc.mutation.operators.OperatorType;
+import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.InterprocNestedConditional;
 import edu.wm.cs.masc.mutation.properties.AOperatorProperties;
 import edu.wm.cs.masc.mutation.properties.InterprocProperties;
 import edu.wm.cs.masc.mutation.suppliers.MutationSupplier;
@@ -21,13 +22,39 @@ public class InterprocMutationMaker extends AMultiClassMutationMaker {
 
     public InterprocMutationMaker(InterprocProperties p) {
         this.p = p;
-        String otherClass1 = p.getOtherClassName() + "1";
+        String otherClass1 = p.getOtherClassName();
         String otherClass2 = p.getOtherClassName() + "2" ;
         String otherClass3 = p.getOtherClassName() + "3";
         String otherClass4 = p.getOtherClassName() + "4";
+        ArrayList<FilePack> filePacks = new ArrayList<>();
+        /*if (p.getBuilder() == "InterProcOperator"){
+            FilePack filePack = new FilePack(otherClass, p.getOutputDir(), BuilderNestedConditionalIterations.getInterprocClassString(p));
+            filePacks.add(filePack);
+        }
+        if (p.getBuilder() == "InterProcAddition"){
+            FilePack filePack = new FilePack(otherClass, p.getOutputDir(),
+                    BuilderInterprocClass.getInterprocClassString(p));
+            filePacks.add(filePack);
+        }
+        if (p.getBuilder() == "InterprocConditional"){
+            FilePack filePack = new FilePack(otherClass, p.getOutputDir(),
+                    BuilderInterprocClass.getInterprocClassString(p));
+            filePacks.add(filePack);
+        }
+        if (p.getBuilder() == "BaseCaseSeperateClass"){
+            FilePack filePack = new FilePack(otherClass, p.getOutputDir(),
+                    BuilderInterprocClass.getInterprocClassString(p));
+            filePacks.add(filePack);
+        }
+        if (p.getBuilder() == "InterprocNestedClass"){
+            FilePack filePack = new FilePack(otherClass, p.getOutputDir(),
+                    BuilderNestedConditionalIterations.getInterprocClassString(p));
+            filePacks.add(filePack);
+        }*/
+        //System.out.println(p.getBuilder());
         FilePack filePack = new FilePack(otherClass1, p.getOutputDir(),
                 BuilderInterprocClass.getInterprocClassString(p));
-        ArrayList<FilePack> filePacks = new ArrayList<>();
+        //ArrayList<FilePack> filePacks = new ArrayList<>();
         filePacks.add(filePack);
         filePack = new FilePack(otherClass2, p.getOutputDir(),
                 BuilderInterprocAdditionClass.getInterprocClassString(p));
@@ -37,7 +64,7 @@ public class InterprocMutationMaker extends AMultiClassMutationMaker {
         filePacks.add(filePack);
         filePack = new FilePack(otherClass4, p.getOutputDir(),
                 BuilderNestedConditionalIterations.getInterprocClassString(p));
-        filePacks.add(filePack);
+
 
         this.setFilepacks(filePacks);
     }

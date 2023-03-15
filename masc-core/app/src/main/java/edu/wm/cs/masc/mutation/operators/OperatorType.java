@@ -18,6 +18,7 @@ public enum OperatorType {
     InterprocConditional,
     InterprocBaseCaseSeperateClass,
     InterprocBaseCase,
+    InterprocNestedConditional,
     AIOEmptyFromAbstractType,
     AIOEmptyAbstractClassExtendsAbstractClass,
     AIOEmptyAbstractClassImplementsInterface,

@@ -5,9 +5,12 @@ import edu.wm.cs.masc.mutation.properties.InterprocProperties;
 public class BaseCaseSeperateClass extends AInterProcOperator {
     public BaseCaseSeperateClass(InterprocProperties properties) {
         super(properties);
+        properties.setBuilder("BaseCaseSeperateClass");
+
     }
 
     public String insecure_call() {
+
         return String
                 .format("%1$s %2$s = " +
                                 "%1$s.%3$s(new %4$s().B().get%5$s());" +

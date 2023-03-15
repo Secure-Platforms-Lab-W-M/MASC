@@ -41,7 +41,13 @@ public class InterprocProperties extends AOperatorProperties {
 
     public String getIterationCount() {return iterationCount;}
 
+    public String getBuilder() {return  builder;}
+
+    public void setBuilder(String builderName){builder = builderName;}
+
     private final String propertyName;
+
+    private String builder;
 
     private final String noise;
     private final String secureParam;
