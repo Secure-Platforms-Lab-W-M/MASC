@@ -15,9 +15,9 @@ public class flowSensitivity extends aSensitivity{
     }
 
     public final String[] excludedStringOperators = new String[] {"InjectInsecureObject"};
-    public final String[] excludedIntOperators = new String[] {"IntWhileLoopAccumulation,IntIterationMultipleCall,IntNestedClass"};
+    public final String[] excludedIntOperators = new String[] {"IntWhileLoopAccumulation IntIterationMultipleCall IntNestedClass"};
     public final String[] excludedByteOperators = new String[] {"ByteLoop,ByteReuse"};
-    public final String[] excludedInterprocOperators = new String[] {"BaseCaseSeperateClass,InterProcAddition,InterprocConditional,InterProcOperator"};
+    public final String[] excludedInterprocOperators = new String[] {"BaseCaseSeperateClass InterProcAddition InterprocConditional InterProcOperator"};
 
 
     public void callMASC() throws Exception {

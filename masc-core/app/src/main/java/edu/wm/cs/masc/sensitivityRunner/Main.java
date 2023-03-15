@@ -54,6 +54,13 @@ public class Main {
                 flow.callMASC();
 
             }
+            if (userSelections.get("sensitivity").equals("context")){
+                contextSensitivity flow = new contextSensitivity();
+                userSelections.remove("sensitivity");
+                flow.runContextSensitivity(userSelections);
+                flow.callMASC();
+
+            }
 
         }
     }

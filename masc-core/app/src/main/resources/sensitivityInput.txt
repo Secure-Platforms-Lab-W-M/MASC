@@ -1,4 +1,4 @@
-sensitivity=flow
+sensitivity=context
 outputDir=app/outputs
 scope=MAIN
 mutantGeneration = true
