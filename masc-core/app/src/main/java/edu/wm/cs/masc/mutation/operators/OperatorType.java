@@ -11,6 +11,7 @@ public enum OperatorType {
     StringUnsafeReplaceWithUnsafe,
     StringStringCaseTransform,
     StringValueInVariable,
+    DifferentClass,
     ByteLoop,
     ByteCurrentTime,
     Interproc,
