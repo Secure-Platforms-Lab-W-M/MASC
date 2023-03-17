@@ -14,6 +14,7 @@ public abstract class AInterProcOperator implements IOperator {
     protected final  Boolean try_catch;
     protected final String otherClassName;
     protected final int iterationCount;
+    protected final String tempVariable;
     //public final InterprocProperties p;
 
     public AInterProcOperator(InterprocProperties p) {
@@ -29,6 +30,7 @@ public abstract class AInterProcOperator implements IOperator {
         this.try_catch = p.getTry_catch();
         this.otherClassName = p.getOtherClassName();
         this.iterationCount = Integer.parseInt(p.getIterationCount());
+        this.tempVariable = p.getTempVariable();
 
 
 

@@ -106,6 +106,7 @@ public class MutationSupplier {
         operators.put(OperatorType.InterprocAddition, new InterProcAddition(p));
         operators.put(OperatorType.InterprocConditional, new InterprocConditional(p));
         operators.put(OperatorType.InterprocNestedConditional, new InterprocNestedConditional(p));
+        operators.put(OperatorType.InterprocObjectSensitive, new InterprocObjectSensitive(p));
     }
 
     public MutationSupplier(IntOperatorProperties p) {

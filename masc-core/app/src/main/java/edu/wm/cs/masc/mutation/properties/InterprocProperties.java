@@ -14,6 +14,11 @@ public class InterprocProperties extends AOperatorProperties {
         return propertyName;
     }
 
+    public String getTempVariable() {
+        return tempVariable;
+    }
+
+
     public String getSecureParam() {
         return secureParam;
     }
@@ -48,6 +53,7 @@ public class InterprocProperties extends AOperatorProperties {
     private final String propertyName;
 
     private String builder;
+    private String tempVariable;
 
     private final String noise;
     private final String secureParam;
@@ -71,5 +77,6 @@ public class InterprocProperties extends AOperatorProperties {
         otherClassName = reader.getValueForAKey("otherClassName");
         noise = reader.getValueForAKey("noise");
         iterationCount = reader.getValueForAKey("iterations");
+        tempVariable = reader.getValueForAKey("tempVariable");
     }
 }
