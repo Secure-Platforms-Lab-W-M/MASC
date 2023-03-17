@@ -54,12 +54,43 @@ public class Main {
                 flow.callMASC();
 
             }
-            if (userSelections.get("sensitivity").equals("context")){
-                contextSensitivity flow = new contextSensitivity();
+            else if (userSelections.get("sensitivity").equals("context")){
+                contextSensitivity context = new contextSensitivity();
                 userSelections.remove("sensitivity");
-                flow.runContextSensitivity(userSelections);
-                flow.callMASC();
+                context.runContextSensitivity(userSelections);
+                context.callMASC();
 
+            }
+            else if (userSelections.get("sensitivity").equals("object")){
+                objectSensitivity object = new objectSensitivity();
+                userSelections.remove("sensitivity");
+                object.runObjectSensitivity(userSelections);
+                object.callMASC();
+
+            }
+            else if (userSelections.get("sensitivity").equals("path")){
+                pathSensitivity path = new pathSensitivity();
+                userSelections.remove("sensitivity");
+                path.runPathSensitivity(userSelections);
+                path.callMASC();
+
+            }
+            else if (userSelections.get("sensitivity").equals("alias")){
+                aliasSensitivity alias = new aliasSensitivity();
+                userSelections.remove("sensitivity");
+                alias.runAliasSensitivity(userSelections);
+                alias.callMASC();
+
+            }
+            else if (userSelections.get("sensitivity").equals("field")){
+                fieldSensitivity alias = new fieldSensitivity();
+                userSelections.remove("sensitivity");
+                alias.runFieldSensitivity(userSelections);
+                alias.callMASC();
+
+            }
+            else{
+                System.out.println("Please provide a supported sensitivity type: flow, context, object, field, path, or alias");
             }
 
         }

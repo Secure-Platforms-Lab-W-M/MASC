@@ -13,9 +13,9 @@ public class contextSensitivity extends aSensitivity{
         propertiesBuilder(userSelections);
     }
 
-    public final String[] excludedStringOperators = new String[] {"StringDifferentCase DifferentClass StringNoiseReplace StringSafeReplaceWithUnsafe StringStringCaseTransform StringUnsafeReplaceWithUnsafe StringValueInVariable"};
-    public final String[] excludedIntOperators = new String[] {"IntWhileLoopAccumulation IntArithmetic IntNestedClass IntAbsoluteValue IntValueInVariable IntRoundValue Overflow IntFromString IntValueInVariableArithmetic"};
-    public final String[] excludedByteOperators = new String[] {"ByteLoop ByteCurrentTime"};
+    public final String[] excludedStringOperators = new String[] {"StringDifferentCase DifferentClass StringNoiseReplace StringSafeReplaceWithUnsafe StringStringCaseTransform StringUnsafeReplaceWithUnsafe StringValueInVariable ValueOfChar"};
+    public final String[] excludedIntOperators = new String[] {"IntWhileLoopAccumulation IntNestedClass IntFromString IntAbsoluteValue IntArithmetic IntRoundValue IntValueInVariable IntValueInVariableArithmetic Overflow"};
+    public final String[] excludedByteOperators = new String[] {"ByteLoop ByteCurrentTime ByteReuse ByteStatic"};
     public final String[] excludedInterprocOperators = new String[] {""};
 
 

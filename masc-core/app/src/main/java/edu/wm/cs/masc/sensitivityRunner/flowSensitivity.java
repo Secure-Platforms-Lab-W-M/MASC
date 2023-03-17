@@ -14,9 +14,9 @@ public class flowSensitivity extends aSensitivity{
         propertiesBuilder(userSelections);
     }
 
-    public final String[] excludedStringOperators = new String[] {"InjectInsecureObject"};
+    public final String[] excludedStringOperators = new String[] {"InjectInsecureObject DifferentClass"};
     public final String[] excludedIntOperators = new String[] {"IntWhileLoopAccumulation IntIterationMultipleCall IntNestedClass"};
-    public final String[] excludedByteOperators = new String[] {"ByteLoop,ByteReuse"};
+    public final String[] excludedByteOperators = new String[] {"ByteLoop ByteReuse"};
     public final String[] excludedInterprocOperators = new String[] {"BaseCaseSeperateClass InterProcAddition InterprocConditional InterProcOperator"};
 
 

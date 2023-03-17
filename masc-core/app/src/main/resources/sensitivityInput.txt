@@ -1,4 +1,4 @@
-sensitivity=context
+sensitivity=alias
 outputDir=app/outputs
 scope=MAIN
 mutantGeneration = true
