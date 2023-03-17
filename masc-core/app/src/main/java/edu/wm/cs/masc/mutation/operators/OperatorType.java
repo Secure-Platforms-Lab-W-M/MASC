@@ -12,6 +12,7 @@ public enum OperatorType {
     StringStringCaseTransform,
     StringValueInVariable,
     DifferentClass,
+    ValueOfChar,
     ByteLoop,
     ByteCurrentTime,
     Interproc,

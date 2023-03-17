@@ -36,6 +36,8 @@ public class MutationSupplier {
                 new ValueInVariable(p));
         operators.put(OperatorType.DifferentClass,
                 new DifferentClass(p));
+        operators.put(OperatorType.ValueOfChar,
+                new ValueOfChar(p));
     }
 
     public MutationSupplier(FlexibleOperatorProperties p) {
