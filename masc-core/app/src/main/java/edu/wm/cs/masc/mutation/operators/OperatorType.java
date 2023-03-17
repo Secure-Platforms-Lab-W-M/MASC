@@ -15,6 +15,7 @@ public enum OperatorType {
     ValueOfChar,
     ByteLoop,
     ByteCurrentTime,
+    ByteReuse,
     Interproc,
     InterprocAddition,
     InterprocConditional,
