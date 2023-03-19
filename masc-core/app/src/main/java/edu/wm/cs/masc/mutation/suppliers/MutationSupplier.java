@@ -36,10 +36,12 @@ public class MutationSupplier {
                 new StringCaseTransform(p));
         operators.put(OperatorType.StringValueInVariable,
                 new ValueInVariable(p));
-        operators.put(OperatorType.DifferentClass,
+        operators.put(OperatorType.StringDifferentClass,
                 new DifferentClass(p));
-        operators.put(OperatorType.ValueOfChar,
+        operators.put(OperatorType.StringValueOfChar,
                 new ValueOfChar(p));
+        operators.put(OperatorType.StringSubstring,
+                new Substring(p));
     }
 
     public MutationSupplier(FlexibleOperatorProperties p) {
