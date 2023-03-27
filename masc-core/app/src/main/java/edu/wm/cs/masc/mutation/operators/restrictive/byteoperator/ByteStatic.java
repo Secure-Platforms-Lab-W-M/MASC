@@ -17,7 +17,7 @@ public class ByteStatic extends AByteOperator{
     public String mutation() {
         return
 
-                "Byte[] " + tempVariableName + " = \"12345678\".getBytes();\n" +
+                "byte[] " + tempVariableName + " = \"12345678\".getBytes();\n" +
                 api_name + " " + api_variable + " = new " + api_name + "." + invocation + "(" + tempVariableName + ",\"" + insecureParam + "\");";
 
 
