@@ -64,7 +64,7 @@ public class InterprocMutationMaker extends AMultiClassMutationMaker {
         filePacks.add(filePack);
         filePack = new FilePack(otherClass4, p.getOutputDir(),
                 BuilderNestedConditionalIterations.getInterprocClassString(p));
-
+        filePacks.add(filePack);
 
         this.setFilepacks(filePacks);
     }
