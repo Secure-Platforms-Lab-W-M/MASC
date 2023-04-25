@@ -1,5 +1,5 @@
 try {
-javax.crypto.Cipher cryptoVariable = javax.crypto.Cipher.getInstance(new CipherPack().A().B().getpropertyName());
+javax.crypto.Cipher cryptoVariable = javax.crypto.Cipher.getInstance(new CipherPack().A0().A1().B().getpropertyName());
 System.out.println(cryptoVariable.getAlgorithm());
 } catch (Exception e) {
 System.out.println("Error");
