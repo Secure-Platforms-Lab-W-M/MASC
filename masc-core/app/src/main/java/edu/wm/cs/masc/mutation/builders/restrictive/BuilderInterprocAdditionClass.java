@@ -44,7 +44,7 @@ public class BuilderInterprocAdditionClass {
                         }
                         addMethods = addMethods.substring(0,addMethods.length() - 3);
                         methods = methods +
-                                "    public String add%2$s(){\n" +
+                                "    public String add(){\n" +
                                 "        %2$s = " + addMethods + ";\n" +
                                 "        return this;\n" +
                                 "    }\n" +

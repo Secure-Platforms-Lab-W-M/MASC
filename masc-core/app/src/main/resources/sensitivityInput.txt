@@ -1,4 +1,4 @@
-sensitivity=alias
+sensitivity=flow
 outputDir=app/outputs
 scope=MAIN
 mutantGeneration = true
