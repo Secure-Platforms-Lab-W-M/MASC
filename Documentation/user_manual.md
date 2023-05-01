@@ -1,10 +1,89 @@
-# MASC 
-MASC (Mutation Analysis for Evaluating Static Crypto-API Misuse Detectors) is a framework that enables a systematic and data-driven evaluation of crypto-API misuse detectors (or Crypto-detectors) using mutation testing. Backed up by a data-driven taxonomy of 105 misuse cases of existing crypto-API, the tool can generate thousands of insecure mutants by injecting instantiations of these misuse cases in Java or Android apps. These mutants can be used to test and debug cryptographic API misuse detectors.
+# MASC User Manual <!-- omit from toc -->
 
-# Demonstration
-For a more detailed explanation of the concepts behind MASC and a step-by-step guide to its features, check out this video demonstration [here](https://www.youtube.com/watch?v=ZKzUnBXGla0).
+This tool is an implementation of the MASC framework, as described in [this paper](https://arxiv.org/abs/2107.07065). MASC enables
+a systematic and data-driven evaluation of crypto-detectors using mutation testing. MASC is grounded in a comprehensive view of the problem space by developing a data-driven taxonomy of existing crypto-API misuse, containing 105 misuse cases. The goal is to generate, with very little manual effort, thousands of insecure mutants by injecting instantiations of these misuse cases in Java or Android apps. These mutants can be used to test and debug cryptographic API misuse detectors.
 
-# Usage
+## Table of contents <!-- omit from toc -->
+- [Concepts](#concepts)
+  - [The goal](#the-goal)
+  - [Misuse cases](#misuse-cases)
+  - [Mutation operators](#mutation-operators)
+  - [Mutation scopes](#mutation-scopes)
+- [Installation](#installation)
+  - [Environment setup](#environment-setup)
+    - [Windows](#windows)
+    - [Ubuntu](#ubuntu)
+  - [Running the executable jar](#running-the-executable-jar)
+- [Creating a properties file](#creating-a-properties-file)
+- [Writing and using your own plugins](#writing-and-using-your-own-plugins)
+  - [The operator types](#the-operator-types)
+  - [Step 1. Writing the code for a plugin](#step-1-writing-the-code-for-a-plugin)
+    - [String operator](#string-operator)
+    - [Int operator](#int-operator)
+    - [Byte operator](#byte-operator)
+    - [Interprocedural operator](#interprocedural-operator)
+    - [Flexible operator](#flexible-operator)
+    - [Custom operator](#custom-operator)
+    - [Sample code](#sample-code)
+  - [About the `mutation()` method](#about-the-mutation-method)
+  - [About `CustomGenericOperator`](#about-customgenericoperator)
+  - [Step 2. Compiling the code](#step-2-compiling-the-code)
+  - [Step 3. Placing the class file in /plugins/ folder](#step-3-placing-the-class-file-in-plugins-folder)
+  - [Step 4. Running the jar](#step-4-running-the-jar)
+  - [Step 5. The output](#step-5-the-output)
+  - [Step 6. Sample operators](#step-6-sample-operators)
+- [Automated Analysis](#automated-analysis)
+  - [How it works](#how-it-works)
+  - [The extra info in the properties file](#the-extra-info-in-the-properties-file)
+  - [Running MASC with automated analysis](#running-masc-with-automated-analysis)
+  - [Errors and missing values](#errors-and-missing-values)
+  - [Running only for mutant generation without automated analysis](#running-only-for-mutant-generation-without-automated-analysis)
+  - [Running only for automated analysis without mutant generation](#running-only-for-automated-analysis-without-mutant-generation)
+  - [Support for CogniCrypt users](#support-for-cognicrypt-users)
+- [Running other MASC modules](#running-other-masc-modules)
+  - [Running MASC for MDroidPlus Extension](#running-masc-for-mdroidplus-extension)
+  - [Running MASC for mSE Extension](#running-masc-for-mse-extension)
+
+
+## Concepts
+Before proceeding any further, it is very important to understand the concept and some key terms used throughout the user manual. Let us start with what we are trying to achieve.
+
+### The goal
+What we are trying to achieve with MASC is to intelligently generate mutants to test and debug your  cryptographic API misuse detectors, (Crypto-detector). MASC makes generating quality mutants for mutation testing very easy, thanks to its **taxonomy of misuse cases**, **mutation operators**, and **mutation scopes**. Let us see in detail what each of these items in bold are. 
+
+### Misuse cases
+MASC is backed up by a taxonomy of 105 misuse cases derived from the last 20 years of research papers, industry tools and advisories. These misuse cases represent ways in which the security of an application could be compromised. For example, using a weak encryption algorithm like DES instead of AES, using RSA with a small key size, not using salts when hashing passwords, are all examples of misuse cases.
+
+### Mutation operators 
+Misuse cases can appear in a variety of different forms. Take the example of the misuse case, weak encryption algorithm i.e., using DES instead of AES. In java, one way to call AES encryption securely is this -
+```
+javax.crypto.Cipher.getInstance(“AES/GCM/NoPadding”);
+```
+But there are many different ways to make the call insecurely. In other words, there are many ways for the misuse case to be seen in real code. For example -
+```
+javax.crypto.Cipher.getInstance(“DES”);
+```
+```
+javax.crypto.Cipher.getInstance(“des”);
+```
+```
+String encryptionAlgorithm = “DES”;
+```
+```
+javax.crypto.Cipher.getInstance(encryptionAlgorithm);
+```
+```
+javax.crypto.Cipher.getInstance(“AES”.replace(“A”, “D”));
+```
+All these represent the same misuse case. From this, we can understand that there are many ways to instantiate the misuse cases. To represent all such instances without having to hard-code instantiations for every misuse case, we have **mutation operators**, i.e., functions or rules of transformations that can create misuse instances (i.e., mutants) by instantiating one or more misuse cases from the taxonomy.
+
+### Mutation scopes
+Upon creating mutants, the next challenge is to insert them in real Java applications. This is where mutation scopes come into play. Mutation scopes are abstractions that place the instantiated mutants at strategic locations within code. There are three mutation scopes -
+
+1. Main Scope: The main scope is the simplest of the three, and seeds mutants at the beginning of the main method of a simple Java app developed by the authors. 
+2. Selective / Similarity Scope: The similarity scope seeds security operators at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable. 
+3. Exhaustive Scope: As the name suggests, this scope exhaustively seeds mutants at all locations in the target app’s code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations. 
+
 ## Installation
 The following steps can be followed to setup and use MASC. 
 
@@ -23,13 +102,14 @@ MASC runs on java 11. So the first step is to install Java 11.
 1. Simply run the command: sudo apt-get install openjdk-11-jdk
 2. Run java -version to test installation. 
 
-### Running MASC
+### Running the executable jar
 1. Clone the [Masc Repository](https://github.com/Secure-Platforms-Lab-W-M/MASC) from GitHub. Take note of where the cloned repository is saved on your machine. 
 2. Open the clone repository, go to `masc-core`, and run  `gradlew shadowJar` to create a JAR file for MASC. The output JAR can be found at `masc-core > app > build > libs > app-all.jar`.
 3. Test run with `java -jar masc.jar`. If you see the message “No properties file supplied”, it means installation has been completed. 
 
-## Sample Configuration
-MASC can be configured by supplying a  `.properties` file. All inputs are given to the tool through the properties file. Here is a sample configuration provided in the properties file - 
+## Creating a properties file
+The previous section ended with a message saying something about a properties file. In this section, we will see what this properties file is, and how to create one. 
+Properties file is analogous to a configuration file. All inputs are given to the tool through the properties file. Here is a sample properties file - 
 ```
 mutantGeneration = true
 type = StringOperator
@@ -44,64 +124,30 @@ insecureParam = AES
 noise = ~
 variableName = cryptoVariable
 ```
-Here, the first 6 keys are mandatory, while the next 5 keys are optional. They depend on the type of operator specified in line 2. 
+The first 6 keys are mandatory. Here is what they mean - 
+- MutantGeneration: Whether you want mutants to be generated
+- Type: The type of operators needed. Possible values are StringOperator, IntOperator, ByteOperator, Interproc, Flexible, and Custom.
+- OutputDir: Output directory
+- Scope: Main, selective, or exhaustive scope
+- ClassName: Name of the class of output mutated apps (for main scope)
+- ApiName: Name of the API to be invoked
 
-Depending on the type of operator (line 2) and the scope (line 4) the structure of the properties file may be very different. Examples of many different properties files are available in the project artifacts. 
+The next 5 keys are not mandatory. They depend on the type of operator specified in line 2. The keys shown here are for StringOperator type only. The keys are self explanatory -
+- Invocation: Name of the method invoked. 
+- SecureParam: Secure parameter
+- InsecureParam: Insecure parameter. 
+- Noise: One operator may add this noise to the secure/insecure parameter. 
+- VariableName: Name of a variable (needed by an operator).
 
-## Running MASC with the web interface
+Depending on the type of operator (line 2) and the scope (line 4) the structure of the properties file may be very different. Examples of many different properties files are available in the artifacts. To keep things simple, we will be using the properties file shown above throughout the rest of the manual.
 
-## Running MASC with the CLI
-
-### Running MASC with Main Scope
-Masc core seeds mutants at the beginning of the main method of a simple Java app developed by the authors. To run MASC core, save the configuration given above in a ```.properties``` file and run the command
-```
-java -jar path_to_jar path_to_properties_file
-```
-For instance, if the configuration is saved in  `Cipher.properties`, run:
+Save the file as `Cipher.properties`. Next, run MASC with the following command - 
 ```
 java -jar masc.jar Cipher.properties
 ```
+Check the output folder (as specified in the properties file). You will find 6 folders, each containing a mutated application. Next, try other properties file from the artifacts to generate more mutants. You can now analyze these mutants by static analyzers of your choice. 
 
-### Output
-Check the output folder (as specified in the properties file). You will find n folders, each containing the output of an operator, which is a mutated application. Now, you can analyze these mutants by static analyzers of your choice manually or by using the automated analysis module of MASC as described [here](#automated-analysis). 
-
-### Running MSSC with Scopes
-
-#### Running MASC with Similarity Scope
-The MDroidPlus Extension uses abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable. 
-```sh
-/Users/XXX/git/XXX/MDroidPlus/libs4ast/ /Users/XXX/workspaces/mutationbackyard/sources/car-report car-report /Users/XXX/workspaces/mutationbackyard/mutations/ /Users/XXX/workspaces/Android/operator/ false
-### contents of operator.properties inside operator dir
-601 =	edu.wm.cs.mplus.operators.crypto.CipherInstance
-602 = 	edu.wm.cs.mplus.operators.crypto.RandomInt
-603 =   edu.wm.cs.mplus.operators.crypto.IvParameterSpec
-604 =   edu.wm.cs.mplus.operators.crypto.SSLContextInstance
-605 =   edu.wm.cs.mplus.operators.crypto.MessageDigest
-606 =   edu.wm.cs.mplus.operators.crypto.HostnameVerifierInstance
-607 =   edu.wm.cs.mplus.operators.crypto.HttpsURLHostnameVerifier
-608 =   edu.wm.cs.mplus.operators.crypto.TrustManagerInstance
-```
-
-#### Running MASC with Exhaustive Scope
-The mSE Extension exhaustively seeds mutants at all locations in the target app’s code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations. 
-```sh
-# receives runtime argument
-
-/Users/XXX/git/XXX/output/templates/ActivityLauncherreach.properties
-## contents of properties file
-lib4ast: /Users/XXX/git/MDroidPlus/libs4ast
-appSrc: /Users/XXX/git/XXX/activitylauncher-reset
-operatorType: REACHABILITY
-
-//REQUIRED FOR MUTATE
-appName: ActivityLauncher
-output: /Users/XXX/git/XXX/output/ActivityLauncher/reach/
-```
-
-
-
-
-### Extending MASC with custom plugins
+## Writing and using your own plugins
 You can code and run your own operators as plugins for MASC for **main scope**. Let's see how it's done!
 
 MASC supports 6 types of operators - 5 predefined operator types plus one more for any custom operator type that does not fall within these five. You can write your own operators for each of the 6 types.
@@ -114,7 +160,7 @@ To write your own operators as plugins, these are the general steps you will nee
 4. Run the jar normally
 5. Find the generated mutated apps in /app/outputs
 
-<!-- Let us see each of these steps in detail.
+Let us see each of these steps in detail.
 
 ### The operator types
 
@@ -312,12 +358,12 @@ Generated mutated apps will be produces in `app/output/`
 Output from plugins will have `plugins.` prefixed in their names.
 
 ### Step 6. Sample operators
-Some sample code for plugins are given with the documentation. The code for some of the plugins are simple and some are complicated. Such examples are deliberately chosen to give you an idea of how the plugins can be of varying complexity. But please note that these operators are examples only, so your plugins may be of higher or lower complexity and size.  -->
+Some sample code for plugins are given with the documentation. The code for some of the plugins are simple and some are complicated. Such examples are deliberately chosen to give you an idea of how the plugins can be of varying complexity. But please note that these operators are examples only, so your plugins may be of higher or lower complexity and size. 
 
-### Automated Analysis
-MASC's automated analysis module automatically compiles and test the generated mutated apps from **main scope** with Crypto-detectors of your choice. MASC can then analyze the report and tell you which mutants have been killed and which have not. This feature, automated analysis, is available for the Crypto-detectors that can output in SARIF format. With time, more and more Crypto-detectors are extending their support for SARIF format. But out of those that don't support SARIF format yet, MASC's automated analysis is available for **CogniCrypt**. 
+## Automated Analysis
+You have already seen how to use MASC for mutant generation. In addition to that, you can also have MASC automatically compile and test the generated mutated apps from **main scope** with any static analysis tool of your choice. MASC can then analyze the report and tell you which mutants have been killed and which have not. This feature, automated analysis, is available for the Crypto-detectors that can output in SARIF format. With time, more and more Crypto-detectors are extending their support for SARIF format. But out of those that don't support SARIF format yet, MASC's automated analysis is available for CogniCrypt. 
 
-<!-- ### How it works
+### How it works
 In order to use this feature, you have to - 
 1. Write the necessary information in the properties file. 
 2. Run MASC normally.
@@ -475,9 +521,122 @@ outputReportDirectory = F:/IIT/Projects/SPL3/CryptoAnalysis-2.7.2/CryptoAnalysis
 outputFileName = out.txt
 stopCondition = OnError
 wrapper = CogniCrypt
-``` -->
+```
 
-# Related work
+## Running other MASC modules
 
-# Developer documentation
+Apart from the core module discussed above, MASC consists of two more modules.
 
+- MDroidPlus was extended to create the selective scope of MASC. select crypto API specific locations. It then "injects" mutants. These mutants are from masc-core.
+
+- Muse was extended to create the exhaustive scope of MASC, while considering additional considerations in terms of crypto APIs and locations.
+
+Running MASC and its modules is straightforward.
+
+We did our best effort to document the source code and follow proper coding conventions, which should make this easy to navigate through the source code.
+
+We share sample runtime arguments we used for running the two mentioned MASC modules.
+
+### Running MASC for MDroidPlus Extension
+
+```sh
+/Users/XXX/git/XXX/MDroidPlus/libs4ast/ /Users/XXX/workspaces/mutationbackyard/sources/car-report car-report /Users/XXX/workspaces/mutationbackyard/mutations/ /Users/XXX/workspaces/Android/operator/ false
+### contents of operator.properties inside operator dir
+601 =	edu.wm.cs.mplus.operators.crypto.CipherInstance
+602 = 	edu.wm.cs.mplus.operators.crypto.RandomInt
+603 =   edu.wm.cs.mplus.operators.crypto.IvParameterSpec
+604 =   edu.wm.cs.mplus.operators.crypto.SSLContextInstance
+605 =   edu.wm.cs.mplus.operators.crypto.MessageDigest
+606 =   edu.wm.cs.mplus.operators.crypto.HostnameVerifierInstance
+607 =   edu.wm.cs.mplus.operators.crypto.HttpsURLHostnameVerifier
+608 =   edu.wm.cs.mplus.operators.crypto.TrustManagerInstance
+```
+
+### Running MASC for mSE Extension
+
+```sh
+# receives runtime argument
+
+/Users/XXX/git/XXX/output/templates/ActivityLauncherreach.properties
+## contents of properties file
+lib4ast: /Users/XXX/git/MDroidPlus/libs4ast
+appSrc: /Users/XXX/git/XXX/activitylauncher-reset
+operatorType: REACHABILITY
+
+//REQUIRED FOR MUTATE
+appName: ActivityLauncher
+output: /Users/XXX/git/XXX/output/ActivityLauncher/reach/
+```
+
+<!-- 
+# Source code of MASC Prototype
+
+MASC Prototype's source code consists of three modules.
+
+- MASC's core `masc-core` contains builders and generators that work with crypto APIs and mutation operators to generate API use instances (mutants).
+It relies on JavaPoet library and Reflection API to extract properties from a given crypto API, uses the values specified by user, and creates crypto API use instances. Depending on the values specified, the instances will be misuse. It can also be used to create barebone mutants.
+
+- MDroidPlus was extended to create the selective scope of MASC. select crypto API specific locations. It then "injects" mutants. These mutants are from masc-core.
+
+- Muse was extended to create the exhaustive scope of MASC, while considering additional considerations in terms of crypto APIs and locations.
+
+
+## Running MASC modules
+
+Running MASC and its modules is straightforward.
+
+We did our best effort to document the source code and follow proper coding conventions, which should make this easy to navigate through the source code.
+
+## Running MASC modules
+
+We share sample runtime arguments we used for running MASC modules.
+
+### Running MASC Core
+
+```sh
+MASCBarebone <propertiesfile.properties path>
+## contents of a properties file
+type = StringOperator
+outputDir = /Users/XXX/workspaces/mutationbackyard/reproduce
+apiName = javax.crypto.Cipher
+invocation = getInstance
+secureParam = AES/GCM/NoPadding
+insecureParam = AES
+noise = ~
+variableName = cryptoVariable
+className = CryptoTest
+propertyName = propertyName
+```
+
+### for MDroidPlus Extension
+
+```sh
+/Users/XXX/git/XXX/MDroidPlus/libs4ast/ /Users/XXX/workspaces/mutationbackyard/sources/car-report car-report /Users/XXX/workspaces/mutationbackyard/mutations/ /Users/XXX/workspaces/Android/operator/ false
+### contents of operator.properties inside operator dir
+601 =	edu.wm.cs.mplus.operators.crypto.CipherInstance
+602 = 	edu.wm.cs.mplus.operators.crypto.RandomInt
+603 =   edu.wm.cs.mplus.operators.crypto.IvParameterSpec
+604 =   edu.wm.cs.mplus.operators.crypto.SSLContextInstance
+605 =   edu.wm.cs.mplus.operators.crypto.MessageDigest
+606 =   edu.wm.cs.mplus.operators.crypto.HostnameVerifierInstance
+607 =   edu.wm.cs.mplus.operators.crypto.HttpsURLHostnameVerifier
+608 =   edu.wm.cs.mplus.operators.crypto.TrustManagerInstance
+```
+
+### for mSE Extension
+
+```sh
+# receives runtime argument
+
+/Users/XXX/git/XXX/output/templates/ActivityLauncherreach.properties
+## contents of properties file
+lib4ast: /Users/XXX/git/MDroidPlus/libs4ast
+appSrc: /Users/XXX/git/XXX/activitylauncher-reset
+operatorType: REACHABILITY
+
+//REQUIRED FOR MUTATE
+appName: ActivityLauncher
+output: /Users/XXX/git/XXX/output/ActivityLauncher/reach/
+```
+
+-->
