@@ -163,7 +163,7 @@ public class MyStrOperatorPlugin extends AStringOperator {
     }
 }
 ```
-# **1.7 About the `mutation()` method**
+## **1.7 About the `mutation()` method**
 Whatever this method returns in the mutation that will be injected in the output mutated apps. In most cases, the return value might not be as simple as the one shown in the example code above. It is very common, recommended even, to be fetching values from properties file. That is the purpose of the properties file, after all. The code of an operator should not be tied to the details of a specific API. Instead, the operator should make use of the values as provided by the properties file so that the operator can be used for virtually any API just by changing the values of the properties file. The structure for properties file for the 5 operator types (except custom type) is fixed, and the values are already available and ready to use. So the `mutation()` function in the above sample should look like this:
 ```
 @Override
@@ -179,7 +179,7 @@ Whatever this method returns in the mutation that will be injected in the output
     }
 ```
 
-# **1.8 About `CustomGenericOperator`** 
+## **1.8 About `CustomGenericOperator`** 
 Custom operator type are the operators that extend `CustomGenericOperator` abstract class. These operators have no fixed structure for the properties file. Hence no values are preloaded and all values can be manually loaded like this - 
 `getAttribute("key")`
 
@@ -210,5 +210,5 @@ Generated mutated apps will be produces in `app/output/`
 Output from plugins will have `plugins.` prefixed in their names.
 
 # 6. Sample operators
-Some sample code for plugins are given with the documentation. The code for some of the plugins are simple and some are complicated. Such examples are deliberately chosen to give you an idea of how the plugins can be of varying complexity. But please note that these operators are examples only, so your plugins may be of higher or lower complexity and size. 
+Some sample code for plugins are given [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/Documentation/plugins) with the documentation. The code for some of the plugins are simple and some are complicated. Such examples are deliberately chosen to give you an idea of how the plugins can be of varying complexity. But please note that these operators are examples only, so your plugins may be of higher or lower complexity and size. 
 
