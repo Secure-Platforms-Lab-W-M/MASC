@@ -5,35 +5,32 @@ MASC does this by (1) using realistic, expressive crypto-API specific mutation-o
 
 ![MASC Process Diagram. It describes the following, 3-step process: (1) using realistic, expressive crypto-API specific mutation-operators to create expressions of crypto API misuse (misuse instances), (2) creating mutant apps by injecting misuse instances in open source Java or Android applications, and (3) analyzing crypto-detectors by running those on mutated apps](assets/masc-process.png)
 
-# Demonstration
+## Demonstration Video
 For a more detailed explanation of the concepts behind MASC and a step-by-step guide to its features, check out this video demonstration [here](https://www.youtube.com/watch?v=ZKzUnBXGla0).
 
-# Usage
-## Installation
-The following steps can be followed to setup and use MASC.
+## Dependencies/Environment Setup
 
-### Environment setup
-MASC runs on java 11. So the first step is to install Java 11.
+MASC is built to run using Java LTS  version 11. Please refer to your operating system specific instructions (e.g., [Oracle](https://www.java.com/en/download/help/download_options.html)) to install Java. Please make sure that it is available in the system `PATH`, and can be accessed from terminal. For example, running `java -version` in terminal/cmd should show a message similar to the following:
 
-#### Windows
-1. Visit [this link](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html) to download Java 11.0.14 from Oracle website.
-2. Next, run the installer and follow the on screen instructions to complete the installation.
-3. Now add java to environment variables by: Right Click -> My Computer(This PC) -> Properties -> Advanced System Settings
-4. Now click on Environment Variables, select Path under System Variables section and click on Edit.
-5. Add the path of installed JDK to system Path. Save and exit.
-6. Open command prompt and run java -version to test installation.
+```sh
+java -version
+openjdk version "11.0.19" 2023-04-18 LTS
+OpenJDK Runtime Environment Corretto-11.0.19.7.1 (build 11.0.19+7-LTS)
+OpenJDK 64-Bit Server VM Corretto-11.0.19.7.1 (build 11.0.19+7-LTS, mixed mode)
+```
 
-#### Ubuntu
-1. Simply run the command: sudo apt-get install openjdk-11-jdk
-2. Run java -version to test installation.
+Moreover, MASC needs [gradle](https://gradle.org/) to be built. Please refer to your OS specific instructions to install gradle.
 
-### Running MASC
-1. Clone the [Masc Repository](https://github.com/Secure-Platforms-Lab-W-M/MASC) from GitHub. Take note of where the cloned repository is saved on your machine.
-2. Open the clone repository, go to `masc-core`, and run  `gradlew shadowJar` to create a JAR file for MASC. The output JAR can be found at `masc-core > app > build > libs > app-all.jar`.
-3. Test run with `java -jar masc.jar`. If you see the message “No properties file supplied”, it means installation has been completed.
+## Configuring MASC
 
-## Sample Configuration
-MASC can be configured by supplying a  `.properties` file. All inputs are given to the tool through the properties file. Here is a sample configuration provided in the properties file -
+To get started, we need to do the following:
+
+1. Start by cloning the [MASC Repository](https://github.com/Secure-Platforms-Lab-W-M/MASC) from GitHub.
+2. Open the cloned repository, go to `masc-core` directory, and run  `gradlew shadowJar` to create a JAR file for MASC. The output JAR can be found at `masc-core > app > build > libs > app-all.jar`.
+3. Test run with `java -jar masc.jar`. If you see the message “No properties file supplied”, it means MASC has been successfully built.
+
+MASC is run by specifying the parameters in a text-based configuration (`.properties`) file, consisting of multiple `key = value` pairs. Some keys are required, whereas the others are optional. Since there can be several combinations of keys, to simplify the familiarization, we will use the following sample configuration file to run MASC.
+
 ```
 mutantGeneration = true
 type = StringOperator
@@ -48,32 +45,33 @@ insecureParam = AES
 noise = ~
 variableName = cryptoVariable
 ```
-Here, the first 6 keys are mandatory, while the next 5 keys are optional. They depend on the type of operator specified in line 2. Order of these items in the properties file DO NOT matter.
+Here, the first six keys are *required*. Note that the order of the keys in the configuration file does not matter.
 
-Depending on the type of operator (line 2) and the scope (line 4) the structure of the properties file may be very different. Examples of many different properties files are available in the project artifacts.
+For more examples of configuration files, go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/masc-core/app/src/main/resources).
 
-For more configuration files, go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/masc-core/app/src/main/resources).
+We also have a detailed guide on writing configuration files and with explanation of each `key = value` pairs in the [user manual](https://github.com/Secure-Platforms-Lab-W-M/MASC/blob/main/Documentation/user_manual.md#creating-a-properties-file).
 
-For a detailed guide on writing configuration files and what each parameters mean, check [this section](https://github.com/Secure-Platforms-Lab-W-M/MASC/blob/main/Documentation/user_manual.md#creating-a-properties-file) of the user manual.
+MASC can be run using both Command Line Interface and Browser-based User Interface, which we discuss next.
 
 ## Running MASC with the web interface
 
 ## Running MASC with the CLI
 
-### Running MASC with Main Scope
-Masc core seeds mutants at the beginning of the main method of a simple Java app developed by the authors. To run MASC core, save the configuration given above in a ```.properties``` file and run the command
-```
-java -jar path_to_jar path_to_properties_file
-```
-For instance, if the configuration is saved in  `Cipher.properties`, run:
-```
+### Running MASC with the Main Scope
+
+In the example configuration file, we have specified that we want to create crypto-API misuse instances in a bare-bone Java source file that contains a `main` method. Due to the bare-bone nature, MASC does not need an input app to mutate, rather it creates a single source code file and then introduces the misuse instance inside it for convenience.
+
+Assuming that the above sample configuration file is saved in a file called `Cipher.properties`, please run the following:
+
+```sh
 java -jar masc.jar Cipher.properties
 ```
 
 ### Output
+
 Check the output folder (as specified in the properties file). You will find n folders, each containing the output of an operator, which is a mutated application. Now, you can analyze these mutants by static analyzers of your choice manually or by using the automated analysis module of MASC as described [here](#automated-analysis).
 
-### Running MSSC with Scopes
+### Running MASC with Scopes
 
 #### Running MASC with Similarity Scope
 The MDroidPlus Extension uses abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable.
