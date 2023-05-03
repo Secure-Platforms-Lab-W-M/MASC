@@ -30,7 +30,7 @@ Users can also upload new one by clicking **create configurations**
 - Finallyy **Run Masc Lab** will start the process.
 #### Output
 The output page for MASC Lab has 3 windows. 
-![Masc Lab output](./assets/mlout.png)
+![Masc Lab output](./assets/mlout.PNG)
 
 - The left window of the top row provides user the configuration upon which the mutation has taken place.
 - The right window is the main window as it shows the mutations to the user.
@@ -50,7 +50,7 @@ Users can easily upload the java code containing his/her plugin and build that u
 - The user will have to give a name and a java code file of the plugin.
 - Once uploaded the user can build the code directlyy from plugin managers in order to use it for mutation.
 
-![Plugin Manager](./assets/pmd.png)
+![Plugin Manager](./assets/pmd.PNG)
 
 From the actions column the user easily builds the operator by clicking the blue build button. At the same time if the user want to change the activation status of the plugin they can also do it from the actions columns. **_`Inactive`_** status means the operator won’t take part in mutation. The user has to **_`activate`_** the plugin plugin in order to take part in mutation
 
