@@ -92,7 +92,7 @@ python manage.py migrate
 ```sh
 python manage.py runserver
 ```
-
+For the user manual of MASC web interface please go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/blob/masc-web-django/user_manual.md) 
 
 ## Running MASC with the CLI
 
