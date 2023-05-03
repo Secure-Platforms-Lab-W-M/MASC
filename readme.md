@@ -64,6 +64,8 @@ python => 3.10.4
 Django => (4, 0, 5, 'final', 0)
 ```
 
+The MASC web interface is available in the ```masc-web-django``` branch of [MASC Repository](https://github.com/Secure-Platforms-Lab-W-M/MASC) from GitHub. First job is to clone the project. Next
+
 ### Run MASC web interface
 - Create virtual environment
 ```sh
