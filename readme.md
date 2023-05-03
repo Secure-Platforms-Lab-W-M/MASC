@@ -8,7 +8,7 @@ MASC does this by (1) using realistic, expressive crypto-API specific mutation-o
 ## Demonstration Video
 For a more detailed explanation of the concepts behind MASC and a step-by-step guide to its features, check out this video demonstration.
 
-[![MASC Demonstration](http://img.youtube.com/vi/ZKzUnBXGla0/0.jpg)](https://www.youtube.com/watch?v=ZKzUnBXGla0)
+[![MASC Demonstration](http://img.youtube.com/vi/ZKzUnBXGla0/hqdefault.jpg)](https://www.youtube.com/watch?v=ZKzUnBXGla0)
 
 ## Dependencies/Environment Setup
 
