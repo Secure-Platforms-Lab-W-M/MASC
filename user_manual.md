@@ -6,7 +6,7 @@ Upon entering the web interface the user is presented with an welcome screen fro
 - [Plugin Manager](#plugin-manager)
 - [Tool Profiling](#tool-profiling)
 
-![MASC web Interface landing screen](./assets/home.png)
+![MASC web Interface landing screen](./assets/home.PNG)
 
 As like MASC core MASC web also utilizes various configurations
 in order to come up with various mutations. SO the user has to keep track of this various configurations files in order to take full advantage of MASC.
