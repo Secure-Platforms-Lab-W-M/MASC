@@ -69,7 +69,7 @@ java -jar masc.jar Cipher.properties
 
 ### Output
 
-Check the output folder (as specified in the properties file). You will find n folders, each containing the output of an operator, which is a mutated application. Now, you can analyze these mutants by static analyzers of your choice manually or by using the automated analysis module of MASC as described [here](#automated-analysis).
+Check the output folder (as specified in the configuration file). You will find `n` folders, each containing the output of an operator, which is a mutated application. Now, you can analyze these mutants by static analyzers of your choice manually or by using the automated analysis module of MASC as described [here](#automated-analysis).
 
 ### Running MASC with Scopes
 
@@ -108,6 +108,7 @@ output: /Users/XXX/git/XXX/output/ActivityLauncher/reach/
 
 
 ### Extending MASC Main Scope with custom plugins
+
 You write your own operators as plugins for MASC for **main scope**.
 
 MASC supports 6 types of operators - 5 predefined operator types plus one more for any custom operator type that does not fall within these five. You can write your own operators for each of the 6 types.
@@ -178,9 +179,11 @@ Generated mutated apps will be produces in `app/output/`
 Output from plugins will have `plugins.` prefixed in their names.
 
 ### Automated Analysis
+
 MASC's automated analysis module automatically compiles mutated apps produced from the main scope, tests them using chosen Crypto-detectors, then identifies the killed and unkilled mutants. Although this feature is currently limited to Crypto-detectors that can output in the SARIF format, MASC's automated analysis now supports CogniCrypt even though it uses a custom format instead of SARIF.
 
 #### Sample configuration
+
 To run automated analysis, add the following to your properties file and run normally:
 ```
 automatedAnalysis = true
@@ -204,9 +207,27 @@ If you want to run MASC's automated analysis for CogniCrypt, just add an extra f
  wrapper = CogniCrypt
  ```
 
-# Related work
+## Related work
+
 A. S. Ami, N. Cooper, K. Kafle, K. Moran, D. Poshyvanyk and A. Nadkarni, "Why Crypto-detectors Fail: A Systematic Evaluation of Cryptographic Misuse Detection Techniques," 2022 IEEE Symposium on Security and Privacy (SP), San Francisco, CA, USA, 2022, pp. 614-631, doi: [10.1109/SP46214.2022.9833582](
 https://doi.org/10.1109/SP46214.2022.9833582).
 
-# Developer documentation
+```bibtex
+@inproceedings{ami-masc-oakland22,
+  author = {Ami, {Amit Seal} and Cooper, Nathan and Kafle, Kaushal and Moran, Kevin and Poshyvanyk, Denys and Nadkarni, Adwait},
+  booktitle = {2022 IEEE Symposium on Security and Privacy (S\&P)},
+  title = {{Why Crypto-detectors Fail: A Systematic Evaluation of Cryptographic Misuse Detection Techniques}},
+  year = {2022},
+  address = {San Francisco, CA, USA},
+  month = may,
+  pages = {397--414},
+  publisher = {IEEE Computer Society},
+  issn = {2375-1207},
+  pdf = {https://arxiv.org/pdf/2107.07065.pdf},
+  sourcecode = {https://github.com/Secure-Platforms-Lab-W-M/masc-artifact},
+  url = {https://ieeexplore.ieee.org/document/9833582},
+  doi = {10.1109/SP46214.2022.9833582}
+}
+```
+## Developer documentation
 To access the user manuals and High Level Architectural diagrams, please go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/Documentation).
