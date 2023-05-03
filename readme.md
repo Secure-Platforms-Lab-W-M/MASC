@@ -6,7 +6,9 @@ MASC does this by (1) using realistic, expressive crypto-API specific mutation-o
 ![MASC Process Diagram. It describes the following, 3-step process: (1) using realistic, expressive crypto-API specific mutation-operators to create expressions of crypto API misuse (misuse instances), (2) creating mutant apps by injecting misuse instances in open source Java or Android applications, and (3) analyzing crypto-detectors by running those on mutated apps](assets/masc-process.png)
 
 ## Demonstration Video
-For a more detailed explanation of the concepts behind MASC and a step-by-step guide to its features, check out this video demonstration [here](https://www.youtube.com/watch?v=ZKzUnBXGla0).
+For a more detailed explanation of the concepts behind MASC and a step-by-step guide to its features, check out this video demonstration.
+
+[![MASC Demonstration](http://img.youtube.com/vi/ZKzUnBXGla0/0.jpg)](https://www.youtube.com/watch?v=ZKzUnBXGla0)
 
 ## Dependencies/Environment Setup
 
