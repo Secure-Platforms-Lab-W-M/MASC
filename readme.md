@@ -56,6 +56,41 @@ We also have a detailed guide on writing configuration files and with explanatio
 MASC can be run using both Command Line Interface and Browser-based User Interface, which we discuss next.
 
 ## Running MASC with the web interface
+MASC web interface provides an user the opportunity to explore MASC along with its various scopes and operators.The web interface shall give the user the privildge to run Masc lab and Masc engine.Using MASC Lab an user can inspect the functionality of different operators for different configuration and through MASC Engine they can can mutate their source code using both Exhaustive or Selective Scope.
+### Environments
+The project is based on django frame work.
+```sh
+python => 3.10.4
+Django => (4, 0, 5, 'final', 0)
+```
+
+### Run MASC web interface
+- Create virtual environment
+```sh
+python3 -m venv venv
+source venv/bin/activate
+```
+for windows 
+```sh
+python3 -m venv venv
+.\venv\Scripts\activate
+```
+
+- Install dependecies
+```sh
+pip install -r requirements.txt
+```
+
+- Make Migration
+```sh
+python manage.py makemigrations
+python manage.py migrate
+```
+- Run server
+```sh
+python manage.py runserver
+```
+
 
 ## Running MASC with the CLI
 
