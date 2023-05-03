@@ -1,35 +1,39 @@
-# MASC 
-MASC (Mutation Analysis for Evaluating Static Crypto-API Misuse Detectors) is a framework that enables a systematic and data-driven evaluation of crypto-API misuse detectors (or Crypto-detectors) using mutation testing. Backed up by a data-driven taxonomy of 105 misuse cases of existing crypto-API, the tool can generate thousands of insecure mutants by injecting instantiations of these misuse cases in Java or Android apps. These mutants can be used to test and debug cryptographic API misuse detectors.
+# MASC
+
+MASC (Mutation Analysis for Evaluating Static Crypto-API Misuse Detectors) is a framework for systematic and data-driven evaluation of static analysis based crypto-API misuse detectors (*Crypto-detectors*).
+MASC does this by (1) using realistic, expressive crypto-API specific mutation-operators to create expressions of crypto API misuse (misuse instances), (2) creating mutant apps by injecting misuse instances in open source Java or Android applications, and (3) evaluating crypto-detectors by analyzing the reports produced from scanning the mutated apps.
+
+![MASC Process Diagram. It describes the following, 3-step process: (1) using realistic, expressive crypto-API specific mutation-operators to create expressions of crypto API misuse (misuse instances), (2) creating mutant apps by injecting misuse instances in open source Java or Android applications, and (3) analyzing crypto-detectors by running those on mutated apps](assets/masc-process.png)
 
 # Demonstration
 For a more detailed explanation of the concepts behind MASC and a step-by-step guide to its features, check out this video demonstration [here](https://www.youtube.com/watch?v=ZKzUnBXGla0).
 
 # Usage
 ## Installation
-The following steps can be followed to setup and use MASC. 
+The following steps can be followed to setup and use MASC.
 
 ### Environment setup
 MASC runs on java 11. So the first step is to install Java 11.
- 
+
 #### Windows
 1. Visit [this link](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html) to download Java 11.0.14 from Oracle website.
 2. Next, run the installer and follow the on screen instructions to complete the installation.
 3. Now add java to environment variables by: Right Click -> My Computer(This PC) -> Properties -> Advanced System Settings
-4. Now click on Environment Variables, select Path under System Variables section and click on Edit. 
-5. Add the path of installed JDK to system Path. Save and exit. 
+4. Now click on Environment Variables, select Path under System Variables section and click on Edit.
+5. Add the path of installed JDK to system Path. Save and exit.
 6. Open command prompt and run java -version to test installation.
 
 #### Ubuntu
 1. Simply run the command: sudo apt-get install openjdk-11-jdk
-2. Run java -version to test installation. 
+2. Run java -version to test installation.
 
 ### Running MASC
-1. Clone the [Masc Repository](https://github.com/Secure-Platforms-Lab-W-M/MASC) from GitHub. Take note of where the cloned repository is saved on your machine. 
+1. Clone the [Masc Repository](https://github.com/Secure-Platforms-Lab-W-M/MASC) from GitHub. Take note of where the cloned repository is saved on your machine.
 2. Open the clone repository, go to `masc-core`, and run  `gradlew shadowJar` to create a JAR file for MASC. The output JAR can be found at `masc-core > app > build > libs > app-all.jar`.
-3. Test run with `java -jar masc.jar`. If you see the message “No properties file supplied”, it means installation has been completed. 
+3. Test run with `java -jar masc.jar`. If you see the message “No properties file supplied”, it means installation has been completed.
 
 ## Sample Configuration
-MASC can be configured by supplying a  `.properties` file. All inputs are given to the tool through the properties file. Here is a sample configuration provided in the properties file - 
+MASC can be configured by supplying a  `.properties` file. All inputs are given to the tool through the properties file. Here is a sample configuration provided in the properties file -
 ```
 mutantGeneration = true
 type = StringOperator
@@ -44,13 +48,13 @@ insecureParam = AES
 noise = ~
 variableName = cryptoVariable
 ```
-Here, the first 6 keys are mandatory, while the next 5 keys are optional. They depend on the type of operator specified in line 2. Order of these items in the properties file DO NOT matter. 
+Here, the first 6 keys are mandatory, while the next 5 keys are optional. They depend on the type of operator specified in line 2. Order of these items in the properties file DO NOT matter.
 
-Depending on the type of operator (line 2) and the scope (line 4) the structure of the properties file may be very different. Examples of many different properties files are available in the project artifacts. 
+Depending on the type of operator (line 2) and the scope (line 4) the structure of the properties file may be very different. Examples of many different properties files are available in the project artifacts.
 
-For more configuration files, go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/masc-core/app/src/main/resources). 
+For more configuration files, go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/masc-core/app/src/main/resources).
 
-For a detailed guide on writing configuration files and what each parameters mean, check [this section](https://github.com/Secure-Platforms-Lab-W-M/MASC/blob/main/Documentation/user_manual.md#creating-a-properties-file) of the user manual. 
+For a detailed guide on writing configuration files and what each parameters mean, check [this section](https://github.com/Secure-Platforms-Lab-W-M/MASC/blob/main/Documentation/user_manual.md#creating-a-properties-file) of the user manual.
 
 ## Running MASC with the web interface
 
@@ -67,12 +71,12 @@ java -jar masc.jar Cipher.properties
 ```
 
 ### Output
-Check the output folder (as specified in the properties file). You will find n folders, each containing the output of an operator, which is a mutated application. Now, you can analyze these mutants by static analyzers of your choice manually or by using the automated analysis module of MASC as described [here](#automated-analysis). 
+Check the output folder (as specified in the properties file). You will find n folders, each containing the output of an operator, which is a mutated application. Now, you can analyze these mutants by static analyzers of your choice manually or by using the automated analysis module of MASC as described [here](#automated-analysis).
 
 ### Running MSSC with Scopes
 
 #### Running MASC with Similarity Scope
-The MDroidPlus Extension uses abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable. 
+The MDroidPlus Extension uses abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable.
 ```sh
 /Users/XXX/git/XXX/MDroidPlus/libs4ast/ /Users/XXX/workspaces/mutationbackyard/sources/car-report car-report /Users/XXX/workspaces/mutationbackyard/mutations/ /Users/XXX/workspaces/Android/operator/ false
 ### contents of operator.properties inside operator dir
@@ -87,7 +91,7 @@ The MDroidPlus Extension uses abstract syntax tree to seed instances of misuse c
 ```
 
 #### Running MASC with Exhaustive Scope
-The mSE Extension exhaustively seeds mutants at all locations in the target app’s code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations. 
+The mSE Extension exhaustively seeds mutants at all locations in the target app’s code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations.
 ```sh
 # receives runtime argument
 
@@ -106,14 +110,14 @@ output: /Users/XXX/git/XXX/output/ActivityLauncher/reach/
 
 
 ### Extending MASC Main Scope with custom plugins
-You write your own operators as plugins for MASC for **main scope**. 
+You write your own operators as plugins for MASC for **main scope**.
 
 MASC supports 6 types of operators - 5 predefined operator types plus one more for any custom operator type that does not fall within these five. You can write your own operators for each of the 6 types.
 
-To write your own operators as plugins, these are the general steps you will need to follow - 
+To write your own operators as plugins, these are the general steps you will need to follow -
 
-1. Write the code in a .java file 
-2. Compile the code to get the .class file 
+1. Write the code in a .java file
+2. Compile the code to get the .class file
 3. Place the .class file in /plugins/
 4. Run the jar normally
 5. Find the generated mutated apps in /app/outputs
@@ -152,21 +156,21 @@ public class MyStrOperatorPlugin extends AStringOperator {
 }
 ```
 
-For more sample codes for plugins of different types, go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/Documentation/plugins). 
+For more sample codes for plugins of different types, go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/Documentation/plugins).
 
-For a detailed guide on writing your own plugins, check the user manual [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/blob/main/Documentation/plugins_readme.md). 
+For a detailed guide on writing your own plugins, check the user manual [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/blob/main/Documentation/plugins_readme.md).
 
 #### Step 2. Compiling the code
-Compile your code by adding the MASC.jar to classpath as such. Open a command prompt in folder where your code for the plugin is, and run this command: 
-``` 
-javac -cp directory/MASC.jar *.java   
+Compile your code by adding the MASC.jar to classpath as such. Open a command prompt in folder where your code for the plugin is, and run this command:
+```
+javac -cp directory/MASC.jar *.java
 ```
 
 #### Step 3. Placing the class file in /plugins/ folder
-Place the  `.class` files in /plugins/ folder. 
+Place the  `.class` files in /plugins/ folder.
 
 #### Step 4. Running the jar
-Run the jar normally: 
+Run the jar normally:
 ```
 java -jar MASC.jar propertiesFileName.properties
 ```
@@ -197,7 +201,7 @@ To run automated analysis only without mutant generation, add this line to the p
 mutantGeneration = false
 ```
 
-If you want to run MASC's automated analysis for CogniCrypt, just add an extra field - 
+If you want to run MASC's automated analysis for CogniCrypt, just add an extra field -
  ```
  wrapper = CogniCrypt
  ```
@@ -207,5 +211,4 @@ A. S. Ami, N. Cooper, K. Kafle, K. Moran, D. Poshyvanyk and A. Nadkarni, "Why Cr
 https://doi.org/10.1109/SP46214.2022.9833582).
 
 # Developer documentation
-To access the user manuals and High Level Architectural diagrams, please go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/Documentation). 
-
+To access the user manuals and High Level Architectural diagrams, please go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/Documentation).
