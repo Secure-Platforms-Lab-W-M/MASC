@@ -143,7 +143,34 @@ appName: ActivityLauncher
 output: /Users/XXX/git/XXX/output/ActivityLauncher/reach/
 ```
 
+### Automated Analysis
 
+MASC's automated analysis module automatically compiles mutated apps produced from the main scope, tests them using chosen Crypto-detectors, then identifies the killed and unkilled mutants. Although this feature is currently limited to Crypto-detectors that can output in the SARIF format, MASC's automated analysis now supports CogniCrypt even though it uses a custom format instead of SARIF.
+
+#### Sample configuration
+
+To run automated analysis, add the following to your properties file and run normally:
+```
+automatedAnalysis = true
+toolName = find-sec-bugs
+toolLocation = /home/yusuf/Downloads
+toolRunCommand = bash findsecbugs.sh -high -sarif -output out.json {}
+mutatedAppsLocation = app/outputs
+codeCompileCommand = javac *.java
+outputReportDirectory = /home/yusuf/Downloads
+outputFileName = out.json
+stopCondition = OnError
+```
+
+To run automated analysis only without mutant generation, add this line to the properties file:
+```
+mutantGeneration = false
+```
+
+If you want to run MASC's automated analysis for CogniCrypt, just add an extra field -
+ ```
+ wrapper = CogniCrypt
+ ```
 
 
 ### Extending MASC Main Scope with custom plugins
@@ -216,35 +243,6 @@ java -jar MASC.jar propertiesFileName.properties
 #### Step 5. The output
 Generated mutated apps will be produces in `app/output/`
 Output from plugins will have `plugins.` prefixed in their names.
-
-### Automated Analysis
-
-MASC's automated analysis module automatically compiles mutated apps produced from the main scope, tests them using chosen Crypto-detectors, then identifies the killed and unkilled mutants. Although this feature is currently limited to Crypto-detectors that can output in the SARIF format, MASC's automated analysis now supports CogniCrypt even though it uses a custom format instead of SARIF.
-
-#### Sample configuration
-
-To run automated analysis, add the following to your properties file and run normally:
-```
-automatedAnalysis = true
-toolName = find-sec-bugs
-toolLocation = /home/yusuf/Downloads
-toolRunCommand = bash findsecbugs.sh -high -sarif -output out.json {}
-mutatedAppsLocation = app/outputs
-codeCompileCommand = javac *.java
-outputReportDirectory = /home/yusuf/Downloads
-outputFileName = out.json
-stopCondition = OnError
-```
-
-To run automated analysis only without mutant generation, add this line to the properties file:
-```
-mutantGeneration = false
-```
-
-If you want to run MASC's automated analysis for CogniCrypt, just add an extra field -
- ```
- wrapper = CogniCrypt
- ```
 
 ## Related work
 
