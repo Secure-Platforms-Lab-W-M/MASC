@@ -1,6 +1,6 @@
 # MASC Web
 
-This is the web component of MASC. It is built using Flask in python.
+This is the web component of MASC. It is built using Flask in python 3.10.
 
 ## How to Run
 
