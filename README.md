@@ -20,7 +20,7 @@ python3 -m venv venv
 .\venv\Scripts\activate
 ```
 
-- Install dependecies
+- Install dependencies
 ```sh
 pip install -r requirements.txt
 ```
