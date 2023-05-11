@@ -38,7 +38,7 @@ public class MASC {
             try {
                 runMain(path);
             } catch (ConfigurationException e) {
-                logger.trace("Filed to load the properties file %s", path);
+                logger.trace("Failed to load the properties file %s", path);
             }
         }
     }
