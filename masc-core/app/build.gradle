@@ -101,6 +101,8 @@ task copyJarForTesting {
 test.dependsOn copyJarForTesting
 
 task deleteTestJars (type: Delete) {
+    description 'removes build files placed in the plugins directory for testing'
+    group 'build'
     delete fileTree('src/test/resources/plugins'){
         include '*.class', '*.jar'
     }
