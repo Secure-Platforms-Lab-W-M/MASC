@@ -57,7 +57,7 @@ MASC can be run using both Command Line Interface and Browser-based User Interfa
 
 ## Running MASC with the Web Interface
 
-MASC web interface provides an user the opportunity to explore MASC along with its various scopes and operators. The web interface shall give the user the privilege to run Masc lab and Masc engine.Using MASC Lab an user can inspect the functionality of different operators for different configuration and through MASC Engine they can can mutate their source code using both Exhaustive or Selective Scope.
+MASC web interface provides a user the opportunity to explore MASC along with its various scopes and operators. The web interface shall give the user the privilege to run Masc lab and Masc engine. Using MASC Lab a user can inspect the functionality of different operators for different configurations and through MASC Engine they can mutate their source code using both Exhaustive or Selective Scope.
 
 ### Environments
 
@@ -123,7 +123,7 @@ Check the output folder (as specified in the configuration file). You will find 
 ### Running MASC with Scopes
 
 #### Running MASC with Similarity Scope
-The MDroidPlus Extension uses abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable.
+The Similarity Scope (based on MDroidPlus) uses abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable.
 
 ```sh
 /Users/XXX/git/XXX/MDroidPlus/libs4ast/ /Users/XXX/workspaces/mutationbackyard/sources/car-report car-report /Users/XXX/workspaces/mutationbackyard/mutations/ /Users/XXX/workspaces/Android/operator/ false
@@ -140,7 +140,7 @@ The MDroidPlus Extension uses abstract syntax tree to seed instances of misuse c
 
 #### Running MASC with Exhaustive Scope
 
-The mSE Extension exhaustively seeds mutants at all locations in the target app’s code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations.
+The Exhaustive Scope (based on extending mSE) exhaustively seeds mutants at all locations in the target app's code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations.
 
 ```sh
 # receives runtime argument
@@ -191,11 +191,14 @@ wrapper = CogniCrypt
 
 ### Extending MASC Main Scope with custom plugins
 
-You write your own operators as plugins for MASC for **main scope**.
+You can write your own operators as plugins for MASC for the **main scope**.
 
-MASC supports 6 types of operators - 5 predefined operator types plus one more for any custom operator type that does not fall within these five. You can write your own operators for each of the 6 types.
+Programmatically, you can create plugins by extending five existing restrictive-type operators of MASC. Furthermore, you can also create your own plugin that need not depend on any of the existing operators.
 
-To write your own operators as plugins, these are the general steps you will need to follow -
+
+For a detailed guide on writing your own plugins, check the user manual [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/blob/main/Documentation/plugins_readme.md).
+
+To write your own operators as plugins, these are the general steps you will need to follow:
 
 1. Write the code in a .java file
 2. Compile the code to get the .class file
@@ -203,8 +206,11 @@ To write your own operators as plugins, these are the general steps you will nee
 4. Run the jar normally
 5. Find the generated mutated apps in /app/outputs
 
-#### Step 1 code your plugin
-Here is a sample code for a String type operator:
+Here, we provide details related to each of the steps:
+
+#### Step 1. code your plugin
+
+Here is a sample code creating a plugin based on the StringOperator of MASC:
 
 ```java
 package plugins;
@@ -238,15 +244,15 @@ public class MyStrOperatorPlugin extends AStringOperator {
 }
 ```
 
-For more sample codes for plugins of different types, go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/Documentation/plugins).
+For more sample codes for plugins of different types, please visit the [plugin documentation](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/Documentation/plugins).
 
-For a detailed guide on writing your own plugins, check the user manual [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/blob/main/Documentation/plugins_readme.md).
 
 #### Step 2. Compiling the code
-Compile your code by adding the MASC.jar to classpath as such. Open a command prompt in folder where your code for the plugin is, and run this command:
+
+Next, you can compile the code using the binary of MASC (a binary is provided in `src/test/Compile./masc-core/app/src/test/resources/plugins/app-all.jar`). Open a command prompt in folder where your code for the plugin is, and run this command:
 
 ```sh
-javac -cp directory/MASC.jar *.java
+javac -cp directory/app-all.jar *.java
 ```
 
 #### Step 3. Placing the class file in /plugins/ folder
@@ -255,7 +261,7 @@ Place the  `.class` files in /plugins/ folder.
 
 #### Step 4. Running the jar
 
-Run the jar normally:
+Run the jar as usual.
 
 ```sh
 java -jar MASC.jar propertiesFileName.properties
