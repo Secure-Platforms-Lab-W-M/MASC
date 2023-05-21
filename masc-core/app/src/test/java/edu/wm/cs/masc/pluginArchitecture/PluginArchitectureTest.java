@@ -4,20 +4,27 @@ import edu.wm.cs.masc.mutation.properties.*;
 import edu.wm.cs.masc.plugins.MutationMakerForPluginOperators;
 import edu.wm.cs.masc.utils.commandPrompt.CPOutput;
 import edu.wm.cs.masc.utils.commandPrompt.CommandPrompt;
+import edu.wm.cs.masc.utils.file.CustomFileReader;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class PluginArchitectureTest {
+    static String versionText;
+    static String jarFile;
     @BeforeClass
-    public static void setUp() {
-        System.out.println("What are you doing");
+    public static void setUp() throws IOException {
+        versionText = CustomFileReader.readFileAsString("src/main/resources/version.properties");
+        String jarFile = String.valueOf(new StringBuilder("masc-").append(versionText).append(".jar"));;
+        StringBuilder command = new StringBuilder("cd src/test/resources/plugins && javac -cp ").append(jarFile).append(" *.java");
         CommandPrompt cp = new CommandPrompt();
-        CPOutput output = cp.run_command("cd src/test/resources/plugins && javac -cp app-all.jar *.java");
+        CPOutput output = cp.run_command(String.valueOf(command));
         assertFalse(output.error);
 //        System.out.println(output.getCombinedOutput());
     }
@@ -142,9 +149,8 @@ public class PluginArchitectureTest {
 
     @AfterClass
     public static void end() {
-        System.out.println("What are you doing");
         CommandPrompt cp = new CommandPrompt();
-        CPOutput output = cp.run_command("cd src/test/resources/plugins && del *.class");
+        CPOutput output = cp.run_command("cd src/test/resources/plugins && del *.class ");
 //        assertFalse(output.error);
     }
 
