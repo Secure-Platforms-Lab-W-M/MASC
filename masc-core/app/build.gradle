@@ -17,7 +17,7 @@ if (hasProperty('buildScan')) {
 }
 
 //for java, automatically sets targetCompatibility as well.
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 repositories {
     // Use JCenter for resolving dependencies.
