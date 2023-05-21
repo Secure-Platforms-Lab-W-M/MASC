@@ -80,6 +80,11 @@ dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.19.0'
 //    implementation group: 'org.eclipse.equinox', name: 'app', version: '1.0.0-v20070606'
 }
+version=2.0
+
+shadowJar{
+        archiveFileName = "masc-${project.version}.jar"
+}
 
 application {
     // Define the main class for the application.
