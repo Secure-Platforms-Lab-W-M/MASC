@@ -80,13 +80,36 @@ dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.19.0'
 //    implementation group: 'org.eclipse.equinox', name: 'app', version: '1.0.0-v20070606'
 }
-version=2.0
+version = new File('app/src/main/resources/version.properties').text
 
-shadowJar{
-        archiveFileName = "masc-${project.version}.jar"
+shadowJar {
+    archiveFileName = "masc-${project.version}.jar"
 }
+
+task copyJarForTesting {
+    description 'copies the built jar file to the test resources so that plugins can be tested'
+    group 'verification'
+    doLast{
+        copy {
+            def mascJar = "${buildDir}/libs/masc-${project.version}.jar"
+            def testMascJarDir = "${projectDir}/src/test/resources/plugins/"
+            from mascJar
+            into testMascJarDir
+        }
+    }
+}
+test.dependsOn copyJarForTesting
+
+task deleteTestJars (type: Delete) {
+    delete fileTree('src/test/resources/plugins'){
+        include '*.class', '*.jar'
+    }
+}
+
+clean.dependsOn deleteTestJars
 
 application {
     // Define the main class for the application.
     mainClass = 'edu.wm.cs.masc.MASC'
 }
+
