@@ -28,8 +28,8 @@ Moreover, MASC needs [gradle](https://gradle.org/) to be built. Please refer to 
 To get started, we need to do the following:
 
 1. Start by cloning the [MASC Repository](https://github.com/Secure-Platforms-Lab-W-M/MASC) from GitHub.
-2. Open the cloned repository, go to `masc-core` directory, and run  `gradlew shadowJar` to create a JAR file for MASC. The output JAR can be found at `masc-core > app > build > libs > app-all.jar`.
-3. Test run with `java -jar masc.jar`. If you see the message “No properties file supplied”, it means MASC has been successfully built.
+2. Open the cloned repository, go to `masc-core` directory, and run  `gradlew shadowJar` to create a JAR file for MASC. The output JAR can be found at `masc-core > app > build > libs > masc-<version>.jar`. The current version is 2.0.
+3. Test run with `java -jar masc-2.0.jar`. If you see the message "No properties file supplied", it means MASC has been successfully built.
 
 MASC is run by specifying the parameters in a text-based configuration (`.properties`) file, consisting of multiple `key = value` pairs. Some keys are required, whereas the others are optional. Since there can be several combinations of keys, to simplify the familiarization, we will use the following sample configuration file to run MASC.
 
@@ -249,10 +249,10 @@ For more sample codes for plugins of different types, please visit the [plugin d
 
 #### Step 2. Compiling the code
 
-Next, you can compile the code using the binary of MASC (a binary is provided in `src/test/Compile./masc-core/app/src/test/resources/plugins/app-all.jar`). Open a command prompt in folder where your code for the plugin is, and run this command:
+Next, you can compile the code using the binary of MASC. Open a command prompt in folder where your code for the plugin is, and run this command:
 
 ```sh
-javac -cp directory/app-all.jar *.java
+javac -cp directory/masc-<version>.jar *.java
 ```
 
 #### Step 3. Placing the class file in /plugins/ folder

@@ -14,7 +14,7 @@ Now that our IDE is installed, we need to clone the [Masc Repository](https://gi
 Once you have successfully cloned the entire Masc Repository, open Intelli J.  Select the open option, to open an existing project.  A file explorer window should open.  Navigate to the directory where you cloned the Masc Repo.  Do NOT open the root level of the repository!  Instead, navigate down the nested project folders until you reach masc-core.  Open the masc-core folder as your project.
 
 ## Configuring the project
-If all goes well, you will be asked if you want to trust the Gradle project.  Press 'Trust Project.'  Pay attention to the event log in the lower-right corner.  An error concerning the JDK / SDK should appear.  This prevents the successful build of the project.  The solution is simple.  
+If all goes well, you will be asked if you want to trust the Gradle project.  Press 'Trust Project.'  Pay attention to the event log in the lower-right corner.  An error concerning the JDK / SDK should appear.  This prevents the successful build of the project.  The solution is simple.
 
 ---
 #### On Windows
@@ -39,5 +39,5 @@ If you have made it this far in the setup process, then you aren't seeing any us
 
 ## Building JAR
 
-If you want to create a JAR file for MASC, just run `gradlew shadowJar`. The output JAR can be found at `masc-core > app > build > libs > app-all.jar`.
-To run the JAR, place Cipher.properties in the same directory as the JAR and run `java -jar app-all.jar Cipher.properties`
+If you want to create a JAR file for MASC, just run `gradlew shadowJar`. The output JAR can be found at `masc-core > app > build > libs > masc-<version>.jar`.
+To run the JAR, place Cipher.properties in the same directory as the JAR and run `java -jar masc-<version>.jar Cipher.properties`
