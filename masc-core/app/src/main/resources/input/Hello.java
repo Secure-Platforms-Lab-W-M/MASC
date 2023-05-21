@@ -12,6 +12,7 @@ public class placementcheckertestinput {
     }
 
     public void printB() {
+        javax.crypto.Cipher.getInstance("aes");
         System.out.println();
 
     }

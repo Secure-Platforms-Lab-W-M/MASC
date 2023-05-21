@@ -14,6 +14,11 @@ public class InterprocProperties extends AOperatorProperties {
         return propertyName;
     }
 
+    public String getTempVariable() {
+        return tempVariable;
+    }
+
+
     public String getSecureParam() {
         return secureParam;
     }
@@ -26,6 +31,9 @@ public class InterprocProperties extends AOperatorProperties {
         return variableName;
     }
 
+    public String getNoise() {
+        return noise;
+    }
     public String getInvocation() {
         return invocation;
     }
@@ -36,13 +44,25 @@ public class InterprocProperties extends AOperatorProperties {
 
     public String getOtherClassName() {return otherClassName;}
 
+    public String getIterationCount() {return iterationCount;}
+
+    public String getBuilder() {return  builder;}
+
+    public void setBuilder(String builderName){builder = builderName;}
+
     private final String propertyName;
-    
+
+    private String builder;
+    private String tempVariable;
+
+    private final String noise;
     private final String secureParam;
     private final String insecureParam;
     private final String variableName;
     private final String invocation;
     private final Boolean try_catch;
+
+    private final String iterationCount;
 
     public InterprocProperties(String path)
             throws ConfigurationException {
@@ -55,5 +75,8 @@ public class InterprocProperties extends AOperatorProperties {
         invocation = reader.getValueForAKey("invocation");
         try_catch  = Boolean.valueOf(reader.getValueForAKey("try_catch"));
         otherClassName = reader.getValueForAKey("otherClassName");
+        noise = reader.getValueForAKey("noise");
+        iterationCount = reader.getValueForAKey("iterations");
+        tempVariable = reader.getValueForAKey("tempVariable");
     }
 }

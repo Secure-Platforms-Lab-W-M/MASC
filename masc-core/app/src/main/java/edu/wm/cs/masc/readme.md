@@ -263,18 +263,24 @@ HostnameVerifier.properties
 InterprocCipher.properties
 
 ```properties
+mutantGeneration = true
 type = Interproc
-outputDir = /Users/amitseal/workspaces/mutationbackyard/reproduce
+outputDir = app/outputs/
 apiName = javax.crypto.Cipher
 invocation = getInstance
 secureParam = AES/GCM/NoPadding
 insecureParam = AES
 noise = ~
+iterations = 10
 variableName = cryptoVariable
+tempVariable = cipher
 className = CryptoTest
 propertyName = propertyName
 otherClassName = CipherPack
 try_catch = False
+scope = Main
+excludedOperators=
+automatedAnalysis = false
 
 ```
 

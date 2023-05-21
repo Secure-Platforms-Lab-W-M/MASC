@@ -1,16 +1,15 @@
 package edu.wm.cs.masc.mutation.suppliers;
 
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
-import edu.wm.cs.masc.MASC;
 import edu.wm.cs.masc.mutation.operators.IOperator;
 import edu.wm.cs.masc.mutation.operators.OperatorType;
 import edu.wm.cs.masc.mutation.operators.flexible.*;
 import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.ByteLoop;
 import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.ByteReuse;
+import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.ByteStatic;
 import edu.wm.cs.masc.mutation.operators.restrictive.byteoperator.CurrentTime;
-import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.InterProcOperator;
+import edu.wm.cs.masc.mutation.operators.restrictive.interprocoperator.*;
 import edu.wm.cs.masc.mutation.operators.restrictive.intoperator.*;
 import edu.wm.cs.masc.mutation.operators.restrictive.stringoperator.*;
 import edu.wm.cs.masc.mutation.operators.restrictive.stringoperator.ValueInVariable;
@@ -37,6 +36,12 @@ public class MutationSupplier {
                 new StringCaseTransform(p));
         operators.put(OperatorType.StringValueInVariable,
                 new ValueInVariable(p));
+        //operators.put(OperatorType.StringDifferentClass,
+                //new DifferentClass(p));
+        operators.put(OperatorType.StringValueOfChar,
+                new ValueOfChar(p));
+        operators.put(OperatorType.StringSubstring,
+                new Substring(p));
     }
 
     public MutationSupplier(FlexibleOperatorProperties p) {
@@ -92,10 +97,18 @@ public class MutationSupplier {
     public MutationSupplier(ByteOperatorProperties p) {
         operators.put(OperatorType.ByteCurrentTime, new CurrentTime(p));
         operators.put(OperatorType.ByteLoop, new ByteLoop(p));
+        operators.put(OperatorType.ByteReuse, new ByteReuse(p));
+        operators.put(OperatorType.ByteStatic, new ByteStatic(p));
     }
 
     public MutationSupplier(InterprocProperties p) {
+
         operators.put(OperatorType.Interproc, new InterProcOperator(p));
+        operators.put(OperatorType.InterprocBaseCaseSeperateClass, new BaseCaseSeperateClass(p));
+        operators.put(OperatorType.InterprocAddition, new InterProcAddition(p));
+        operators.put(OperatorType.InterprocConditional, new InterprocConditional(p));
+        operators.put(OperatorType.InterprocNestedConditional, new InterprocNestedConditional(p));
+        operators.put(OperatorType.InterprocObjectSensitive, new InterprocObjectSensitive(p));
     }
 
     public MutationSupplier(IntOperatorProperties p) {
@@ -119,7 +132,7 @@ public class MutationSupplier {
         HashMap<OperatorType, IOperator> tempOperators =  new HashMap<>();
         for (HashMap.Entry<OperatorType, IOperator> entry : operators.entrySet()) {
             if(!excludedOperators.contains(entry.getKey().name())){
-                logger.trace("Selected opertor "+entry.getKey().name());
+                logger.trace("Selected operator "+entry.getKey().name());
                 tempOperators.put(entry.getKey(),entry.getValue());
             }
         }
