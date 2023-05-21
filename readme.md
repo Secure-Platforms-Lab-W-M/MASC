@@ -55,44 +55,54 @@ We also have a detailed guide on writing configuration files and with explanatio
 
 MASC can be run using both Command Line Interface and Browser-based User Interface, which we discuss next.
 
-## Running MASC with the web interface
-MASC web interface provides an user the opportunity to explore MASC along with its various scopes and operators.The web interface shall give the user the privildge to run Masc lab and Masc engine.Using MASC Lab an user can inspect the functionality of different operators for different configuration and through MASC Engine they can can mutate their source code using both Exhaustive or Selective Scope.
+## Running MASC with the Web Interface
+
+MASC web interface provides an user the opportunity to explore MASC along with its various scopes and operators. The web interface shall give the user the privilege to run Masc lab and Masc engine.Using MASC Lab an user can inspect the functionality of different operators for different configuration and through MASC Engine they can can mutate their source code using both Exhaustive or Selective Scope.
+
 ### Environments
+
 The project is based on django frame work.
+
 ```sh
 python => 3.10.4
 Django => (4, 0, 5, 'final', 0)
 ```
 
-The MASC web interface is available in the ```masc-web-django``` branch of [MASC Repository](https://github.com/Secure-Platforms-Lab-W-M/MASC) from GitHub. First job is to clone the project. Next
+The MASC web interface is available in the ```masc-web-django``` branch of [MASC Repository](https://github.com/Secure-Platforms-Lab-W-M/MASC) from GitHub. To get started, please clone the `masc-web-django` branch.
 
-### Run MASC web interface
-- Create virtual environment
+Next, create virtual environment to setup project specific dependencies. For example,
+
 ```sh
 python3 -m venv venv
 source venv/bin/activate
 ```
-for windows 
+
+for windows
+
 ```sh
 python3 -m venv venv
 .\venv\Scripts\activate
 ```
 
-- Install dependecies
+Next, install Dependencies,
+
 ```sh
 pip install -r requirements.txt
 ```
 
-- Make Migration
+and make the necessary databases and files:
+
 ```sh
 python manage.py makemigrations
 python manage.py migrate
 ```
-- Run server
+Finally, run server
+
 ```sh
 python manage.py runserver
 ```
-For the user manual of MASC web interface please go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/blob/masc-web-django/user_manual.md) 
+
+For the user manual of MASC web interface please go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/blob/masc-web-django/user_manual.md)
 
 ## Running MASC with the CLI
 
@@ -114,6 +124,7 @@ Check the output folder (as specified in the configuration file). You will find 
 
 #### Running MASC with Similarity Scope
 The MDroidPlus Extension uses abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable.
+
 ```sh
 /Users/XXX/git/XXX/MDroidPlus/libs4ast/ /Users/XXX/workspaces/mutationbackyard/sources/car-report car-report /Users/XXX/workspaces/mutationbackyard/mutations/ /Users/XXX/workspaces/Android/operator/ false
 ### contents of operator.properties inside operator dir
@@ -128,7 +139,9 @@ The MDroidPlus Extension uses abstract syntax tree to seed instances of misuse c
 ```
 
 #### Running MASC with Exhaustive Scope
+
 The mSE Extension exhaustively seeds mutants at all locations in the target app’s code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations.
+
 ```sh
 # receives runtime argument
 
@@ -150,7 +163,8 @@ MASC's automated analysis module automatically compiles mutated apps produced fr
 #### Sample configuration
 
 To run automated analysis, add the following to your properties file and run normally:
-```
+
+```properties
 automatedAnalysis = true
 toolName = find-sec-bugs
 toolLocation = /home/yusuf/Downloads
@@ -163,14 +177,16 @@ stopCondition = OnError
 ```
 
 To run automated analysis only without mutant generation, add this line to the properties file:
-```
+
+```properties
 mutantGeneration = false
 ```
 
 If you want to run MASC's automated analysis for CogniCrypt, just add an extra field -
- ```
- wrapper = CogniCrypt
- ```
+
+```properties
+wrapper = CogniCrypt
+```
 
 
 ### Extending MASC Main Scope with custom plugins
@@ -189,7 +205,8 @@ To write your own operators as plugins, these are the general steps you will nee
 
 #### Step 1 code your plugin
 Here is a sample code for a String type operator:
-```
+
+```java
 package plugins;
 
 import edu.wm.cs.masc.mutation.operators.restrictive.stringoperator.AStringOperator;
@@ -227,20 +244,25 @@ For a detailed guide on writing your own plugins, check the user manual [here](h
 
 #### Step 2. Compiling the code
 Compile your code by adding the MASC.jar to classpath as such. Open a command prompt in folder where your code for the plugin is, and run this command:
-```
+
+```sh
 javac -cp directory/MASC.jar *.java
 ```
 
 #### Step 3. Placing the class file in /plugins/ folder
+
 Place the  `.class` files in /plugins/ folder.
 
 #### Step 4. Running the jar
+
 Run the jar normally:
-```
+
+```sh
 java -jar MASC.jar propertiesFileName.properties
 ```
 
 #### Step 5. The output
+
 Generated mutated apps will be produces in `app/output/`
 Output from plugins will have `plugins.` prefixed in their names.
 
