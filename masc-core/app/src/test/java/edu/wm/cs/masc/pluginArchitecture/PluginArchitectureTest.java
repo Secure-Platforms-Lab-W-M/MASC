@@ -146,12 +146,4 @@ public class PluginArchitectureTest {
         String obtainedResult = pluginOperatorsMutationMaker.operators.get(0).mutation().replace("%d", "");
         assertEquals(expected, obtainedResult);
     }
-
-    @AfterClass
-    public static void end() {
-        CommandPrompt cp = new CommandPrompt();
-        CPOutput output = cp.run_command("cd src/test/resources/plugins && del *.class ");
-//        assertFalse(output.error);
-    }
-
 }
