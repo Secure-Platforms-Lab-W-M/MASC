@@ -15,3 +15,4 @@ masc-web/.DS_Store
 masc-core/app/src/test/resources/plugins/*.class
 masc-core/*.log
 .DS_Store
+masc-core/app/src/test/resources/plugins/*.class
