@@ -120,9 +120,10 @@ java -jar masc.jar Cipher.properties
 
 Check the output folder (as specified in the configuration file). You will find `n` folders, each containing the output of an operator, which is a mutated application. Now, you can analyze these mutants by static analyzers of your choice manually or by using the automated analysis module of MASC as described [here](#automated-analysis).
 
-### Running MASC with Scopes
+### Running MASC with Other Scopes
 
 #### Running MASC with Similarity Scope
+
 The Similarity Scope (extended on MDROID+) uses abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable.
 
 ```sh
@@ -164,7 +165,7 @@ MASC's automated analysis module automatically compiles mutated apps produced fr
 
 To run automated analysis, add the following to your properties file and run normally:
 
-```properties
+```conf
 automatedAnalysis = true
 toolName = find-sec-bugs
 toolLocation = /home/yusuf/Downloads
@@ -178,13 +179,13 @@ stopCondition = OnError
 
 To run automated analysis only without mutant generation, add this line to the properties file:
 
-```properties
+```conf
 mutantGeneration = false
 ```
 
 If you want to run MASC's automated analysis for CogniCrypt, just add an extra field -
 
-```properties
+```conf
 wrapper = CogniCrypt
 ```
 
