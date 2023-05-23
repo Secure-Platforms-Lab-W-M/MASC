@@ -1,6 +1,8 @@
-# Setting Up Masc-Core on Intelli J IDEA
+# Outdated
 
-While other editors exist and can be used to edit and contribute to Masc, this set up will focus on the popular Intelli J IDE.  Those that stray from the path do so at their own risk.
+# Setting Up Masc-Core on IntelliJ IDEA
+
+While other editors exist and can be used to edit and contribute to Masc, this set up will focus on the popular IntelliJ IDEA IDE.
 
 ## Installing Intelli J
 The Intelli J Community Edition can be downloaded for free from [this link](https://www.jetbrains.com/idea/download/#section=windows).
@@ -8,12 +10,14 @@ The Intelli J Community Edition can be downloaded for free from [this link](http
 Follow the instructions of the on screen wizard until installation is successful.
 
 ## Cloning Masc-Core
-Now that our IDE is installed, we need to clone the [Masc Repository](https://github.com/WM-SEMERU/MASC-Spring21-635) from GitHub.  You can do this from Intelli J, Github Desktop, or the command line.  Take note of where the cloned repository is saved on your machine.
+Now that our IDE is installed, we need to clone the [Masc Repository](https://github.com/Secure-Platforms-Lab-W-M/MASC) from GitHub.  You can do this from Intelli J, Github Desktop, or the command line.  Take note of where the cloned repository is saved on your machine.
 
 ## Opening Masc
+
 Once you have successfully cloned the entire Masc Repository, open Intelli J.  Select the open option, to open an existing project.  A file explorer window should open.  Navigate to the directory where you cloned the Masc Repo.  Do NOT open the root level of the repository!  Instead, navigate down the nested project folders until you reach masc-core.  Open the masc-core folder as your project.
 
 ## Configuring the project
+
 If all goes well, you will be asked if you want to trust the Gradle project.  Press 'Trust Project.'  Pay attention to the event log in the lower-right corner.  An error concerning the JDK / SDK should appear.  This prevents the successful build of the project.  The solution is simple.
 
 ---
