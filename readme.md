@@ -123,7 +123,7 @@ Check the output folder (as specified in the configuration file). You will find 
 ### Running MASC with Scopes
 
 #### Running MASC with Similarity Scope
-The Similarity Scope (based on MDroidPlus) uses abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable.
+The Similarity Scope (extended on MDROID+) uses abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable.
 
 ```sh
 /Users/XXX/git/XXX/MDroidPlus/libs4ast/ /Users/XXX/workspaces/mutationbackyard/sources/car-report car-report /Users/XXX/workspaces/mutationbackyard/mutations/ /Users/XXX/workspaces/Android/operator/ false
@@ -140,7 +140,7 @@ The Similarity Scope (based on MDroidPlus) uses abstract syntax tree to seed ins
 
 #### Running MASC with Exhaustive Scope
 
-The Exhaustive Scope (based on extending mSE) exhaustively seeds mutants at all locations in the target app's code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations.
+The Exhaustive Scope (extended on mSE) exhaustively seeds mutants at all locations in the target app's code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations.
 
 ```sh
 # receives runtime argument
@@ -296,3 +296,12 @@ https://doi.org/10.1109/SP46214.2022.9833582).
 ```
 ## Developer documentation
 To access the user manuals and High Level Architectural diagrams, please go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/Documentation).
+
+
+## Acknowledgements
+
+MASC has been built on the shoulders of open source projects that come from both industry and academia. In particular,
+
+- the similarity scope is built on the MDROID+ framework
+- the exhaustive scope is built on the mSE framework
+- JavaPoetry for generating the mutated crypto-API misuse instances to some extent
