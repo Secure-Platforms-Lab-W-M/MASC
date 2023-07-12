@@ -141,20 +141,13 @@ The Similarity Scope (extended on MDROID+) uses abstract syntax tree to seed ins
 
 #### Running MASC with Exhaustive Scope
 
-The Exhaustive Scope (extended on mSE) exhaustively seeds mutants at all locations in the target app's code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations.
+The Exhaustive Scope (extended on mSE) exhaustively seeds mutants at all locations in the target app's code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations. Here is a sample configuration file for using exhaustive scope.
 
-```sh
-# receives runtime argument
-
-/Users/XXX/git/XXX/output/templates/ActivityLauncherreach.properties
-## contents of properties file
-lib4ast: /Users/XXX/git/MDroidPlus/libs4ast
-appSrc: /Users/XXX/git/XXX/activitylauncher-reset
-operatorType: REACHABILITY
-
-//REQUIRED FOR MUTATE
-appName: ActivityLauncher
-output: /Users/XXX/git/XXX/output/ActivityLauncher/reach/
+```properties
+appSrc = <app source directory>
+appName = <name of app>
+outputDir = <output directory>
+scope = EXHAUSTIVE
 ```
 
 ### Automated Analysis

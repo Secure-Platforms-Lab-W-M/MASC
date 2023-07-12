@@ -1,4 +1,6 @@
-# Muse - Custom Leaks
+# Obsolete for MASC
+
+## Muse - Custom Leaks
 
 The custom leak feature in Muse allows for the user to define their own leaks for application mutation. Muse will use the custom source, sinks, and/or leak variable declarations when mutating the Android application.
 
