@@ -80,13 +80,34 @@ dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.19.0'
 //    implementation group: 'org.eclipse.equinox', name: 'app', version: '1.0.0-v20070606'
 }
-version = new File('app/src/main/resources/version.properties').text
 
+
+version='2.0'
+
+// https://stackoverflow.com/a/33026919
+task createProperties(dependsOn: processResources) {
+  doLast {
+//     new File("$buildDir/resources/version.properties").withWriter { w ->
+    new File("$projectDir/src/main/resources/version.properties").withWriter { w ->
+        Properties p = new Properties()
+        p['version'] = project.version.toString()
+        println project.version.toString()
+        println "$projectDir/src/main/resources/version.properties"
+        p.store w, null
+    }
+  }
+}
+
+classes {
+    dependsOn createProperties
+}
 shadowJar {
+//     version = new File('app/src/main/resources/version.properties').text
     archiveFileName = "masc-${project.version}.jar"
 }
 
 task copyJarForTesting {
+//     version = new File('src/main/resources/version.properties').text
     description 'copies the built jar file to the test resources so that plugins can be tested'
     group 'verification'
     doLast{
@@ -98,6 +119,7 @@ task copyJarForTesting {
         }
     }
 }
+test.dependsOn createProperties
 test.dependsOn copyJarForTesting
 
 task deleteTestJars (type: Delete) {

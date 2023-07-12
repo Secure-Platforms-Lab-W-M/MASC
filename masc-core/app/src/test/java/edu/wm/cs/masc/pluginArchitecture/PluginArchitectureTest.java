@@ -4,6 +4,7 @@ import edu.wm.cs.masc.mutation.properties.*;
 import edu.wm.cs.masc.plugins.MutationMakerForPluginOperators;
 import edu.wm.cs.masc.utils.commandPrompt.CPOutput;
 import edu.wm.cs.masc.utils.commandPrompt.CommandPrompt;
+import edu.wm.cs.masc.utils.config.PropertiesReader;
 import edu.wm.cs.masc.utils.file.CustomFileReader;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.junit.AfterClass;
@@ -19,8 +20,9 @@ public class PluginArchitectureTest {
     static String versionText;
     static String jarFile;
     @BeforeClass
-    public static void setUp() throws IOException {
+    public static void setUp() throws IOException, ConfigurationException {
         versionText = CustomFileReader.readFileAsString("src/main/resources/version.properties");
+        versionText = new PropertiesReader("version.properties").getValueForAKey("version");
         String jarFile = String.valueOf(new StringBuilder("masc-").append(versionText).append(".jar"));;
         StringBuilder command = new StringBuilder("cd src/test/resources/plugins && javac -cp ").append(jarFile).append(" *.java");
         CommandPrompt cp = new CommandPrompt();
