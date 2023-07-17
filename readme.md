@@ -31,6 +31,8 @@ To get started, we need to do the following:
 2. Open the cloned repository, go to `masc-core` directory, and run  `gradlew shadowJar` to create a JAR file for MASC. The output JAR can be found at `masc-core > app > build > libs > masc-<version>.jar`. The current version is 2.0.
 3. Test run with `java -jar masc-2.0.jar`. If you see the message "No properties file supplied", it means MASC has been successfully built.
 
+**Note:** We noticed that there is a bug in the build process due to which the exhaustive scope may not work as intended for mutating source code when using the jar file. For now, we recommend using MASC from source, i.e., running it through an IDE and passting it runtime arguments until we fix this. 
+
 MASC is run by specifying the parameters in a text-based configuration (`.properties`) file, consisting of multiple `key = value` pairs. Some keys are required, whereas the others are optional. Since there can be several combinations of keys, to simplify the familiarization, we will use the following sample configuration file to run MASC.
 
 ```
