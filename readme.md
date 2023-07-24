@@ -31,9 +31,7 @@ To get started, we need to do the following:
 2. Open the cloned repository, go to `masc-core` directory, and run  `gradlew shadowJar` to create a JAR file for MASC. The output JAR can be found at `masc-core > app > build > libs > masc-<version>.jar`. The current version is 2.0.
 3. Test run with `java -jar masc-2.0.jar`. If you see the message "No properties file supplied", it means MASC has been successfully built.
 
-**Note:** We noticed that there is a bug in the build process due to which the exhaustive scope may not work as intended for mutating source code when using the jar file. For now, we recommend using MASC from source, i.e., running it through an IDE and passting it runtime arguments until we fix this. 
-
-MASC is run by specifying the parameters in a text-based configuration (`.properties`) file, consisting of multiple `key = value` pairs. Some keys are required, whereas the others are optional. Since there can be several combinations of keys, to simplify the familiarization, we will use the following sample configuration file to run MASC.
+MASC is run by specifying the parameters in a text-based configuration (`.properties`) file consisting of multiple `key = value` pairs. Some keys are required, whereas the others are optional. Since there can be several combination keys, we will use the following sample configuration file to simplify the familiarization to run MASC.
 
 ```
 mutantGeneration = true
@@ -124,23 +122,6 @@ Check the output folder (as specified in the configuration file). You will find 
 
 ### Running MASC with Other Scopes
 
-#### Running MASC with Similarity Scope
-
-The Similarity Scope (extended on MDROID+) uses abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable.
-
-```sh
-/Users/XXX/git/XXX/MDroidPlus/libs4ast/ /Users/XXX/workspaces/mutationbackyard/sources/car-report car-report /Users/XXX/workspaces/mutationbackyard/mutations/ /Users/XXX/workspaces/Android/operator/ false
-### contents of operator.properties inside operator dir
-601 =	edu.wm.cs.mplus.operators.crypto.CipherInstance
-602 = 	edu.wm.cs.mplus.operators.crypto.RandomInt
-603 =   edu.wm.cs.mplus.operators.crypto.IvParameterSpec
-604 =   edu.wm.cs.mplus.operators.crypto.SSLContextInstance
-605 =   edu.wm.cs.mplus.operators.crypto.MessageDigest
-606 =   edu.wm.cs.mplus.operators.crypto.HostnameVerifierInstance
-607 =   edu.wm.cs.mplus.operators.crypto.HttpsURLHostnameVerifier
-608 =   edu.wm.cs.mplus.operators.crypto.TrustManagerInstance
-```
-
 #### Running MASC with Exhaustive Scope
 
 The Exhaustive Scope (extended on mSE) exhaustively seeds mutants at all locations in the target app's code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations. Here is a sample configuration file for using exhaustive scope.
@@ -151,6 +132,12 @@ appName = <name of app>
 outputDir = <output directory>
 scope = EXHAUSTIVE
 ```
+
+#### Running MASC with Similarity Scope
+
+The Similarity Scope (extended on MDROID+) uses an abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable. For a configuration file, simply changing the scope from "EXHAUSTIVE" to "SIMILARITY" will suffice.
+
+**Note:** We noticed a bug in the build process due to which the similarity scope may not work as intended for mutating source code when using the jar file. We recommend using MASC from the source, i.e., running it through an IDE and passing it runtime arguments until we fix this for this specific scope. 
 
 ### Automated Analysis
 
