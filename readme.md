@@ -257,8 +257,11 @@ Output from plugins will have `plugins.` prefixed in their names.
 
 ## Related work
 
+If you use our work, please cite the following papers: 
+
 A. S. Ami, N. Cooper, K. Kafle, K. Moran, D. Poshyvanyk and A. Nadkarni, "Why Crypto-detectors Fail: A Systematic Evaluation of Cryptographic Misuse Detection Techniques," 2022 IEEE Symposium on Security and Privacy (SP), San Francisco, CA, USA, 2022, pp. 614-631, doi: [10.1109/SP46214.2022.9833582](
 https://doi.org/10.1109/SP46214.2022.9833582).
+
 
 ```bibtex
 @inproceedings{ami-masc-oakland22,
@@ -271,10 +274,27 @@ https://doi.org/10.1109/SP46214.2022.9833582).
   pages = {397--414},
   publisher = {IEEE Computer Society},
   issn = {2375-1207},
-  pdf = {https://arxiv.org/pdf/2107.07065.pdf},
-  sourcecode = {https://github.com/Secure-Platforms-Lab-W-M/masc-artifact},
+  pdf = {https://amitsealami.com/publications/ami-oakland22.pdf},
   url = {https://ieeexplore.ieee.org/document/9833582},
-  doi = {10.1109/SP46214.2022.9833582}
+  doi = {10.1109/SP46214.2022.9833582},
+  month_numeric = {5}
+}
+```
+
+Amit Seal Ami, Syed Yusuf Ahmed, Radowan Mahmud Redoy, Nathan Cooper, Kaushal Kafle, Kevin Moran, Denys Poshyvanyk, and Adwait Nadkarni. 2023. MASC: A Tool for Mutation-Based Evaluation of Static Crypto-API Misuse Detectors. In Proceedings of the 31st ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE ’23), December 3–9, 2023, San Francisco, CA, USA. ACM, New York, NY, USA, 5 pages. [https://doi.org/10.1145/3611643.3613099](https://doi.org/10.1145/3611643.3613099)
+
+```bibtex
+@inproceedings{asr-masc-demo,
+  author = {Ami, Amit Seal and Ahmed, Syed Yusuf and Redoy, Radowan Mahmud and Cooper, Nathan and Kafle, Kaushal and Moran, Kevin and Poshyvanyk, Denys and Nadkarni, Adwait},
+  title = {{MASC: A Tool for Mutation-based Evaluation of Static Crypto-API Misuse Detectors}},
+  booktitle = {Proceedings of the ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE'23), Demonstration Track},
+  year = {2023},
+  doi = {10.1145/3611643.3613099},
+  pdf = {https://amitsealami.com/publications/ami-masc-demo-fse23.pdf},
+  address = {San Francisco},
+  month = dec,
+  note = {to be published in},
+  month_numeric = {12}
 }
 ```
 ## Developer documentation
