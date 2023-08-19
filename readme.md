@@ -28,12 +28,17 @@ Moreover, MASC needs [gradle](https://gradle.org/) to be built. Please refer to 
 To get started, we need to do the following:
 
 1. Start by cloning the [MASC Repository](https://github.com/Secure-Platforms-Lab-W-M/MASC) from GitHub.
-2. Open the cloned repository, go to `masc-core` directory, and run  `gradlew shadowJar` to create a JAR file for MASC. The output JAR can be found at `masc-core > app > build > libs > masc-<version>.jar`. The current version is 2.0.
-3. Test run with `java -jar masc-2.0.jar`. If you see the message "No properties file supplied", it means MASC has been successfully built.
+2. a) Open the cloned repository, go to `masc-core` directory, and run  `gradlew shadowJar` to create a JAR file for MASC. The output JAR can be found at `masc-core > app > build > libs > masc-<version>.jar`. The current version is 2.0.
+  b) alternatively, you can use gradle to build MASC (you may have to assign execution permission to gradlew)
+    ```sh
+    cd masc-core
+    ./gradlew build
+    ```
+3. Test run with `java -jar masc-2.0.jar`. If you see the message "*No configuration file provided*", it means MASC has been successfully built and can be provided a configuration file.
 
-MASC is run by specifying the parameters in a text-based configuration (`.properties`) file consisting of multiple `key = value` pairs. Some keys are required, whereas the others are optional. Since there can be several combination keys, we will use the following sample configuration file to simplify the familiarization to run MASC.
+MASC is run by specifying the parameters in a text-based configuration (`*.properties`) file consisting of multiple `key = value` pairs separated by new-lines. Some of the keys are required, whereas the others are optional. Since there can be several combination keys, we will use the following simple configuration file to get you familiarized with MASC.
 
-```
+```properties
 mutantGeneration = true
 type = StringOperator
 outputDir = app/outputs
@@ -149,7 +154,7 @@ MASC's automated analysis module automatically compiles mutated apps produced fr
 
 To run automated analysis, add the following to your properties file and run normally:
 
-```conf
+```properties
 automatedAnalysis = true
 toolName = find-sec-bugs
 toolLocation = /home/yusuf/Downloads
@@ -249,7 +254,7 @@ Place the  `.class` files in /plugins/ folder.
 Run the jar as usual.
 
 ```sh
-java -jar MASC.jar propertiesFileName.properties
+java -jar MASC.jar configuration-file.properties
 ```
 
 #### Step 5. The output
@@ -259,54 +264,61 @@ Output from plugins will have `plugins.` prefixed in their names.
 
 ## Related work
 
-If you use our work, please cite the following papers:
+If you use MASC, please cite the following two papers:
 
-A. S. Ami, N. Cooper, K. Kafle, K. Moran, D. Poshyvanyk and A. Nadkarni, "Why Crypto-detectors Fail: A Systematic Evaluation of Cryptographic Misuse Detection Techniques," 2022 IEEE Symposium on Security and Privacy (SP), San Francisco, CA, USA, 2022, pp. 614-631, doi: [10.1109/SP46214.2022.9833582](
+> A. S. Ami, N. Cooper, K. Kafle, K. Moran, D. Poshyvanyk and A. Nadkarni, "Why Crypto-detectors Fail: A Systematic Evaluation of Cryptographic Misuse Detection Techniques," 2022 IEEE Symposium on Security and Privacy (SP), San Francisco, CA, USA, 2022, pp. 614-631, doi: [10.1109/SP46214.2022.9833582](
 https://doi.org/10.1109/SP46214.2022.9833582).
 
 
-```bibtex
-@inproceedings{ami-masc-oakland22,
-  author = {Ami, {Amit Seal} and Cooper, Nathan and Kafle, Kaushal and Moran, Kevin and Poshyvanyk, Denys and Nadkarni, Adwait},
-  booktitle = {2022 IEEE Symposium on Security and Privacy (S\&P)},
-  title = {{Why Crypto-detectors Fail: A Systematic Evaluation of Cryptographic Misuse Detection Techniques}},
-  year = {2022},
-  address = {San Francisco, CA, USA},
-  month = may,
-  pages = {397--414},
-  publisher = {IEEE Computer Society},
-  issn = {2375-1207},
-  pdf = {https://amitsealami.com/publications/ami-oakland22.pdf},
-  url = {https://ieeexplore.ieee.org/document/9833582},
-  doi = {10.1109/SP46214.2022.9833582},
-  month_numeric = {5}
-}
-```
+  ```bibtex
+  @inproceedings{ami-masc-oakland22,
+    author = {Ami, {Amit Seal} and Cooper, Nathan and Kafle, Kaushal and Moran, Kevin and Poshyvanyk, Denys and Nadkarni, Adwait},
+    booktitle = {2022 IEEE Symposium on Security and Privacy (S\&P)},
+    title = {{Why Crypto-detectors Fail: A Systematic Evaluation of Cryptographic Misuse Detection Techniques}},
+    year = {2022},
+    address = {San Francisco, CA, USA},
+    month = may,
+    pages = {397--414},
+    publisher = {IEEE Computer Society},
+    issn = {2375-1207},
+    pdf = {https://amitsealami.com/publications/ami-oakland22.pdf},
+    url = {https://ieeexplore.ieee.org/document/9833582},
+    doi = {10.1109/SP46214.2022.9833582},
+    month_numeric = {5}
+  }
+  ```
 
-Amit Seal Ami, Syed Yusuf Ahmed, Radowan Mahmud Redoy, Nathan Cooper, Kaushal Kafle, Kevin Moran, Denys Poshyvanyk, and Adwait Nadkarni. 2023. MASC: A Tool for Mutation-Based Evaluation of Static Crypto-API Misuse Detectors. In Proceedings of the 31st ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE ’23), December 3–9, 2023, San Francisco, CA, USA. ACM, New York, NY, USA, 5 pages. [https://doi.org/10.1145/3611643.3613099](https://doi.org/10.1145/3611643.3613099)
+> Amit Seal Ami, Syed Yusuf Ahmed, Radowan Mahmud Redoy, Nathan Cooper, Kaushal Kafle, Kevin Moran, Denys Poshyvanyk, and Adwait Nadkarni. 2023. MASC: A Tool for Mutation-Based Evaluation of Static Crypto-API Misuse Detectors. In Proceedings of the 31st ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE ’23), December 3–9, 2023, San Francisco, CA, USA. ACM, New York, NY, USA, 5 pages. [https://doi.org/10.1145/3611643.3613099](https://doi.org/10.1145/3611643.3613099)
 
-```bibtex
-@inproceedings{asr-masc-demo,
-  author = {Ami, Amit Seal and Ahmed, Syed Yusuf and Redoy, Radowan Mahmud and Cooper, Nathan and Kafle, Kaushal and Moran, Kevin and Poshyvanyk, Denys and Nadkarni, Adwait},
-  title = {{MASC: A Tool for Mutation-based Evaluation of Static Crypto-API Misuse Detectors}},
-  booktitle = {Proceedings of the ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE'23), Demonstration Track},
-  year = {2023},
-  doi = {10.1145/3611643.3613099},
-  pdf = {https://amitsealami.com/publications/ami-masc-demo-fse23.pdf},
-  address = {San Francisco},
-  month = dec,
-  note = {to be published in},
-  month_numeric = {12}
-}
-```
+  ```bibtex
+  @inproceedings{asr-masc-demo,
+    author = {Ami, Amit Seal and Ahmed, Syed Yusuf and Redoy, Radowan Mahmud and Cooper, Nathan and Kafle, Kaushal and Moran, Kevin and Poshyvanyk, Denys and Nadkarni, Adwait},
+    title = {{MASC: A Tool for Mutation-based Evaluation of Static Crypto-API Misuse Detectors}},
+    booktitle = {Proceedings of the ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE'23), Demonstration Track},
+    year = {2023},
+    doi = {10.1145/3611643.3613099},
+    pdf = {https://amitsealami.com/publications/ami-masc-demo-fse23.pdf},
+    address = {San Francisco},
+    month = dec,
+    note = {to be published in},
+    month_numeric = {12}
+  }
+  ```
+
 ## Developer documentation
 To access the user manuals and High Level Architectural diagrams, please go [here](https://github.com/Secure-Platforms-Lab-W-M/MASC/tree/main/Documentation).
 
 
+## Grants Support
+
+Development of MASC has been supported in part by the NSF-1815336, NSF1815186 and NSF-1955853 grants; as well as [COVA CCI](https://covacci.org/) Cybersecurity Dissertation Fellowship.
+
 ## Acknowledgements
 
-MASC has been built on the shoulders of open source projects that come from both industry and academia. In particular,
+MASC has truly been built on the shoulders of open source projects that come from both industry and academia. In particular,
 
-- the similarity scope is built on the MDROID+ framework
-- the exhaustive scope is built on the mSE framework
-- JavaPoetry for generating the mutated crypto-API misuse instances to some extent
+- the similarity scope is built using the [MDROID+](https://gitlab.com/SEMERU-Code-Public/Android/Mutation/MDroidPlus) framework
+- the exhaustive scope is built using the [mSE framework](https://secure-platforms-lab-w-m.github.io/muse/)
+- [JavaPoet](https://github.com/square/javapoet) for generating the mutated crypto-API misuse instances to some extent
+- [Eclipse](https://projects.eclipse.org/projects/eclipse.jdt ) JDT, AST, and more
+- [Apache Commmons](https://commons.apache.org/), and many more.

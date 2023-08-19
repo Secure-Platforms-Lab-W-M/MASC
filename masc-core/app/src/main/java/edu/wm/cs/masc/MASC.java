@@ -28,17 +28,17 @@ public class MASC {
 
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
-            logger.trace("No properties file supplied");
+            logger.trace("No configuration file provided");
         } else if (args.length > 1) {
             logger.trace("Too many arguments were provided");
         } else if (!args[0].endsWith(".properties")) {
-            logger.trace("Properties file must end with the .properties extension");
+            logger.trace("Configuration file must end with the .properties extension");
         } else {
             String path = args[0];
             try {
                 runMain(path);
             } catch (ConfigurationException e) {
-                logger.trace("Failed to load the properties file %s", path);
+                logger.trace("Failed to load the configuration file %s", path);
             }
         }
     }
