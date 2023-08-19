@@ -122,22 +122,24 @@ Check the output folder (as specified in the configuration file). You will find 
 
 ### Running MASC with Other Scopes
 
+Both exhaustive and similarity scopes of MASC depends on [lib4ast](lib4ast) directory. Therefore, you need to provide the absolute path to the lib4ast directory when configuring MASC. Further details below.
+
 #### Running MASC with Exhaustive Scope
 
-The Exhaustive Scope (extended on mSE) exhaustively seeds mutants at all locations in the target app's code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations. Here is a sample configuration file for using exhaustive scope.
+The Exhaustive Scope (extended on mSE) exhaustively seeds mutants at all locations in the target app's code allowed by Java syntax rules, i.e., class definitions, conditional segments, method bodies as well as anonymous inner class object declarations.
+Here is a sample configuration file for using exhaustive scope.
 
 ```properties
 appSrc = <app source directory>
 appName = <name of app>
 outputDir = <output directory>
 scope = EXHAUSTIVE
+lib4ast = <path to lib4ast>
 ```
 
 #### Running MASC with Similarity Scope
 
 The Similarity Scope (extended on MDROID+) uses an abstract syntax tree to seed instances of misuse cases at locations in a target application’s source code where a similar API is already being used, i.e., akin to modifying existing API usages and making them vulnerable. For a configuration file, simply changing the scope from "EXHAUSTIVE" to "SIMILARITY" will suffice.
-
-**Note:** We noticed a bug in the build process due to which the similarity scope may not work as intended for mutating source code when using the jar file. We recommend using MASC from the source, i.e., running it through an IDE and passing it runtime arguments until we fix this for this specific scope. 
 
 ### Automated Analysis
 
@@ -257,7 +259,7 @@ Output from plugins will have `plugins.` prefixed in their names.
 
 ## Related work
 
-If you use our work, please cite the following papers: 
+If you use our work, please cite the following papers:
 
 A. S. Ami, N. Cooper, K. Kafle, K. Moran, D. Poshyvanyk and A. Nadkarni, "Why Crypto-detectors Fail: A Systematic Evaluation of Cryptographic Misuse Detection Techniques," 2022 IEEE Symposium on Security and Privacy (SP), San Francisco, CA, USA, 2022, pp. 614-631, doi: [10.1109/SP46214.2022.9833582](
 https://doi.org/10.1109/SP46214.2022.9833582).
