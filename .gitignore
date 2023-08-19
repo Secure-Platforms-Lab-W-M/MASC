@@ -1,7 +1,7 @@
 *.DS_Store*
 masc-core/caches/*
 _BuildScript_$_run_closure1.class
-
+masc-core/app/src/test/resources/plugins/masc-2.0.jar
 masc-core/daemon/*
 masc-core/native/*
 masc-core/wrapper/*
