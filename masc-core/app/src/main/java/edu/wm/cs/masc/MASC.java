@@ -91,11 +91,13 @@ public class MASC {
     }
 
     public static void runSelectiveScope(PropertiesReader reader) throws IOException {
-        File lib4ast = new File("libs4ast/");
+//        File lib4ast = new File("libs4ast/");
         File opDir = new File("app/src/main/resources");
         logger.trace("running mutation for similarity scope");
 
-        String[] args = {lib4ast.getAbsolutePath(),
+        String[] args = {
+//                lib4ast.getAbsolutePath(),
+                reader.getValueForAKey("lib4ast"),
                 reader.getValueForAKey("appSrc"),
                 reader.getValueForAKey("appName"),
                 reader.getValueForAKey("outputDir"),

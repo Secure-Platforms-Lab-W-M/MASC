@@ -40,8 +40,10 @@ public class MuseRunner {
      * @param reader
      */
     public static void setUpMuse(PropertiesReader reader) {
-        File lib4ast = new File("libs4ast/");
-        String[] args = {lib4ast.getAbsolutePath(),
+//        File lib4ast = new File("libs4ast/");
+        String[] args = {
+                reader.getValueForAKey("lib4ast"),
+//                lib4ast.getAbsolutePath(),
                 reader.getValueForAKey("appSrc"),
                 reader.getValueForAKey("appName"),
                 reader.getValueForAKey("outputDir"),

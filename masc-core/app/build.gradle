@@ -129,8 +129,10 @@ task deleteTestJars (type: Delete) {
         include '*.class', '*.jar'
     }
 }
-
+// clean will delete test jars
 clean.dependsOn deleteTestJars
+// build will also create shadowJar
+build.dependsOn shadowJar
 
 application {
     // Define the main class for the application.
