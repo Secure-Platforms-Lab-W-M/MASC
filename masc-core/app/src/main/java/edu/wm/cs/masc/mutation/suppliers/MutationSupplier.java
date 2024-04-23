@@ -119,7 +119,7 @@ public class MutationSupplier {
         HashMap<OperatorType, IOperator> tempOperators =  new HashMap<>();
         for (HashMap.Entry<OperatorType, IOperator> entry : operators.entrySet()) {
             if(!excludedOperators.contains(entry.getKey().name())){
-                logger.trace("Selected opertor "+entry.getKey().name());
+                logger.trace("Selected operator "+entry.getKey().name());
                 tempOperators.put(entry.getKey(),entry.getValue());
             }
         }
