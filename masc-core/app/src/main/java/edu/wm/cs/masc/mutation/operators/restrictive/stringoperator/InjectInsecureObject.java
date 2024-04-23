@@ -20,15 +20,6 @@ import edu.wm.cs.masc.mutation.properties.StringOperatorProperties;
                     .append("insecureObjectName")
                     .append("()")
                     .append(";");
-
-
-//        Note: quick question: why do we not just build the insecure?
-//        Is there a point to building safe and then replacing with unsafe
-
-//                .append("(\"").append(secureParam).append("\".")
-//                .append("replace(\"")
-//                .append(secureParam).append("\", \"")
-//                .append(insecureParam).append("\"));");
             return s.toString();
         }
     }
