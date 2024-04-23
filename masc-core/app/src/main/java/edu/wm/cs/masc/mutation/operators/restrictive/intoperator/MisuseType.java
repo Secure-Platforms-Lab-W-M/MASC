@@ -6,7 +6,8 @@ public class MisuseType {
         StringBuilder s = new StringBuilder();
         if (op.misuse.equals("PBE")) {
             s.append("byte[] salt%d = ").append(op.salt).append(";\n");
-            s.append(op.api_name)
+            s.append("new ")
+                    .append(op.api_name)
                     .append(".")
                     .append(op.invocation)
                     .append("(\"").append(op.password)
